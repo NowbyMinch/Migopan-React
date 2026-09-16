@@ -1,0 +1,749 @@
+/* ==========================================================================
+    ELEMENTOS EXCLUSIVOS DA PÁGINA INDEX (HOME)
+   ========================================================================== */
+
+/* Body, Container e Estrutura Grid */
+
+.sidebar {grid-area: navbar;}
+.container {grid-area: container;}
+header {grid-area: header;}
+.tasks-area {grid-area: tasks-area;}
+.tasks-header {grid-area: tasks-filter;}
+.tasks {grid-area: tasks;}
+.user-status {grid-area: user-status;}
+.ofensive {grid-area: ofensive;}
+.calendar {grid-area: calendar;}
+
+/* aside,  header , .container, .tasks-area, .tasks-header, .tasks, 
+.user-status, .ofensive, .calendar {
+    border: 1px solid yellowgreen;
+}
+*/
+
+body {
+    grid-template-columns: /* minmax(200px, 1fr) */1fr 7fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+        'navbar container'
+    ;
+}
+
+.container {
+    max-height: calc(100vh - 30px);
+    min-width: 100%;
+    max-width: 1520px;
+    display: grid;
+    gap: 40px;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background-color: #000718;
+    box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0 50px rgba(0, 0, 0, 0.25);
+    border: 1px solid #0d152c;
+    border-radius: 20px;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 8% 1fr;
+    grid-template-areas:
+        'header header'
+        'tasks-area user-status'
+    ;
+}
+
+/* Header da Index (Título e Stats) */
+
+.page-intro {
+    display: flex;
+    gap: 15px;
+}
+
+.page-intro svg {
+    width: 50px;
+}
+
+.index-header {
+    display: flex;
+    max-width: 2864px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.index-header-left h1 {
+    font-weight: bold;
+    filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.index-header-left p {
+    color: #a7b0d3;
+    filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.index-header-right {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+}
+
+/* Botão Nova Tarefa */
+.index-header-add {
+    height: min-content;
+    padding: 4px 25px;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(180deg, #ff7a59 0%, #ff5a5f 45%, #d92a35 100%);
+    box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 20px rgba(255, 90, 95, 0.35),
+    0 0 40px rgba(255, 122, 89, 0.15);
+    transition: all 0.25s ease;
+}
+
+.index-header-add span {
+    font-size: 35px;
+    font-weight: 500;
+
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+}
+
+.index-header-add:hover {
+    scale: 1.02;
+}
+
+.index-header-add:active {
+    scale: 0.98;
+}
+
+/* Cards de Estatísticas (Sequência e Concluídas) */
+.index-stats-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 20px;
+    border-radius: 20px;
+    background: linear-gradient(
+        180deg,
+        rgba(8, 16, 45, 0.95),
+        rgba(4, 10, 30, 0.95)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0 50px rgba(0, 0, 0, 0.25);
+}
+
+.index-stats-item {
+    display: flex;
+    gap: 15px;
+}
+
+.index-stats-conteudo {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.index-stats-conteudo span {
+    color: #a7b0d3;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.index-stats-conteudo strong {
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.stats-divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(
+        transparent,
+        rgba(255, 255, 255, 0.08),
+        transparent
+    );
+}
+
+.index-stats-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fire {
+    filter: drop-shadow(0 0 4px #ff8c00)
+    drop-shadow(0 0 10px rgba(255, 100, 0, 0.5));
+}
+
+.star {
+    filter: drop-shadow(0 0 4px #ffd700)
+    drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+/* Coluna de Listagem de Tarefas */
+
+.tasks-area {
+    display: grid;
+    gap: 20px;
+    max-height: calc(100vh - 30px);
+    grid-template-columns: minmax(500px, 1fr);
+    grid-template-rows: 6% 1fr;
+    grid-template-areas:
+        'tasks-filter'
+        'tasks'
+    ;
+}
+
+.tasks-header {
+    display: flex;
+    gap: 10px;
+    box-sizing: border-box;
+    min-width: 500px;
+}
+
+/* Abas de Filtros (Todas, Pendentes, etc.) */
+.filtros-card {
+    color: #a7b0d3;
+    display: flex;
+    min-width: 20px;
+    max-width: 100%;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #0a0e25, #090e26);
+    box-shadow:
+        inset 0 1x 0 rgba(19, 141, 46, 0.03),
+        0 0 50px rgba(0, 0, 0, 0.25);
+    border: solid 1px #0d152c;
+}
+
+/* Estado Ativo do Filtro */
+.filtros-card-active1 {
+    background: none;
+    background-color: #a6121a;
+    color: white;
+    font-weight: bold;
+    border: none;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0px 0px 15px #a6121998;
+}
+
+.filtros-card-active1 span {
+    filter: drop-shadow(0 0 4px #ffffff7a);
+}
+
+.filtros-card-active1 svg {
+    filter: drop-shadow(0 0 4px #ffffff);
+}
+
+/* Ícones dos filtros de tarefas */
+.bi-list {
+    width: 25px;
+}
+.bi-amp {
+    width: 25px;
+}
+.bi-check {
+    width: 25px;
+}
+.bi-play {
+    width: 25px;
+    margin-right: -5px;
+}
+
+.tarefas-notificacao {
+    color: white;
+    font-size: 14px;
+    line-height: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 25px;
+    max-height: 25px;
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 100%;
+    background-color: #272e55;
+    box-sizing: border-box;
+}
+
+.tasks {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 200px;
+    gap: 20px;
+}
+
+.tasks > div {
+    border: 1px solid white;
+    border-radius: 20px;
+}
+
+/* O Card de Tarefa em si */
+.tarefa {
+    height: 200px;
+    border-radius: 20px;
+    padding: 25px;
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.tarefa-check {
+    cursor: pointer;
+}
+
+.tarefa-check input {
+    display: none;
+}
+
+.check-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid #2e3552;
+    display: block;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.bi-check-tarefa {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 25px;
+    color: white;
+    filter: drop-shadow(0 0 8px currentcolor);
+}
+
+.tarefa-check input:checked + .check-circle {
+    background: #58cc02;
+    border-color: #58cc02;
+    box-shadow: 0 0 15px rgba(88, 204, 2, 0.4);
+}
+
+.tarefa-check input:checked + .check-circle .bi-check-tarefa {
+    display: block;
+}
+
+.tarefa-icon-container {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+}
+
+/* UMA TAREFA ESPECÍFICA */
+
+/* UM ÍCONE DE TAREFA ESPECÍFICO */
+.icon-tarefa1 {
+    background: linear-gradient(0deg, rgb(166, 18, 26), rgb(196, 48, 56));
+    border-radius: 20px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 0 10px #a6121a;
+}
+
+.tarefa1 span {
+    color: #db373f;
+    filter: drop-shadow(0 0 4px currentcolor);
+}
+
+/* UMA TAG ESPECÍFICA */
+.tag1 {
+    color: #a7b0d3;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: linear-gradient(
+        180deg,
+        rgba(166, 18, 26, 0.25),
+        rgba(166, 18, 26, 0.12)
+    );
+    border: 1px solid rgba(255, 90, 95, 0.08);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 0 15px rgba(166, 18, 26, 0.15);
+}
+
+.tarefa-icon-container svg {
+    width: 50px;
+}
+
+.tarefa-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tarefa-info h1 {
+    display: flex;
+    font-size: 25px;
+    gap: 10px;
+    filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.bi-pen {
+    width: 12px;
+    color: #a7b0d3;
+    filter: drop-shadow(0 0 2px currentcolor);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.bi-pen:hover {
+    scale: 1.1;
+}
+
+.bi-pen:active {
+    scale: 0.9;
+}
+
+.tarefa-info p {
+    color: #a7b0d3;
+}
+
+.tarefa-info span svg {
+    width: 20px;
+}
+
+.tarefa-info span {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tarefa-info-extra {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.tarefa-info-extra span {
+    color: #8003ef;
+    filter: drop-shadow(0 0 2px currentcolor);
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.tarefa-tag {
+    color: #a7b0d3;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #0a0e25, #090e26);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 0 50px rgba(0, 0, 0, 0.25);
+    border: solid 1px #0d152c;
+}
+
+.tarefa-tag svg {
+    width: 20px;
+}
+
+.tarefa-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    color: #ff7a7a;
+}
+
+/* Coluna Lateral Direita (Produtividade) */
+.index-tarefas-status {
+    display: flex;
+    width: 650px;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.tarefas-lateral {
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.lateral-titulo {
+    display: flex;
+    gap: 10px;
+}
+
+.tarefas-lateral h1 {
+    font-size: 25px;
+    filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.info-conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.lateral-info-container {
+    display: flex;
+}
+
+.XP {
+    font-size: 60px;
+
+}
+
+.lateral-info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.lateral-info-text strong {
+    font-size: 30px;
+    line-height: 30px;
+}
+
+.semanal-info-titulo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.semanal-info-titulo h2 {
+    font-size: 18px;
+    color: #a7b0d3;
+}
+
+.semanal-info-titulo strong {
+    font-size: 18px;
+    color: #8b5cf6;
+    filter: drop-shadow(0 0 4px currentcolor);
+}
+
+.semanal-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nivel-icone {
+    position: relative;
+    width: fit-content;
+}
+
+.nivel {
+    color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 25px;
+    filter: drop-shadow(0 0 1px currentcolor);
+}
+
+.barra {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    position: relative;
+}
+
+.xp-barra {
+    width: 100%;
+    height: 15px;
+    border-radius: 20px;
+    border: 1px solid #252835;
+    background-color: #13193371;
+}
+
+.xp-porcentagem {
+    width: 55%;
+    height: 105%;
+    border: none;
+    border-radius: 20px;
+    background-color: #8b5cf6;
+    color: #8b5cf6;
+    filter: drop-shadow(0 0 8px currentcolor);
+}
+
+.xp-quantidade {
+    position: absolute;
+    color: #a7b0d3;
+    top: 150%;
+}
+
+.user-status {
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas:
+        'ofensive'
+        'calendar'
+    ;
+    max-height: calc(100vh - 30px);
+    gap: 20px;
+
+}
+
+.criar-lateral {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 25px;
+}
+
+.criar-lateral h1 {
+    filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.criar-lateral h2 {
+    font-size: 18px;
+    color: #a7b0d3;
+}
+
+.Nova-tarefa-lateral {
+    height: 64px;
+    padding: 0 32px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 18px;
+    cursor: pointer;
+    background: none;
+    background-color: #a6121a;
+    color: white;
+    font-weight: bold;
+    border: none;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 0 20px rgba(255, 90, 95, 0.35);
+    transition: all 0.25s ease;
+}
+
+.lateral-decoration {
+    width: 400px;
+    margin-bottom: 10px;
+}
+
+.lateral-decoration img {
+    width: 100%;
+}
+
+.Nova-tarefa-lateral span {
+    font-size: 35px;
+    font-weight: 500;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+}
+
+@media (max-width: 1400px) {
+
+/* tamanho das fontes */
+
+    .XP {
+        font-size: 40px;
+    }
+
+    .star, .fire {
+        font-size: 30px;
+    }
+
+    h1, .tarefa > h1, .gradient-card > h1, 
+    .tarefas-lateral > h1 {
+        font-size: 20px;
+    }
+
+    h2, strong {
+        font-size: 16px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .index-stats-conteudo {
+        font-size: 16px;
+    }
+
+    .index-stats-conteudo > strong {
+        font-size: 14px;
+    }
+
+/* Header */
+    .index-header-left {
+        margin-top: auto;
+    }
+
+    .index-header-right {
+        justify-content: space-between;
+        width: 60%;
+    }
+
+    .index-stats-card {
+        width: 60%;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .index-stats-item {
+        gap: 10px;
+    }
+
+    .index-header-add {
+        width: 150px;
+        height: 60px;
+        padding: 4px 10px;
+        font-size: 16px;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .status-filtro, .tarefas-notificacao {
+        display: none;
+    }
+
+
+    .filtros-card {
+        padding: 10px 15px;
+        /* border-radius: 100%; */
+    }
+
+}

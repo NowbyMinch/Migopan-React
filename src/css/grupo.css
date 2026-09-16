@@ -1,0 +1,374 @@
+.body {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  gap: 40px;
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+}
+
+.conteudo-header {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.grupo-img {
+  width: 180px;
+  height: 160px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0 50px rgba(0, 0, 0, 0.25);
+}
+
+.grupo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lateral {
+  width: 440px;
+  flex-shrink: 0;
+}
+
+.back-btn {
+  width: 45px;
+  height: 45px;
+  color: white;
+  border-radius: 100%;
+}
+
+.back-arrow {
+  width: 20px;
+}
+
+.grupo-info-top {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.grupo-info-top h1 {
+  font-size: 30px;
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.grupo-titulo {
+  display: flex;
+  gap: 10px;
+}
+
+.grupo-titulo button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  border-radius: 100%;
+}
+
+.bi-pen {
+  color: white;
+  width: 14px;
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.membros-bolinhos {
+  display: flex;
+  gap: 10px;
+}
+
+.membros-bolinhos strong {
+  color: #fff;
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.membros-bolinhos span {
+  color: #a7b0d3;
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.membros-bolinhos span:nth-child(1)::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  color: #4bb940;
+  border-radius: 50%;
+  background-color: #4bb940;
+  filter: drop-shadow(0 0px 5px currentColor);
+  margin-right: 8px;
+}
+
+.progresso {
+  width: 100%;
+  height: 300px;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.progresso h1 {
+  font-size: 20px;
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.navbar-custom {
+  position: relative;
+  display: flex;
+  border-radius: 30px;
+  padding: 5px;
+}
+
+.nav-links {
+  display: flex;
+  width: 100%;
+  z-index: 2; /* Garante que o texto fica por cima do fundo */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+  color: #a7b0d3;
+  transition: color 0.3s;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+
+.nav-item:hover {
+  color: white;
+  scale: 1.01;
+}
+
+.nav-item:active {
+  scale: 0.99;
+}
+
+.tarefas-notificacao {
+  color: white;
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background-color: #272e55;
+}
+
+.nav-item svg {
+  width: 20px;
+}
+
+.nav-item.active {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* O fundo que se move */
+#nav-active-bg {
+  position: absolute;
+  top: 5px;
+  left: 120px;
+  width: 250px;
+  height: calc(100% - 10px);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ff5a60a9,
+    #ff7a59a7,
+    transparent
+  ); /* Seus gradientes */
+  border-radius: 25px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave */
+  z-index: 1;
+}
+
+/* Esconder as abas inativas (Bootstrap usa d-none, se não usar, defina aqui) */
+.d-none {
+  display: none !important;
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  padding: 25px;
+  gap: 25px;
+}
+
+.tarefas-top {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.tarefas-top__filtros {
+  display: flex;
+  gap: 15px;
+}
+
+.tarefas-top__filtros-botao {
+  border: solid 1px #0d152c;
+  color: #a7b0d3;
+  border-radius: 25px;
+  padding: 8px 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Botão Nova Tarefa */
+.tarefas-top__acao-criar {
+  padding: 4px 25px;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(180deg, #ff7a59 0%, #ff5a5f 45%, #d92a35 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 20px rgba(255, 90, 95, 0.35),
+    0 0 40px rgba(255, 122, 89, 0.15);
+  transition: all 0.25s ease;
+}
+
+.tarefas-top__acao-criar span {
+  font-size: 35px;
+  font-weight: 500;
+
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+}
+
+.tarefas-top__acao-criar:hover {
+  scale: 1.02;
+}
+
+.tarefas-top__acao-criar:active {
+  scale: 0.98;
+}
+
+/* Estado Ativo do Filtro */
+.tarefas-top__filtros-botao-active {
+  background: none;
+  background-color: #a6121a;
+  color: white;
+  font-weight: bold;
+  border: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0px 0px 15px #a6121998;
+  border-radius: 25px;
+  padding: 10px 25px;
+}
+
+.tarefas-top__filtros-botao-active span {
+  filter: drop-shadow(0 0 4px #ffffff7a);
+}
+
+.tarefas-top__filtros-botao-active svg {
+  filter: drop-shadow(0 0 4px #ffffff);
+}
+
+.tarefas-top__titulo-container {
+  flex: 1;
+}
+
+.tarefas-top__titulo-container h2 {
+  font-size: 25px;
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.tarefas-top__titulo-container p {
+  font-size: 16px;
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+  color: #a7b0d3;
+}
+
+.tarefas-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.tarefas-body svg {
+  width: 25px;
+}
+
+.tarefas-body__categoria-pendentes {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  color: #ff000d;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+.tarefas-body__tarefas-pendentes {
+  max-width: 100%;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.tarefas-body__tarefa-pendente {
+  background: radial-gradient(
+    circle at top left,
+    /* O centro do brilho começa no canto superior esquerdo */ rgb(202, 33, 56)
+      0%,
+    /* Vermelho brilhante no centro (ponto de néon) */ rgba(202, 33, 56, 0.4)
+      15%,
+    /* Transição suave e translúcida do vermelho */ rgba(14, 1, 19, 0.95) 45%,
+    /* Um roxo muito escuro que se funde com o preto */ rgb(14, 1, 19) 100%
+      /* Preto profundo no restante do card */
+  );
+
+  /* 2. Formato do Card */
+  border-radius: 20px; /* Cantos arredondados acentuados, como na imagem */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Uma borda finíssima e sutil para definição */
+
+  /* 3. Espaçamento Interno (Opcional, mas necessário para o visual) */
+  padding: 24px; /* Espaço para o conteúdo não tocar nas bordas */
+
+  /* 4. Sombra Externa (Para dar profundidade) */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra suave para o card flutuar */
+
+  /* 5. Comportamento e Tamanho (Ajuste conforme necessário) */
+  display: flex;
+  flex-direction: column;
+  color: white; /* Garante que o texto seja legível no fundo escuro */
+  max-width: 500px; /* Um exemplo de largura para o card */
+}
+
+.tarefa-body__tarefa-pendente-data {
+  font-size: 16px;
+}
+
+.tarefa-body__tarefa-pendente-data svg {
+  width: 16px;
+}
