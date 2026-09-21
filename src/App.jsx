@@ -1,22 +1,35 @@
-import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-// Importação da página Home
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Cadastro from "./pages/Cadastro";
+// Componente de proteção
+import ProtectedRoute from "./components/ProtectedRoute";
 
-export default function AppRouter() {
+// Páginas Públicas
+import Login from "./pages/Login/index";
+import Cadastro from "./pages/Cadastro/index";
+
+// Páginas Privadas
+import Home from "./pages/Home/index";
+
+export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Redireciona automaticamente a raiz (/) para /home */}
+        {/* ================= ROTAS PÚBLICAS ================= */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+
+        {/* Redireciona a raiz "/" direto para a home (o ProtectedRoute tratará o acesso) */}
         <Route path="/" element={<Navigate to="/home" replace />} />
 
-        {/* Rotas das páginas */}
-        <Route path="/home" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Cadastro" element={<Cadastro />} />
+        {/* ================= ROTAS PROTEGIDAS ================= */}
+        {/* Qualquer página declarada dentro de ProtectedRoute exigirá cookie/JWT válido */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/home" element={<Home />} />
+          {/* Adicione qualquer outra rota restrita aqui */}
+        </Route>
+
+        {/* Rota genérica para URLs não encontradas */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );

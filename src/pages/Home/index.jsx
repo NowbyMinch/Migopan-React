@@ -5,7 +5,7 @@ import "../../css/all.css";
 import "../../css/index.css";
 import ModalCriarTarefa from "../../components/ModalCriarTarefa/ModalCriarTarefa";
 
-const API_URL = "http://localhost:8080/api/tarefas"
+const API_URL = "http://localhost:8080/api/tarefas";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,13 +17,13 @@ export default function Home() {
     setLoading(true);
 
     try {
-      let url = `${API_URL}/pessoais`
-      if (filtro === 'PENDENTES') url += "?concluida=false";
-      if (filtro === 'CONCLUIDAS') url += "?concluida=true";
+      let url = `${API_URL}/pessoais`;
+      if (filtro === "PENDENTES") url += "?concluida=false";
+      if (filtro === "CONCLUIDAS") url += "?concluida=true";
 
-      const res = await fetch(url,{ 
+      const res = await fetch(url, {
         method: "GET",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
 
@@ -31,28 +31,22 @@ export default function Home() {
         const mensagem = await getErrorMessage(res);
 
         throw new Error(mensagem);
-      } 
+      }
 
       const data = await res.json();
       setTarefas(data);
-
     } catch (err) {
       console.error("Erro na requisição", err.message);
-    }
-    
-    finally {
+    } finally {
       setLoading(false);
     }
-
   };
 
-  const deletarTarefa = async () => {
-    setLoading(true);
-
+  const deletarTarefa = async (id) => {
     try {
-      const res = await fetch(url,{ 
+      const res = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
 
@@ -60,26 +54,21 @@ export default function Home() {
         const mensagem = await getErrorMessage(res);
 
         throw new Error(mensagem);
-      } 
+      }
 
       const data = await res.json();
       setTarefas(data);
-
     } catch (err) {
       console.error("Erro na requisição", err.message);
+    } finally {
+      carregarTarefas();
     }
-    
-    finally {
-      setLoading(false);
-    }
-
   };
-  
+
   useEffect(() => {
     carregarTarefas();
-  }, [filtro])
+  }, [filtro]);
 
-  
   return (
     <>
       {/* SIDEBAR */}
@@ -317,18 +306,36 @@ export default function Home() {
               <p>Nenhuma tarefa encontrada</p>
             ) : (
               tarefas.map((tarefa, index) => (
-                <div key={tarefa.id || index} className="tarefa gradient-card" style={{ border: "none" }}>
+                <div
+                  key={tarefa.id || index}
+                  className="tarefa gradient-card"
+                  style={{ border: "none" }}
+                  onClick={() => deletarTarefa(tarefa.id)}
+                >
                   <label className="tarefa-check">
-                    <input type="checkbox" checked={tarefa.concluida || false} readOnly />
+                    <input
+                      type="checkbox"
+                      checked={tarefa.concluida || false}
+                      readOnly
+                    />
                     <span className="check-circle">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi-check-tarefa" viewBox="0 0 16 16">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        className="bi-check-tarefa"
+                        viewBox="0 0 16 16"
+                      >
                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
                       </svg>
                     </span>
                   </label>
 
                   <div className="icon-tarefa1 tarefa-icon-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M6 15h8v2H6zm0-4h12v2H6zm0-4h12v2H6z"></path>
                       <path d="M4 21h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M4 5h16v14H4z"></path>
                     </svg>
@@ -430,6 +437,7 @@ export default function Home() {
       <ModalCriarTarefa
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onTarefaCriada={carregarTarefas}
       />
     </>
   );
