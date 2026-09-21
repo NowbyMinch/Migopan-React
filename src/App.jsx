@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Importação da página Home
+import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Cadastro from "./pages/Cadastro";
 
 export default function AppRouter() {
   return (
@@ -13,7 +15,8 @@ export default function AppRouter() {
 
         {/* Rotas das páginas */}
         <Route path="/home" element={<Home />} />
-        <Route path="/Grupos" element={<Home />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Cadastro" element={<Cadastro />} />
       </Routes>
     </BrowserRouter>
   );

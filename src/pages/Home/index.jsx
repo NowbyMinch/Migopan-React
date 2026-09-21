@@ -1,12 +1,85 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getErrorMessage } from "../../utils/errorHandler";
 import "../../css/all.css";
 import "../../css/index.css";
 import ModalCriarTarefa from "../../components/ModalCriarTarefa/ModalCriarTarefa";
 
+const API_URL = "http://localhost:8080/api/tarefas"
+
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tarefas, setTarefas] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [filtro, setFiltro] = useState("");
 
+  const carregarTarefas = async () => {
+    setLoading(true);
+
+    try {
+      let url = `${API_URL}/pessoais`
+      if (filtro === 'PENDENTES') url += "?concluida=false";
+      if (filtro === 'CONCLUIDAS') url += "?concluida=true";
+
+      const res = await fetch(url,{ 
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+
+        throw new Error(mensagem);
+      } 
+
+      const data = await res.json();
+      setTarefas(data);
+
+    } catch (err) {
+      console.error("Erro na requisição", err.message);
+    }
+    
+    finally {
+      setLoading(false);
+    }
+
+  };
+
+  const deletarTarefa = async () => {
+    setLoading(true);
+
+    try {
+      const res = await fetch(url,{ 
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+
+        throw new Error(mensagem);
+      } 
+
+      const data = await res.json();
+      setTarefas(data);
+
+    } catch (err) {
+      console.error("Erro na requisição", err.message);
+    }
+    
+    finally {
+      setLoading(false);
+    }
+
+  };
+  
+  useEffect(() => {
+    carregarTarefas();
+  }, [filtro])
+
+  
   return (
     <>
       {/* SIDEBAR */}
@@ -236,76 +309,52 @@ export default function Home() {
             </button>
           </div>
 
+          {/* Trecho dentro de Home.jsx no container das tarefas */}
           <div className="tasks">
-            <div className="tarefa gradient-card" style={{ border: "none" }}>
-              <label className="tarefa-check">
-                <input type="checkbox" />
-                <span className="check-circle">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="bi-check-tarefa"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
-                  </svg>
-                </span>
-              </label>
+            {loading ? (
+              <p>Carregando tarefas...</p>
+            ) : tarefas.length === 0 ? (
+              <p>Nenhuma tarefa encontrada</p>
+            ) : (
+              tarefas.map((tarefa, index) => (
+                <div key={tarefa.id || index} className="tarefa gradient-card" style={{ border: "none" }}>
+                  <label className="tarefa-check">
+                    <input type="checkbox" checked={tarefa.concluida || false} readOnly />
+                    <span className="check-circle">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi-check-tarefa" viewBox="0 0 16 16">
+                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+                      </svg>
+                    </span>
+                  </label>
 
-              <div className="icon-tarefa1 tarefa-icon-container">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M6 15h8v2H6zm0-4h12v2H6zm0-4h12v2H6z"></path>
-                  <path d="M4 21h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M4 5h16v14H4z"></path>
-                </svg>
-              </div>
+                  <div className="icon-tarefa1 tarefa-icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M6 15h8v2H6zm0-4h12v2H6zm0-4h12v2H6z"></path>
+                      <path d="M4 21h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M4 5h16v14H4z"></path>
+                    </svg>
+                  </div>
 
-              <div className="tarefa-info tarefa1">
-                <h1>
-                  Estudar para a prova de sociologia
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="bi-pen"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
-                  </svg>
-                </h1>
-                <p>Revisar capítulos 3 a 7 e fazer exercícios.</p>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="bi bi-calendario"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
-                    <path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-5 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m2-3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-5 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                  </svg>
-                  Hoje · 13:20 - 14:20
-                </span>
-              </div>
+                  <div className="tarefa-info tarefa1">
+                    <h1>{tarefa.titulo}</h1>
+                    <p>{tarefa.descricao}</p>
+                    <span>📅 {tarefa.repeticao || "Única"}</span>
+                  </div>
 
-              <div className="tarefa-info-extra">
-                <div className="tag1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="bi-book-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
-                  </svg>
-                  Estudo
+                  <div className="tarefa-info-extra">
+                    <div className="tag1">Estudo</div>
+                    <span>+50 XP ♦️</span>
+                  </div>
                 </div>
-                <span>+50 XP ♦️</span>
-              </div>
-            </div>
+              ))
+            )}
           </div>
+
+          {/* Instanciação do Modal ao final do Home.jsx */}
+          <ModalCriarTarefa
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onTarefaCriada={carregarTarefas}
+          />
         </main>
 
         <div className="user-status">
@@ -365,7 +414,7 @@ export default function Home() {
               <h2>
                 Cada tarefa te deixa mais perto de concluir seus objetivos!
               </h2>
-              <div class="lateral-decoration">
+              <div className="lateral-decoration">
                 <img src="/img/indexLateralDeco.png" alt="" />
               </div>
               <button

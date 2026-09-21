@@ -1,41 +1,80 @@
 import React, { useState } from "react";
 import "../ModalCriarTarefa/style.css";
+import { getErrorMessage } from "../../utils/errorHandler";
 
-export default function ModalCriarTarefa({ isOpen, onClose }) {
+const API_URL = "http://localhost:8080/api/tarefas";
+
+export default function ModalCriarTarefa({ isOpen, onClose, onTarefaCriada }) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
   const [corCategoria, setCorCategoria] = useState("#000718");
+  const [repeticao, setRepeticao] = useState("DIARIA");
   const [data, setData] = useState("2026-03-17");
   const [horario, setHorario] = useState("13:20");
   const [prioridade, setPrioridade] = useState(false);
 
-  if (!isOpen) return null; // Se não estiver aberto, não renderiza nada!
+  // Estados de feedback visual
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  if (!isOpen) return null;
 
   const handleFecharModal = () => {
     setTitulo("");
     setDescricao("");
-    setCategoria("");
-    setCorCategoria("");
-    setData("");
-    setHorario("");
-    setPrioridade("");
-
+    setCategoria("Estudo");
+    setCorCategoria("#000718");
+    setRepeticao("DIARIA");
+    setData("2026-03-17");
+    setHorario("13:20");
+    setPrioridade(false);
+    setErrorMsg("");
     onClose();
   };
 
-  const handleCriarTarefa = (e) => {
+  const handleCriarTarefa = async (e) => {
     e.preventDefault();
-    console.log({
+    setErrorMsg("");
+
+    if (!titulo.trim()) {
+      setErrorMsg("O título da tarefa é obrigatório.");
+      return;
+    }
+
+    setLoading(true);
+
+    const criarPayload = {
       titulo,
       descricao,
-      categoria,
-      corCategoria,
-      data,
-      horario,
-      prioridade,
-    });
-    handleFecharModal();
+      repeticao,
+      // inclua os outros campos conforme forem implementados no backend
+    };
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(criarPayload),
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+        throw new Error(mensagem || "Falha ao criar tarefa.");
+      }
+
+      // Se bem-sucedido, notifica a Home e fecha o modal
+      if (onTarefaCriada) {
+        await onTarefaCriada();
+      }
+      handleFecharModal();
+    } catch (err) {
+      console.error("Erro na criação da tarefa:", err.message);
+      setErrorMsg(err.message || "Ocorreu um erro ao criar a tarefa.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,10 +85,17 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
             <h2>Criar tarefa</h2>
             <p>Adicione os detalhes da sua nova tarefa</p>
           </div>
-          <button className="modal-close-btn" onClick={onClose}>
+          <button className="modal-close-btn" onClick={handleFecharModal} disabled={loading}>
             ✕
           </button>
         </div>
+
+        {/* MENSAGEM DE ERRO VISUAL */}
+        {errorMsg && (
+          <div className="modal-error-message" style={{ color: "#ef4444", marginBottom: "1rem", fontWeight: "bold" }}>
+            ⚠️ {errorMsg}
+          </div>
+        )}
 
         <div className="modal-grid">
           {/* Coluna Esquerda: Formulário */}
@@ -62,6 +108,7 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
                 placeholder="Ex: Estudar para a prova"
+                disabled={loading}
               />
             </div>
 
@@ -73,6 +120,7 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
                 onChange={(e) => setDescricao(e.target.value)}
                 placeholder="Adicione uma descrição..."
                 rows="3"
+                disabled={loading}
               />
             </div>
 
@@ -83,6 +131,7 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
                   className="modal-select"
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value)}
+                  disabled={loading}
                 >
                   <option value="Estudo">Estudo</option>
                   <option value="Trabalho">Trabalho</option>
@@ -96,6 +145,7 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
                   className="modal-color-input"
                   value={corCategoria}
                   onChange={(e) => setCorCategoria(e.target.value)}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -108,6 +158,7 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
                   className="modal-input"
                   value={data}
                   onChange={(e) => setData(e.target.value)}
+                  disabled={loading}
                 />
               </div>
               <div className="modal-field-group">
@@ -117,6 +168,7 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
                   className="modal-input"
                   value={horario}
                   onChange={(e) => setHorario(e.target.value)}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -166,17 +218,18 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
                 className="modal-checkbox"
                 checked={prioridade}
                 onChange={(e) => setPrioridade(e.target.checked)}
+                disabled={loading}
               />
             </div>
           </div>
         </div>
 
         <div className="modal-footer">
-          <button className="modal-btn-cancel" onClick={handleFecharModal}>
+          <button className="modal-btn-cancel" onClick={handleFecharModal} disabled={loading}>
             Cancelar
           </button>
-          <button className="modal-btn-submit" onClick={handleCriarTarefa}>
-            ✓ Criar tarefa
+          <button className="modal-btn-submit" onClick={handleCriarTarefa} disabled={loading}>
+            {loading ? "Criando..." : "✓ Criar tarefa"}
           </button>
         </div>
       </div>
