@@ -10,8 +10,8 @@ export default function ProtectedRoute() {
     const verificarAutenticacao = async () => {
       try {
         const res = await fetch(`${API_URL}/me`, {
-          method: "GET", // ✅ Verbo correto (bate com @GetMapping no Spring)
-          credentials: "include", // ✅ Envia o cookie 'token' HTTP-Only
+          method: "GET",
+          credentials: "include",
         });
 
         if (res.ok) {
