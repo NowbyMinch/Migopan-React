@@ -257,72 +257,68 @@ export default function Home() {
         </main>
 
         <div className="user-status">
-          <div className="ofensive">
-            <div className="gradient-card tarefas-lateral">
-              <div className="lateral-titulo">
-                <h1>Sua produtividade</h1>
-                <span className="tarefas-notificacao">i</span>
-              </div>
+          {/* Card 1: Produtividade */}
+          <div className="gradient-card tarefas-lateral">
+            <div className="lateral-titulo">
+              <h1>Sua produtividade</h1>
+              <span className="tarefas-notificacao">i</span>
+            </div>
 
-              <div className="lateral-info">
-                <div className="info-conteudo">
-                  <div className="lateral-info-container">
-                    <div className="XP fire">⚡</div>
-                    <div className="lateral-info-text">
-                      <strong>5892</strong>
-                      <span>XP Total</span>
-                    </div>
+            <div className="lateral-info">
+              <div className="info-conteudo">
+                <div className="lateral-info-container">
+                  <div className="XP fire">⚡</div>
+                  <div className="lateral-info-text">
+                    <strong>5892</strong>
+                    <span>XP Total</span>
                   </div>
+                </div>
 
-                  <div className="stats-divider"></div>
+                <div className="stats-divider"></div>
 
-                  <div className="lateral-info-container">
-                    <div className="XP star">🍙</div>
-                    <div className="lateral-info-text">
-                      <strong>85</strong>
-                      <span>Bolinhos</span>
-                    </div>
+                <div className="lateral-info-container">
+                  <div className="XP star">🍙</div>
+                  <div className="lateral-info-text">
+                    <strong>85</strong>
+                    <span>Bolinhos</span>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="semanal-info-titulo">
-                <h2>Progresso semanal</h2>
-                <strong>Level 12</strong>
+            <div className="semanal-info-titulo">
+              <h2>Progresso semanal</h2>
+              <strong>Level 12</strong>
+            </div>
+
+            <div className="semanal-info">
+              <div className="XP nivel-icone">
+                <span className="star">⭐</span>
+                <strong className="nivel">12</strong>
               </div>
 
-              <div className="semanal-info">
-                <div className="XP nivel-icone">
-                  <span className="star">⭐</span>
-                  <strong className="nivel">12</strong>
+              <div className="barra">
+                <div className="xp-barra">
+                  <div className="xp-porcentagem"></div>
                 </div>
-
-                <div className="barra">
-                  <div className="xp-barra">
-                    <div className="xp-porcentagem"></div>
-                  </div>
-                  <div className="xp-quantidade">1240 / 2000 XP</div>
-                </div>
+                <div className="xp-quantidade">1240 / 2000 XP</div>
               </div>
             </div>
           </div>
 
-          <div className="user-status">
-            <div className="gradient-card criar-lateral">
-              <h1>Nenhuma tarefa concluída ainda?</h1>
-              <h2>
-                Cada tarefa te deixa mais perto de concluir seus objetivos!
-              </h2>
-              <div className="lateral-decoration">
-                <img src="/img/indexLateralDeco.png" alt="" />
-              </div>
-              <button
-                className="Nova-tarefa-lateral"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <span>+</span> Criar nova tarefa
-              </button>
+          {/* Card 2: Banner para criar nova tarefa */}
+          <div className="gradient-card criar-lateral">
+            <h1>Nenhuma tarefa concluída ainda?</h1>
+            <h2>Cada tarefa te deixa mais perto de concluir seus objetivos!</h2>
+            <div className="lateral-decoration">
+              <img src="/img/indexLateralDeco.png" alt="" />
             </div>
+            <button
+              className="Nova-tarefa-lateral"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <span>+</span> Criar nova tarefa
+            </button>
           </div>
         </div>
       </div>

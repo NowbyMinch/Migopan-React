@@ -1,36 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap");
 
-body {
-  display: block !important;
-  grid-template-columns: none !important;
-  grid-template-areas: none !important;
-  width: 100vw !important;
-  min-height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow-x: hidden !important;
-}
-
-#root {
-  display: block !important;
-  width: 100vw !important;
-  min-height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* CONTAINER DE LOGIN OCUPANDO A TELA TODA */
-.login-container {
-  position: relative;
-  width: 100vw !important;
-  min-height: 100vh !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: radial-gradient(circle at center, #131520 0%, #08090d 100%);
-  padding: 40px 20px;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  background-color: #000413;
+  color: #ffffff;
+  font-family: "Nunito", sans-serif;
 }
 
 /* CONTAINER PRINCIPAL DE LOGIN */
@@ -44,7 +23,6 @@ body {
   justify-content: center;
   background: radial-gradient(circle at center, #131520 0%, #08090d 100%);
   padding: 40px 20px;
-  overflow-y: auto;
 }
 
 /* PLACEHOLDERS DE IMAGEM */
@@ -174,7 +152,7 @@ body {
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 42px;
+  padding: 12px 42px 12px 42px;
   background-color: #171825;
   border: 1px solid #232538;
   border-radius: 10px;
@@ -248,9 +226,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  transition:
-    opacity 0.2s ease,
-    transform 0.15s ease;
+  transition: opacity 0.2s ease, transform 0.15s ease;
 }
 
 .submit-btn:hover {
@@ -273,7 +249,7 @@ body {
 
 .divider::before,
 .divider::after {
-  content: "";
+  content: '';
   flex: 1;
   border-bottom: 1px solid #232538;
 }
@@ -312,8 +288,9 @@ body {
   background-color: #1e2032;
 }
 
-.fb-icon,
-.google-icon {
+.fb-icon {
+  background-color: #1877f2;
+  color: white;
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -325,14 +302,18 @@ body {
   flex-shrink: 0;
 }
 
-.fb-icon {
-  background-color: #1877f2;
-  color: #ffffff;
-}
-
 .google-icon {
   background-color: #ffffff;
   color: #171825;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+  flex-shrink: 0;
 }
 
 /* RODAPÉ DO CARD */

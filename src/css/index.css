@@ -81,14 +81,16 @@ button:active {
   display: grid;
   grid-template-columns: 1fr 360px;
   grid-template-rows: auto 1fr;
+
+  /* ÁREAS DA PÁGINA DE TAREFAS: */
   grid-template-areas:
     "header header"
-    "tasks-area user-status";
+    "tasks-area user-status" !important;
+
   gap: 25px;
   overflow-y: auto;
   min-width: 0;
 }
-
 /* ==========================================================================
    HEADER DA INDEX
    ========================================================================== */

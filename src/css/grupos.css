@@ -36,9 +36,12 @@ body {
   display: grid;
   grid-template-columns: 1fr 360px;
   grid-template-rows: auto 1fr;
+
+  /* NOMES DE ÁREAS CORRIGIDOS AQUI: */
   grid-template-areas:
     "header header"
-    "tasks-area user-status";
+    "group-area group-area";
+
   gap: 25px;
   overflow-y: auto;
   min-width: 0;

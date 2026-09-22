@@ -24,11 +24,12 @@ export default function AppRoutes() {
 
         {/* ================= ROTAS PROTEGIDAS ================= */}
         {/* Qualquer página declarada dentro de ProtectedRoute exigirá cookie/JWT válido */}
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
           <Route path="/grupos" element={<Grupos />} />
-          {/* Adicione qualquer outra rota restrita aqui */}
-        </Route>
+        </Route> */}
+        <Route path="/home" element={<Home />} />
+        <Route path="/grupos" element={<Grupos />} />
 
         {/* Rota genérica para URLs não encontradas */}
         <Route path="*" element={<Navigate to="/login" replace />} />

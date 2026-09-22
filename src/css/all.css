@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 /* =========================================================
-   RESET E BASES GLOBAIS
+   RESET
    ========================================================= */
 
 * {
@@ -10,28 +10,42 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
-  width: 100%;
-  min-width: 0;
-  min-height: 100vh;
-}
 
 body {
+  display: block !important;
+  grid-template-columns: none !important;
+  grid-template-areas: none !important;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 15px; /* Espaçamento das bordas da tela */
   background-color: #000413;
-  color: #ffffff;
+  color: white;
   font-family: "Nunito", sans-serif;
+  overflow: hidden;
 }
 
+#root {
+  display: flex !important;
+  width: 100% !important;
+  height: calc(100vh - 30px) !important; /* Desconta o padding superior e inferior */
+  min-height: 0;
+  gap: 15px;
+}
+
+.main-container {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+}
 a {
   text-decoration: none;
-  color: #ffffff;
+  color: white;
 }
 
 button {
   font-family: inherit;
-  color: #ffffff;
+  color: white;
   border: none;
   background: none;
   cursor: pointer;
@@ -54,17 +68,6 @@ p {
 }
 
 /* =========================================================
-   ESTRUTURA DO DASHBOARD (Apenas quando .app-layout estiver presente)
-   ========================================================= */
-
-#root.app-layout {
-  display: flex;
-  height: calc(100vh - 30px);
-  min-height: 0;
-  gap: 15px;
-}
-
-/* =========================================================
    CARD GLOBAL
    ========================================================= */
 
@@ -74,7 +77,9 @@ p {
     rgba(6, 12, 34, 0.95),
     rgba(4, 10, 30, 0.95)
   );
+
   border: 1px solid rgba(255, 255, 255, 0.04);
+
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
     0 0 50px rgba(0, 0, 0, 0.25);
@@ -96,7 +101,9 @@ p {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #ff4d4d 0%, #ff594d 30%, #ff7f4d 100%);
+
   border-radius: 999px;
+
   box-shadow:
     0 0 5px rgba(255, 77, 77, 0.295),
     0 0 10px rgba(255, 109, 51, 0.267);
@@ -107,6 +114,18 @@ p {
 }
 
 /* =========================================================
+   ESTRUTURA PRINCIPAL
+   ========================================================= */
+
+#root {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 30px);
+  min-height: 0;
+  gap: 15px;
+}
+
+/* =========================================================
    SIDEBAR
    ========================================================= */
 
@@ -114,15 +133,21 @@ p {
   width: 250px;
   min-width: 250px;
   max-width: 250px;
+
   height: 100%;
   min-height: 0;
+
   flex: 0 0 250px;
+
   border-radius: 20px;
   border: 1px solid #0d152c;
+
   background-color: #000718;
+
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
     0 0 50px rgba(0, 0, 0, 0.25);
+
   overflow: hidden;
 }
 
@@ -130,20 +155,26 @@ p {
   width: 100%;
   height: 100%;
   min-height: 0;
+
   padding: 15px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   gap: 20px;
+
   border-radius: 20px;
 }
 
 .logo {
   width: 150px;
   min-height: 35px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex-shrink: 0;
 }
 
@@ -166,18 +197,21 @@ p {
   flex-direction: column;
   gap: 5px;
   overflow-y: auto;
+  /* overflow-x: hidden; */
 }
 
 .nav-item {
   width: 100%;
   display: flex;
   flex-shrink: 0;
+  border-radius: 8px;
   align-items: center;
   padding: 20px;
   border-radius: 20px;
   font-size: 18px;
   gap: 5px;
   font-weight: 700;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 
@@ -185,6 +219,11 @@ p {
   background: rgba(255, 255, 255, 0.03);
 }
 
+/* =========================================================
+   ITEM ATIVO
+   ========================================================= */
+
+/* ATIVO  ====> */
 .nav-item.active {
   position: relative;
   width: 100%;
@@ -202,7 +241,7 @@ p {
 }
 
 /* =========================================================
-   ÍCONES E VARIANTES ATIVAS DA NAVEGAÇÃO
+   ÍCONES
    ========================================================= */
 
 .bi {
@@ -214,30 +253,44 @@ p {
 .bi-home {
   color: #8535fc;
 }
+
 .bi-migo {
   width: 34px;
   height: 34px;
 }
+
 .bi-grupos {
   color: #1cb0f6;
 }
+
 .bi-loja {
   color: #ffe005;
 }
+
 .bi-perfil {
   width: 34px;
   height: 34px;
   color: #ff7a59;
 }
+
 .bi-ajustes {
   width: 34px;
   height: 34px;
-  color: rgba(255, 255, 255, 0.65);
+  color: #ffffffa6;
 }
+
+/* =========================================================
+   CORES DOS ITENS
+   ========================================================= */
+
+/* .bi-home-active {
+  filter: drop-shadow(0 0 4px #8535fc);
+} */
 
 .nav-home.active {
   border-left: 4px solid #8435fc;
 }
+
 .nav-home.active::before {
   content: "";
   position: absolute;
@@ -247,12 +300,14 @@ p {
   height: 55px;
   transform: translateY(-50%);
   border-radius: 20px;
+  background: transparent;
   box-shadow: 0 0 20px 2px #8435fc;
 }
 
 .nav-migo.active {
   border-left: 4px solid #a6121a;
 }
+
 .nav-migo.active::before {
   content: "";
   position: absolute;
@@ -262,12 +317,14 @@ p {
   height: 55px;
   transform: translateY(-50%);
   border-radius: 20px;
+  background: transparent;
   box-shadow: 0 0 20px 2px #a6121a;
 }
 
 .nav-social.active {
   border-left: 4px solid #f61ce4;
 }
+
 .nav-social.active::before {
   content: "";
   position: absolute;
@@ -277,12 +334,14 @@ p {
   height: 55px;
   transform: translateY(-50%);
   border-radius: 20px;
+  background: transparent;
   box-shadow: 0 0 20px 2px #f61ce4;
 }
 
 .nav-grupos.active {
   border-left: 4px solid #1cb0f6;
 }
+
 .nav-grupos.active::before {
   content: "";
   position: absolute;
@@ -292,12 +351,14 @@ p {
   height: 55px;
   transform: translateY(-50%);
   border-radius: 20px;
+  background: transparent;
   box-shadow: 0 0 20px 2px #1cb0f6;
 }
 
 .nav-loja.active {
   border-left: 4px solid #ffe005;
 }
+
 .nav-loja.active::before {
   content: "";
   position: absolute;
@@ -307,13 +368,15 @@ p {
   height: 55px;
   transform: translateY(-50%);
   border-radius: 20px;
+  background: transparent;
   box-shadow: 0 0 20px 2px #ffe005;
 }
 
 .nav-perfil.active {
   border-left: 4px solid #ff7a59;
 }
-.nav-perfil.active::before {
+
+.nav-loja.active::before {
   content: "";
   position: absolute;
   left: 0;
@@ -322,13 +385,15 @@ p {
   height: 55px;
   transform: translateY(-50%);
   border-radius: 20px;
+  background: transparent;
   box-shadow: 0 0 20px 2px #ff7a59;
 }
 
 .nav-ajustes.active {
   border-left: 4px solid #4b4652;
 }
-.nav-ajustes.active::before {
+
+.nav-loja.active::before {
   content: "";
   position: absolute;
   left: 0;
@@ -337,6 +402,7 @@ p {
   height: 55px;
   transform: translateY(-50%);
   border-radius: 20px;
+  background: transparent;
   box-shadow: 0 0 20px 2px #4b4652;
 }
 
@@ -346,17 +412,26 @@ p {
 
 .sair-btn {
   width: 100%;
+
   flex-shrink: 0;
+
   padding: 20px;
+
   color: #ea2221;
+
   font-size: 20px;
+
   background-color: transparent;
+
   border-radius: 20px;
   border: 1px solid #0d152c;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 15px;
+
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
     0 0 50px rgba(0, 0, 0, 0.25);
@@ -374,11 +449,11 @@ p {
 }
 
 /* =========================================================
-   RESPONSIVIDADE
+   RESPONSIVIDADE SIDEBAR
    ========================================================= */
 
 @media (max-width: 1100px) {
-  #root.app-layout {
+  #root {
     gap: 10px;
   }
 
