@@ -68,7 +68,7 @@ button:active {
    CONTAINER PRINCIPAL (HOME / INDEX)
    ========================================================================== */
 
-.main-container {
+.main-container-home {
   flex: 1;
   height: calc(100vh - 30px);
   background-color: #000718;
@@ -82,7 +82,6 @@ button:active {
   grid-template-columns: 1fr 360px;
   grid-template-rows: auto 1fr;
 
-  /* ÁREAS DA PÁGINA DE TAREFAS: */
   grid-template-areas:
     "header header"
     "tasks-area user-status" !important;

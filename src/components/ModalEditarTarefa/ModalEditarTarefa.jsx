@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../ModalCriarTarefa/style.css"; // Reutiliza exatamente o mesmo CSS do modal de criação
+import "../ModalCriarTarefa/style.css";
 import { getErrorMessage } from "../../utils/errorHandler";
 
 const API_URL = "http://localhost:8080/api/tarefas";
@@ -13,10 +13,10 @@ export default function ModalEditarTarefa({
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
-  const [corCategoria, setCorCategoria] = useState("#000718");
+  const [cor, setCor] = useState("#000718");
   const [repeticao, setRepeticao] = useState("DIARIA");
-  const [data, setData] = useState("2026-09-22");
-  const [horario, setHorario] = useState("00:00");
+  const [dataLimite, setDataLimite] = useState("");
+  const [horarioLimite, setHorarioLimite] = useState("");
   const [prioridade, setPrioridade] = useState(false);
 
   // Estados de feedback visual
@@ -29,10 +29,10 @@ export default function ModalEditarTarefa({
       setTitulo(tarefa.titulo || "");
       setDescricao(tarefa.descricao || "");
       setCategoria(tarefa.categoria || "Estudo");
-      setCorCategoria(tarefa.corCategoria || "#000718");
+      setCor(tarefa.cor || "#000718");
       setRepeticao(tarefa.repeticao || "DIARIA");
-      setData(tarefa.data || "2026-09-22");
-      setHorario(tarefa.horario || "00:00");
+      setDataLimite(tarefa.dataLimite || "");
+      setHorarioLimite(tarefa.horarioLimite || "");
       setPrioridade(tarefa.prioridade || false);
       setErrorMsg("");
     }
@@ -59,14 +59,15 @@ export default function ModalEditarTarefa({
     const atualizarPayload = {
       titulo,
       descricao,
+      categoria,
+      cor,
+      prioridade,
       repeticao,
-      // categoria,
-      // corCategoria,
-      // data,
-      // horario,
-      // prioridade,
+      dataLimite: dataLimite || null,
+      horarioLimite: horarioLimite ? horarioLimite.slice(0, 5) : null,
     };
 
+    console.log(atualizarPayload);
     try {
       const res = await fetch(`${API_URL}/${tarefa.id}`, {
         method: "PATCH",
@@ -94,8 +95,6 @@ export default function ModalEditarTarefa({
 
   // DELETE: Excluir Tarefa
   const handleExcluirTarefa = async () => {
-    // if (!window.confirm("Deseja realmente excluir esta tarefa?")) return;
-
     setLoading(true);
     setErrorMsg("");
 
@@ -200,8 +199,8 @@ export default function ModalEditarTarefa({
                 <input
                   type="color"
                   className="modal-color-input"
-                  value={corCategoria}
-                  onChange={(e) => setCorCategoria(e.target.value)}
+                  value={cor}
+                  onChange={(e) => setCor(e.target.value)}
                   disabled={loading}
                 />
               </div>
@@ -213,8 +212,8 @@ export default function ModalEditarTarefa({
                 <input
                   type="date"
                   className="modal-input"
-                  value={data}
-                  onChange={(e) => setData(e.target.value)}
+                  value={dataLimite || ""}
+                  onChange={(e) => setDataLimite(e.target.value)}
                   disabled={loading}
                 />
               </div>
@@ -223,8 +222,8 @@ export default function ModalEditarTarefa({
                 <input
                   type="time"
                   className="modal-input"
-                  value={horario}
-                  onChange={(e) => setHorario(e.target.value)}
+                  value={horarioLimite || ""}
+                  onChange={(e) => setHorarioLimite(e.target.value)}
                   disabled={loading}
                 />
               </div>
@@ -242,7 +241,7 @@ export default function ModalEditarTarefa({
                   </h4>
                   <span
                     className="modal-preview-badge"
-                    style={{ backgroundColor: corCategoria }}
+                    style={{ backgroundColor: cor }}
                   >
                     {categoria}
                   </span>
@@ -252,7 +251,7 @@ export default function ModalEditarTarefa({
                 </p>
                 <div className="modal-preview-footer">
                   <span>
-                    📅 {data} · {horario}
+                    📅 {dataLimite || "Data"} · {horarioLimite || "Horário"}
                   </span>
                   <span style={{ color: "#a855f7", fontWeight: "bold" }}>
                     +50 XP ♦️

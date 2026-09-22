@@ -8,10 +8,11 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
-  const [corCategoria, setCorCategoria] = useState("#000718");
+  const [cor, setCor] = useState("#000718");
   const [repeticao, setRepeticao] = useState("DIARIA");
-  const [data, setData] = useState("0000-00-00");
-  const [horario, setHorario] = useState("00:00");
+  const [dataLimite, setDataLimite] = useState(null);
+  const [horarioLimite, setHorarioLimite] = useState(null);
+
   const [prioridade, setPrioridade] = useState(false);
 
   // Estados de feedback visual
@@ -24,10 +25,10 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
     setTitulo("");
     setDescricao("");
     setCategoria("Estudo");
-    setCorCategoria("#000718");
+    setCor("#000718");
     setRepeticao("DIARIA");
-    setData("0000-00-00");
-    setHorario("00:00");
+    setDataLimite("0000-00-00");
+    setHorarioLimite("00:00");
     setPrioridade(false);
     setErrorMsg("");
     onClose();
@@ -47,9 +48,16 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
     const criarPayload = {
       titulo,
       descricao,
+      categoria,
+      cor,
+      prioridade,
       repeticao,
+      dataLimite,
+      horarioLimite,
       // inclua os outros campos conforme forem implementados no backend
     };
+
+    console.log(criarPayload);
 
     try {
       const res = await fetch(API_URL, {
@@ -154,8 +162,8 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                 <input
                   type="color"
                   className="modal-color-input"
-                  value={corCategoria}
-                  onChange={(e) => setCorCategoria(e.target.value)}
+                  value={cor}
+                  onChange={(e) => setCor(e.target.value)}
                   disabled={loading}
                 />
               </div>
@@ -163,12 +171,12 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
 
             <div className="modal-row-2">
               <div className="modal-field-group">
-                <label>Data</label>
+                <label>data limite</label>
                 <input
                   type="date"
                   className="modal-input"
-                  value={data}
-                  onChange={(e) => setData(e.target.value)}
+                  value={dataLimite}
+                  onChange={(e) => setDataLimite(e.target.value)}
                   disabled={loading}
                 />
               </div>
@@ -177,8 +185,8 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                 <input
                   type="time"
                   className="modal-input"
-                  value={horario}
-                  onChange={(e) => setHorario(e.target.value)}
+                  value={horarioLimite}
+                  onChange={(e) => setHorarioLimite(e.target.value)}
                   disabled={loading}
                 />
               </div>
@@ -196,7 +204,7 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                   </h4>
                   <span
                     className="modal-preview-badge"
-                    style={{ backgroundColor: corCategoria }}
+                    style={{ backgroundColor: cor }}
                   >
                     {categoria}
                   </span>
@@ -206,7 +214,7 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                 </p>
                 <div className="modal-preview-footer">
                   <span>
-                    📅 {data} · {horario}
+                    📅 {dataLimite} · {horarioLimite}
                   </span>
                   <span style={{ color: "#a855f7", fontWeight: "bold" }}>
                     +50 XP ♦️

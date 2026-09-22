@@ -78,7 +78,7 @@ export default function Home() {
       <Sidebar />
 
       {/* CONTAINER PRINCIPAL */}
-      <div className="main-container">
+      <div className="main-container-home">
         <header className="index-header">
           <div className="page-intro">
             <svg
@@ -207,7 +207,7 @@ export default function Home() {
                     <span className="check-circle">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
+                        fill="#000"
                         className="bi-check-tarefa"
                         viewBox="0 0 16 16"
                       >
@@ -216,7 +216,13 @@ export default function Home() {
                     </span>
                   </label>
 
-                  <div className="icon-tarefa1 tarefa-icon-container">
+                  <div
+                    style={{
+                      backgroundColor: tarefa.cor,
+                      boxShadow: `0 0 12px ${tarefa.cor}`,
+                    }}
+                    className=" tarefa-icon-container"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -231,6 +237,9 @@ export default function Home() {
                     <h1>{tarefa.titulo}</h1>
                     <p>{tarefa.descricao}</p>
                     <span>📅 {tarefa.repeticao || "Única"}</span>
+                    <span>
+                      {tarefa.dataLimite} {tarefa.horarioLimite?.slice(0, 5)}
+                    </span>
                   </div>
 
                   <svg
@@ -247,8 +256,8 @@ export default function Home() {
                   </svg>
 
                   <div className="tarefa-info-extra">
-                    <div className="tag1">Estudo</div>
-                    <span>+50 XP ♦️</span>
+                    <div className="tag1">{tarefa.categoria}</div>
+                    <span>♦️</span>
                   </div>
                 </div>
               ))
