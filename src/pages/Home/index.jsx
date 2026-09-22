@@ -4,11 +4,14 @@ import { getErrorMessage } from "../../utils/errorHandler";
 import "../../css/all.css";
 import "../../css/index.css";
 import ModalCriarTarefa from "../../components/ModalCriarTarefa/ModalCriarTarefa";
+import ModalEditarTarefa from "../../components/ModalEditarTarefa/ModalEditarTarefa";
 
 const API_URL = "http://localhost:8080/api/tarefas";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
   const [tarefas, setTarefas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filtro, setFiltro] = useState("");
@@ -310,7 +313,6 @@ export default function Home() {
                   key={tarefa.id || index}
                   className="tarefa gradient-card"
                   style={{ border: "none" }}
-                  onClick={() => deletarTarefa(tarefa.id)}
                 >
                   <label className="tarefa-check">
                     <input
@@ -346,6 +348,18 @@ export default function Home() {
                     <p>{tarefa.descricao}</p>
                     <span>📅 {tarefa.repeticao || "Única"}</span>
                   </div>
+                  
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    class="bi-pen"
+                    viewBox="0 0 16 16"
+                    onClick={() => {setIsEditModalOpen(true); setTarefaSelecionada(tarefa.id)}}
+                  >
+                    <path
+                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"
+                    />
+                  </svg>
 
                   <div className="tarefa-info-extra">
                     <div className="tag1">Estudo</div>
@@ -438,6 +452,15 @@ export default function Home() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onTarefaCriada={carregarTarefas}
+      />
+      <ModalEditarTarefa
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setTarefaSelecionada(null);
+        }}
+        tarefa={tarefaSelecionada}
+        onTarefaAtualizada={carregarTarefas}
       />
     </>
   );

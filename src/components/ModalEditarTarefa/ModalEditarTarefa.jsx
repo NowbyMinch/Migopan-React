@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "../ModalCriarTarefa/style.css";
+import "../ModalCriarTarefa/style.css"; // Reutiliza exatamente o mesmo CSS do modal de criação
 import { getErrorMessage } from "../../utils/errorHandler";
 
 const API_URL = "http://localhost:8080/api/tarefas";
 
-export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
+export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtualizada }) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
   const [corCategoria, setCorCategoria] = useState("#000718");
   const [repeticao, setRepeticao] = useState("DIARIA");
-  const [data, setData] = useState("0000-00-00");
+  const [data, setData] = useState("2026-09-22");
   const [horario, setHorario] = useState("00:00");
   const [prioridade, setPrioridade] = useState(false);
 
@@ -18,22 +18,30 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  if (!isOpen) return null;
-  
+  // Preenche o formulário sempre que a tarefa passada via prop mudar
+  useEffect(() => {
+    if (tarefa) {
+      setTitulo(tarefa.titulo || "");
+      setDescricao(tarefa.descricao || "");
+      setCategoria(tarefa.categoria || "Estudo");
+      setCorCategoria(tarefa.corCategoria || "#000718");
+      setRepeticao(tarefa.repeticao || "DIARIA");
+      setData(tarefa.data || "2026-09-22");
+      setHorario(tarefa.horario || "00:00");
+      setPrioridade(tarefa.prioridade || false);
+      setErrorMsg("");
+    }
+  }, [tarefa]);
+
+  if (!isOpen || !tarefa) return null;
+
   const handleFecharModal = () => {
-    setTitulo("");
-    setDescricao("");
-    setCategoria("Estudo");
-    setCorCategoria("#000718");
-    setRepeticao("DIARIA");
-    setData(date);
-    setHorario(tempo);
-    setPrioridade(false);
     setErrorMsg("");
     onClose();
   };
 
-  const handleCriarTarefa = async (e) => {
+  // PATCH: Atualizar Tarefa (corresponde ao @PatchMapping do Spring Boot)
+  const handleAtualizarTarefa = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
@@ -44,34 +52,69 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
 
     setLoading(true);
 
-    const criarPayload = {
+    // Payload de atualização ajustado ao DTO do Spring Boot
+    const atualizarPayload = {
       titulo,
       descricao,
       repeticao,
-      // inclua os outros campos conforme forem implementados no backend
+      categoria,
+      corCategoria,
+      data,
+      horario,
+      prioridade
     };
 
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
+      const res = await fetch(`${API_URL}/${tarefa.id}`, {
+        method: "PATCH", // 👈 Alterado de PUT para PATCH
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(criarPayload),
+        body: JSON.stringify(atualizarPayload),
         credentials: "include",
       });
 
       if (!res.ok) {
         const mensagem = await getErrorMessage(res);
-        throw new Error(mensagem || "Falha ao criar tarefa.");
+        throw new Error(mensagem || "Falha ao atualizar tarefa.");
       }
 
-      // Se bem-sucedido, notifica a Home e fecha o modal
-      if (onTarefaCriada) {
-        await onTarefaCriada();
+      if (onTarefaAtualizada) {
+        await onTarefaAtualizada();
       }
       handleFecharModal();
     } catch (err) {
-      console.error("Erro na criação da tarefa:", err.message);
-      setErrorMsg(err.message || "Ocorreu um erro ao criar a tarefa.");
+      console.error("Erro na atualização da tarefa:", err.message);
+      setErrorMsg(err.message || "Ocorreu um erro ao atualizar a tarefa.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // DELETE: Excluir Tarefa
+  const handleExcluirTarefa = async () => {
+    if (!window.confirm("Deseja realmente excluir esta tarefa?")) return;
+
+    setLoading(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch(`${API_URL}/${tarefa.id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+        throw new Error(mensagem || "Falha ao excluir tarefa.");
+      }
+
+      if (onTarefaAtualizada) {
+        await onTarefaAtualizada();
+      }
+      handleFecharModal();
+    } catch (err) {
+      console.error("Erro ao excluir tarefa:", err.message);
+      setErrorMsg(err.message || "Ocorreu um erro ao excluir a tarefa.");
     } finally {
       setLoading(false);
     }
@@ -82,8 +125,8 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
-            <h2>Criar tarefa</h2>
-            <p>Adicione os detalhes da sua nova tarefa</p>
+            <h2>Editar tarefa</h2>
+            <p>Altere os detalhes ou exclua sua tarefa</p>
           </div>
           <button className="modal-close-btn" onClick={handleFecharModal} disabled={loading}>
             ✕
@@ -126,6 +169,21 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
 
             <div className="modal-row-2">
               <div className="modal-field-group">
+                <label>Repetição</label>
+                <select
+                  className="modal-select"
+                  value={repeticao}
+                  onChange={(e) => setRepeticao(e.target.value)}
+                  disabled={loading}
+                >
+                  <option value="UNICA">Única</option>
+                  <option value="DIARIA">Diária</option>
+                  <option value="SEMANAL">Semanal</option>
+                  <option value="MENSAL">Mensal</option>
+                </select>
+              </div>
+
+              <div className="modal-field-group">
                 <label>Categoria</label>
                 <select
                   className="modal-select"
@@ -138,6 +196,9 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                   <option value="Pessoal">Pessoal</option>
                 </select>
               </div>
+            </div>
+
+            <div className="modal-row-2">
               <div className="modal-field-group">
                 <label>Cor da categoria</label>
                 <input
@@ -148,9 +209,7 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                   disabled={loading}
                 />
               </div>
-            </div>
 
-            <div className="modal-row-2">
               <div className="modal-field-group">
                 <label>Data</label>
                 <input
@@ -161,16 +220,17 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                   disabled={loading}
                 />
               </div>
-              <div className="modal-field-group">
-                <label>Horário</label>
-                <input
-                  type="time"
-                  className="modal-input"
-                  value={horario}
-                  onChange={(e) => setHorario(e.target.value)}
-                  disabled={loading}
-                />
-              </div>
+            </div>
+
+            <div className="modal-field-group">
+              <label>Horário</label>
+              <input
+                type="time"
+                className="modal-input"
+                value={horario}
+                onChange={(e) => setHorario(e.target.value)}
+                disabled={loading}
+              />
             </div>
           </div>
 
@@ -224,13 +284,26 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
           </div>
         </div>
 
-        <div className="modal-footer">
-          <button className="modal-btn-cancel" onClick={handleFecharModal} disabled={loading}>
-            Cancelar
+        {/* Modal Footer: Botão de Excluir à esquerda, Cancelar e Salvar à direita */}
+        <div className="modal-footer" style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+          <button
+            type="button"
+            className="modal-btn-cancel"
+            onClick={handleExcluirTarefa}
+            disabled={loading}
+            style={{ backgroundColor: "rgba(239, 68, 68, 0.15)", color: "#ef4444", border: "1px solid #ef4444" }}
+          >
+            🗑️ Excluir
           </button>
-          <button className="modal-btn-submit" onClick={handleCriarTarefa} disabled={loading}>
-            {loading ? "Criando..." : "✓ Criar tarefa"}
-          </button>
+
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <button className="modal-btn-cancel" onClick={handleFecharModal} disabled={loading}>
+              Cancelar
+            </button>
+            <button className="modal-btn-submit" onClick={handleAtualizarTarefa} disabled={loading}>
+              {loading ? "Salvando..." : "✓ Salvar alterações"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

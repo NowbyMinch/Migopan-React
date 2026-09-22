@@ -561,13 +561,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div class=" gradient-card criar-lateral">
+          <div className=" gradient-card criar-lateral">
             <h1>Nenhuma tarefa concluída ainda?</h1>
             <h2>Cada tarefa te deixa mais perto de concluir seus objetivos!</h2>
-            <div class="lateral-decoration">
+            <div className="lateral-decoration">
               <img src="/img/indexLateralDeco.png" alt="" />
             </div>
-            <button class="Nova-tarefa-lateral">
+            <button className="Nova-tarefa-lateral">
               <span>+</span> Criar nova tarefa
             </button>
           </div>
