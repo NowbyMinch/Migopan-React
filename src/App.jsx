@@ -9,6 +9,7 @@ import Cadastro from "./pages/Cadastro/index";
 
 // Páginas Privadas
 import Home from "./pages/Home/index";
+import Grupos from "./pages/Grupos/index";
 
 export default function AppRoutes() {
   return (
@@ -25,6 +26,7 @@ export default function AppRoutes() {
         {/* Qualquer página declarada dentro de ProtectedRoute exigirá cookie/JWT válido */}
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/grupos" element={<Grupos />} />
           {/* Adicione qualquer outra rota restrita aqui */}
         </Route>
 

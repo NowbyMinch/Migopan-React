@@ -19,15 +19,15 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   if (!isOpen) return null;
-  
+
   const handleFecharModal = () => {
     setTitulo("");
     setDescricao("");
     setCategoria("Estudo");
     setCorCategoria("#000718");
     setRepeticao("DIARIA");
-    setData(date);
-    setHorario(tempo);
+    setData("0000-00-00");
+    setHorario("00:00");
     setPrioridade(false);
     setErrorMsg("");
     onClose();
@@ -85,14 +85,25 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
             <h2>Criar tarefa</h2>
             <p>Adicione os detalhes da sua nova tarefa</p>
           </div>
-          <button className="modal-close-btn" onClick={handleFecharModal} disabled={loading}>
+          <button
+            className="modal-close-btn"
+            onClick={handleFecharModal}
+            disabled={loading}
+          >
             ✕
           </button>
         </div>
 
         {/* MENSAGEM DE ERRO VISUAL */}
         {errorMsg && (
-          <div className="modal-error-message" style={{ color: "#ef4444", marginBottom: "1rem", fontWeight: "bold" }}>
+          <div
+            className="modal-error-message"
+            style={{
+              color: "#ef4444",
+              marginBottom: "1rem",
+              fontWeight: "bold",
+            }}
+          >
             ⚠️ {errorMsg}
           </div>
         )}
@@ -225,10 +236,18 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
         </div>
 
         <div className="modal-footer">
-          <button className="modal-btn-cancel" onClick={handleFecharModal} disabled={loading}>
+          <button
+            className="modal-btn-cancel"
+            onClick={handleFecharModal}
+            disabled={loading}
+          >
             Cancelar
           </button>
-          <button className="modal-btn-submit" onClick={handleCriarTarefa} disabled={loading}>
+          <button
+            className="modal-btn-submit"
+            onClick={handleCriarTarefa}
+            disabled={loading}
+          >
             {loading ? "Criando..." : "✓ Criar tarefa"}
           </button>
         </div>

@@ -4,7 +4,12 @@ import { getErrorMessage } from "../../utils/errorHandler";
 
 const API_URL = "http://localhost:8080/api/tarefas";
 
-export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtualizada }) {
+export default function ModalEditarTarefa({
+  isOpen,
+  onClose,
+  tarefa,
+  onTarefaAtualizada,
+}) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
@@ -40,7 +45,6 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
     onClose();
   };
 
-  // PATCH: Atualizar Tarefa (corresponde ao @PatchMapping do Spring Boot)
   const handleAtualizarTarefa = async (e) => {
     e.preventDefault();
     setErrorMsg("");
@@ -52,21 +56,20 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
 
     setLoading(true);
 
-    // Payload de atualização ajustado ao DTO do Spring Boot
     const atualizarPayload = {
       titulo,
       descricao,
       repeticao,
-      categoria,
-      corCategoria,
-      data,
-      horario,
-      prioridade
+      // categoria,
+      // corCategoria,
+      // data,
+      // horario,
+      // prioridade,
     };
 
     try {
       const res = await fetch(`${API_URL}/${tarefa.id}`, {
-        method: "PATCH", // 👈 Alterado de PUT para PATCH
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(atualizarPayload),
         credentials: "include",
@@ -91,7 +94,7 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
 
   // DELETE: Excluir Tarefa
   const handleExcluirTarefa = async () => {
-    if (!window.confirm("Deseja realmente excluir esta tarefa?")) return;
+    // if (!window.confirm("Deseja realmente excluir esta tarefa?")) return;
 
     setLoading(true);
     setErrorMsg("");
@@ -128,14 +131,25 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
             <h2>Editar tarefa</h2>
             <p>Altere os detalhes ou exclua sua tarefa</p>
           </div>
-          <button className="modal-close-btn" onClick={handleFecharModal} disabled={loading}>
+          <button
+            className="modal-close-btn"
+            onClick={handleFecharModal}
+            disabled={loading}
+          >
             ✕
           </button>
         </div>
 
         {/* MENSAGEM DE ERRO VISUAL */}
         {errorMsg && (
-          <div className="modal-error-message" style={{ color: "#ef4444", marginBottom: "1rem", fontWeight: "bold" }}>
+          <div
+            className="modal-error-message"
+            style={{
+              color: "#ef4444",
+              marginBottom: "1rem",
+              fontWeight: "bold",
+            }}
+          >
             ⚠️ {errorMsg}
           </div>
         )}
@@ -169,21 +183,6 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
 
             <div className="modal-row-2">
               <div className="modal-field-group">
-                <label>Repetição</label>
-                <select
-                  className="modal-select"
-                  value={repeticao}
-                  onChange={(e) => setRepeticao(e.target.value)}
-                  disabled={loading}
-                >
-                  <option value="UNICA">Única</option>
-                  <option value="DIARIA">Diária</option>
-                  <option value="SEMANAL">Semanal</option>
-                  <option value="MENSAL">Mensal</option>
-                </select>
-              </div>
-
-              <div className="modal-field-group">
                 <label>Categoria</label>
                 <select
                   className="modal-select"
@@ -196,9 +195,6 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
                   <option value="Pessoal">Pessoal</option>
                 </select>
               </div>
-            </div>
-
-            <div className="modal-row-2">
               <div className="modal-field-group">
                 <label>Cor da categoria</label>
                 <input
@@ -209,7 +205,9 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
                   disabled={loading}
                 />
               </div>
+            </div>
 
+            <div className="modal-row-2">
               <div className="modal-field-group">
                 <label>Data</label>
                 <input
@@ -220,17 +218,16 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
                   disabled={loading}
                 />
               </div>
-            </div>
-
-            <div className="modal-field-group">
-              <label>Horário</label>
-              <input
-                type="time"
-                className="modal-input"
-                value={horario}
-                onChange={(e) => setHorario(e.target.value)}
-                disabled={loading}
-              />
+              <div className="modal-field-group">
+                <label>Horário</label>
+                <input
+                  type="time"
+                  className="modal-input"
+                  value={horario}
+                  onChange={(e) => setHorario(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
             </div>
           </div>
 
@@ -284,23 +281,41 @@ export default function ModalEditarTarefa({ isOpen, onClose, tarefa, onTarefaAtu
           </div>
         </div>
 
-        {/* Modal Footer: Botão de Excluir à esquerda, Cancelar e Salvar à direita */}
-        <div className="modal-footer" style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+        <div
+          className="modal-footer"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           <button
             type="button"
             className="modal-btn-cancel"
             onClick={handleExcluirTarefa}
             disabled={loading}
-            style={{ backgroundColor: "rgba(239, 68, 68, 0.15)", color: "#ef4444", border: "1px solid #ef4444" }}
+            style={{
+              backgroundColor: "rgba(239, 68, 68, 0.15)",
+              color: "#ef4444",
+              border: "1px solid #ef4444",
+            }}
           >
             🗑️ Excluir
           </button>
 
           <div style={{ display: "flex", gap: "0.75rem" }}>
-            <button className="modal-btn-cancel" onClick={handleFecharModal} disabled={loading}>
+            <button
+              className="modal-btn-cancel"
+              onClick={handleFecharModal}
+              disabled={loading}
+            >
               Cancelar
             </button>
-            <button className="modal-btn-submit" onClick={handleAtualizarTarefa} disabled={loading}>
+            <button
+              className="modal-btn-submit"
+              onClick={handleAtualizarTarefa}
+              disabled={loading}
+            >
               {loading ? "Salvando..." : "✓ Salvar alterações"}
             </button>
           </div>
