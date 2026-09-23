@@ -278,14 +278,18 @@ p {
   height: 34px;
   color: #ffffffa6;
 }
+.bi-home-active {
+  filter: drop-shadow(0 0 4px #8535fc);
+}
+
+.bi-grupos-active {
+  filter: drop-shadow(0 0 4px #1cb0f6);
+}
 
 /* =========================================================
    CORES DOS ITENS
    ========================================================= */
 
-/* .bi-home-active {
-  filter: drop-shadow(0 0 4px #8535fc);
-} */
 
 .nav-home.active {
   border-left: 4px solid #8435fc;

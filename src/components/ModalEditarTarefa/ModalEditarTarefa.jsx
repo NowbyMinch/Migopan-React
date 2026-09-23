@@ -15,8 +15,8 @@ export default function ModalEditarTarefa({
   const [categoria, setCategoria] = useState("Estudo");
   const [cor, setCor] = useState("#000718");
   const [repeticao, setRepeticao] = useState("DIARIA");
-  const [dataLimite, setDataLimite] = useState("");
-  const [horarioLimite, setHorarioLimite] = useState("");
+  const [dataLimite, setDataLimite] = useState(null);
+  const [horarioLimite, setHorarioLimite] = useState(null);
   const [prioridade, setPrioridade] = useState(false);
 
   // Estados de feedback visual
@@ -31,8 +31,8 @@ export default function ModalEditarTarefa({
       setCategoria(tarefa.categoria || "Estudo");
       setCor(tarefa.cor || "#000718");
       setRepeticao(tarefa.repeticao || "DIARIA");
-      setDataLimite(tarefa.dataLimite || "");
-      setHorarioLimite(tarefa.horarioLimite || "");
+      setDataLimite(tarefa.dataLimite || null);
+      setHorarioLimite(tarefa.horarioLimite || null);
       setPrioridade(tarefa.prioridade || false);
       setErrorMsg("");
     }

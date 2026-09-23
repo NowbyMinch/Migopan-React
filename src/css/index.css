@@ -105,7 +105,7 @@ button:active {
 .page-intro {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .page-intro svg {
@@ -114,7 +114,7 @@ button:active {
 }
 
 .index-header-left h1 {
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 800;
   filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
 }
@@ -134,7 +134,7 @@ button:active {
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 12px 20px;
+  padding: 10px 10px;
   border-radius: 16px;
   background: linear-gradient(
     180deg,
@@ -178,7 +178,7 @@ button:active {
 
 .index-stats-conteudo strong {
   color: #ffffff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
 }
 
@@ -190,7 +190,7 @@ button:active {
 
 /* Botão Nova Tarefa Superior */
 .index-header-add {
-  padding: 12px 24px;
+  padding: 12px 20px;
   border-radius: 16px;
   display: flex;
   align-items: center;
