@@ -1,8 +1,30 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "../../css/all.css";
+import { getErrorMessage } from "../../utils/errorHandler";
+
+const API_URL = "http://localhost:8080/api/auth/logout";
 
 export default function Sidebar() {
+
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        credentials: "include"
+      });
+
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+        throw new Error(mensagem || "Falha ao criar grupo.");
+      }
+
+      window.location.href = "/login"
+    } catch (err) {
+      console.error("Erro na criação do grupo:", err.message);
+    } 
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-conteudo">
@@ -90,7 +112,7 @@ export default function Sidebar() {
           </NavLink>
         </nav>
 
-        <button className="sair-btn">
+        <button onClick={handleLogout} className="sair-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"

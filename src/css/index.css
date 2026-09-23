@@ -426,7 +426,7 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  overflow-y: auto;
+  min-height: fit-content;
 }
 
 .tarefas-lateral {
@@ -557,6 +557,7 @@ button:active {
 
 .criar-lateral {
   display: flex;
+  min-height: fit-content;
   flex-direction: column;
   justify-content: center;
   align-items: center;

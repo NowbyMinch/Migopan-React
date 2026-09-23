@@ -278,7 +278,7 @@ hr {
 .grupo-details {
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
+  font-size: 16px;
   color: #a7b0d3;
   margin-top: 10px;
 }
@@ -286,8 +286,13 @@ hr {
 .grupo-detail div {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   color: white;
+}
+
+.grupo-detail svg {
+  width: 22px;
 }
 
 /* ==========================================================================

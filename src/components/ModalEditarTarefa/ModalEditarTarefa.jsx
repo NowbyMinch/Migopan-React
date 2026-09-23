@@ -14,7 +14,7 @@ export default function ModalEditarTarefa({
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
   const [cor, setCor] = useState("#000718");
-  const [repeticao, setRepeticao] = useState("DIARIA");
+  const [repeticao, setRepeticao] = useState(null);
   const [dataLimite, setDataLimite] = useState(null);
   const [horarioLimite, setHorarioLimite] = useState(null);
   const [prioridade, setPrioridade] = useState(false);
@@ -30,7 +30,7 @@ export default function ModalEditarTarefa({
       setDescricao(tarefa.descricao || "");
       setCategoria(tarefa.categoria || "Estudo");
       setCor(tarefa.cor || "#000718");
-      setRepeticao(tarefa.repeticao || "DIARIA");
+      setRepeticao(tarefa.repeticao || null);
       setDataLimite(tarefa.dataLimite || null);
       setHorarioLimite(tarefa.horarioLimite || null);
       setPrioridade(tarefa.prioridade || false);

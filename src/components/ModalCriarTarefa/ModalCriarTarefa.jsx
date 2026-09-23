@@ -9,7 +9,7 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
   const [cor, setCor] = useState("#000718");
-  const [repeticao, setRepeticao] = useState("DIARIA");
+  const [repeticao, setRepeticao] = useState(null);
   const [dataLimite, setDataLimite] = useState(null);
   const [horarioLimite, setHorarioLimite] = useState(null);
 
@@ -24,11 +24,11 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
   const handleFecharModal = () => {
     setTitulo("");
     setDescricao("");
-    setCategoria("Estudo");
+    setCategoria(null);
     setCor("#000718");
-    setRepeticao("DIARIA");
-    setDataLimite("0000-00-00");
-    setHorarioLimite("00:00");
+    setRepeticao(null);
+    setDataLimite(null);
+    setHorarioLimite(null);
     setPrioridade(false);
     setErrorMsg("");
     onClose();
