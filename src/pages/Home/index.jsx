@@ -7,7 +7,7 @@ import ModalCriarTarefa from "../../components/ModalCriarTarefa/ModalCriarTarefa
 import ModalEditarTarefa from "../../components/ModalEditarTarefa/ModalEditarTarefa";
 import Sidebar from "../../components/Sidebar";
 
-const API_URL = "http://localhost:8080/api/tarefas";
+const API_URL = "http://localhost:8080/api";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,10 +18,9 @@ export default function Home() {
   const [filtro, setFiltro] = useState("");
 
   const carregarTarefas = async () => {
-    setLoading(true);
 
     try {
-      let url = `${API_URL}/pessoais`;
+      let url = `${API_URL}/tarefas/pessoais`;
       if (filtro === "PENDENTES") url += "?concluida=false";
       if (filtro === "CONCLUIDAS") url += "?concluida=true";
 
@@ -41,37 +40,37 @@ export default function Home() {
       setTarefas(data);
     } catch (err) {
       console.error("Erro na requisição", err.message);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
-  // const deletarTarefa = async (id) => {
-  //   try {
-  //     const res = await fetch(`${API_URL}/${id}`, {
-  //       method: "DELETE",
-  //       headers: { "Content-Type": "application/json" },
-  //       credentials: "include",
-  //     });
+  const carregarUsuario = async () => {
+    try {
+      const res = await fetch(`${API_URL}/usuarios`, {
+        method: "GET",
+        headers: {"Content-Type" : "application/json"},
+        credentials: "include"
+      })
+  
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res); 
+        throw new Error(mensagem);
+      }
 
-  //     if (!res.ok) {
-  //       const mensagem = await getErrorMessage(res);
+      console.log(res);
 
-  //       throw new Error(mensagem);
-  //     }
+    } catch(err) {
+      console.error("Erro na requisição", err.message);
+    }
 
-  //     const data = await res.json();
-  //     setTarefas(data);
-  //   } catch (err) {
-  //     console.error("Erro na requisição", err.message);
-  //   } finally {
-  //     carregarTarefas();
-  //   }
-  // };
+
+  };
 
   useEffect(() => {
+    setLoading(true);
     carregarTarefas();
-  }, [filtro]);
+    carregarUsuario();
+    setLoading(false);
+  }, []);
 
   return (
     <>
