@@ -16,6 +16,7 @@ export default function Home() {
   const [tarefas, setTarefas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filtro, setFiltro] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const carregarTarefas = async () => {
 
@@ -197,7 +198,7 @@ export default function Home() {
                   className="tarefa gradient-card"
                   style={{ border: "none" }}
                 >
-                  <label className="tarefa-check">
+                  {/* <label className="tarefa-check">
                     <input
                       type="checkbox"
                       checked={tarefa.concluida || false}
@@ -213,7 +214,7 @@ export default function Home() {
                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
                       </svg>
                     </span>
-                  </label>
+                  </label> */}
 
                   <div
                     style={{
@@ -234,7 +235,10 @@ export default function Home() {
 
                   <div className="tarefa-info tarefa1">
                     <h1>{tarefa.titulo}</h1>
-                    <p>{tarefa.descricao}</p>
+                    <p className={`text-truncated ${isExpanded ? "is-expanded": "" } `} >{tarefa.descricao}</p>
+                    <button onClick={() => setIsExpanded(!isExpanded)}>
+                      <span>{isExpanded ? "Ver menos" : "Ver mais" }</span>
+                    </button>
                     <span>📅 {tarefa.repeticao || "Única"}</span>
                     <span>
                       {tarefa.dataLimite} {tarefa.horarioLimite?.slice(0, 5)}
@@ -256,7 +260,24 @@ export default function Home() {
 
                   <div className="tarefa-info-extra">
                     <div className="tag1">{tarefa.categoria}</div>
-                    <span>♦️</span>
+                    {/* <span>♦️</span> */}
+                     <label className="tarefa-check">
+                      <input
+                        type="checkbox"
+                        checked={tarefa.concluida || false}
+                        readOnly
+                      />
+                      <span className="check-circle">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="#000"
+                          className="bi-check-tarefa"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+                        </svg>
+                      </span>
+                    </label>
                   </div>
                 </div>
               ))

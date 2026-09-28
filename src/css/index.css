@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
-/* ==========================================================================
-   VARIÁVEIS E CONFIGURAÇÕES GLOBAIS
-   ========================================================================== */
-
 * {
   margin: 0;
   padding: 0;
@@ -278,7 +274,7 @@ button:active {
   padding: 20px;
   gap: 15px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   background: linear-gradient(
     180deg,
     rgba(6, 12, 34, 0.95),
@@ -371,6 +367,37 @@ button:active {
 .tarefa-info p {
   color: #a7b0d3;
   font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+.text-truncated { 
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  line-height: 24px;
+  max-height: 96px; /* 4 linhas */
+}
+
+.text-truncated.is-expanded { 
+  display: -webkit-box;
+  /* Remove o limite de linhas nativo do webkit */
+  -webkit-line-clamp: unset; 
+  
+  /* Define o teto numérico para a animação correr */
+  max-height: 500px; 
+  opacity: 1;
+}
+
+.tarefa-info button{
+  width: fit-content;
+  margin: auto;
+  height: fit-content;
+}
+
+.tarefa-info strong {
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .tarefa-info span {

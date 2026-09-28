@@ -226,19 +226,16 @@ body {
 }
 
 .top-info h1 {
-  font-size: 1.1rem;
   font-weight: bold;
   color: white;
   margin-top: 10px;
 }
 
 .top-info h2 {
-  font-size: 0.85rem;
   color: #ff7a59;
 }
 
 .top-info p {
-  font-size: 0.8rem;
   color: #a7b0d3;
 }
 
