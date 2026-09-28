@@ -4,7 +4,12 @@ import { getErrorMessage } from "../../utils/errorHandler";
 
 const API_URL = "http://localhost:8080/api/tarefas";
 
-export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
+export default function ModalEditarTarefa({
+  isOpen,
+  onClose,
+  tarefa,
+  onTarefaAtualizada,
+}) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
@@ -12,29 +17,35 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
   const [repeticao, setRepeticao] = useState(null);
   const [dataLimite, setDataLimite] = useState(null);
   const [horarioLimite, setHorarioLimite] = useState(null);
-
   const [prioridade, setPrioridade] = useState(false);
 
   // Estados de feedback visual
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  if (!isOpen) return null;
+  // Preenche o formulário sempre que a tarefa passada via prop mudar
+  useEffect(() => {
+    if (tarefa) {
+      setTitulo(tarefa.titulo || "");
+      setDescricao(tarefa.descricao || "");
+      setCategoria(tarefa.categoria || "Estudo");
+      setCor(tarefa.cor || "#000718");
+      setRepeticao(tarefa.repeticao || null);
+      setDataLimite(tarefa.dataLimite || null);
+      setHorarioLimite(tarefa.horarioLimite || null);
+      setPrioridade(tarefa.prioridade || false);
+      setErrorMsg("");
+    }
+  }, [tarefa]);
+
+  if (!isOpen || !tarefa) return null;
 
   const handleFecharModal = () => {
-    setTitulo("");
-    setDescricao("");
-    setCategoria(null);
-    setCor("#000718");
-    setRepeticao(null);
-    setDataLimite(null);
-    setHorarioLimite(null);
-    setPrioridade(false);
     setErrorMsg("");
     onClose();
   };
 
-  const handleCriarTarefa = async (e) => {
+  const handleAtualizarTarefa = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
@@ -45,41 +56,67 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
 
     setLoading(true);
 
-    const criarPayload = {
+    const atualizarPayload = {
       titulo,
       descricao,
       categoria,
       cor,
       prioridade,
       repeticao,
-      dataLimite,
-      horarioLimite,
-      // inclua os outros campos conforme forem implementados no backend
+      dataLimite: dataLimite || null,
+      horarioLimite: horarioLimite ? horarioLimite.slice(0, 5) : null,
     };
 
-    console.log(criarPayload);
-
+    console.log(atualizarPayload);
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
+      const res = await fetch(`${API_URL}/${tarefa.id}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(criarPayload),
+        body: JSON.stringify(atualizarPayload),
         credentials: "include",
       });
 
       if (!res.ok) {
         const mensagem = await getErrorMessage(res);
-        throw new Error(mensagem || "Falha ao criar tarefa.");
+        throw new Error(mensagem || "Falha ao atualizar tarefa.");
       }
 
-      // Se bem-sucedido, notifica a Home e fecha o modal
-      if (onTarefaCriada) {
-        await onTarefaCriada();
+      if (onTarefaAtualizada) {
+        await onTarefaAtualizada();
       }
       handleFecharModal();
     } catch (err) {
-      console.error("Erro na criação da tarefa:", err.message);
-      setErrorMsg(err.message || "Ocorreu um erro ao criar a tarefa.");
+      console.error("Erro na atualização da tarefa:", err.message);
+      setErrorMsg(err.message || "Ocorreu um erro ao atualizar a tarefa.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // DELETE: Excluir Tarefa
+  const handleExcluirTarefa = async () => {
+    setLoading(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch(`${API_URL}/${tarefa.id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+        throw new Error(mensagem || "Falha ao excluir tarefa.");
+      }
+
+      if (onTarefaAtualizada) {
+        await onTarefaAtualizada();
+      }
+      handleFecharModal();
+    } catch (err) {
+      console.error("Erro ao excluir tarefa:", err.message);
+      setErrorMsg(err.message || "Ocorreu um erro ao excluir a tarefa.");
     } finally {
       setLoading(false);
     }
@@ -90,8 +127,8 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
-            <h2>Criar tarefa</h2>
-            <p>Adicione os detalhes da sua nova tarefa</p>
+            <h2>Editar tarefa</h2>
+            <p>Altere os detalhes ou exclua sua tarefa</p>
           </div>
           <button
             className="modal-close-btn"
@@ -171,11 +208,11 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
 
             <div className="modal-row-2">
               <div className="modal-field-group">
-                <label>data limite</label>
+                <label>Data</label>
                 <input
                   type="date"
                   className="modal-input"
-                  value={dataLimite}
+                  value={dataLimite || ""}
                   onChange={(e) => setDataLimite(e.target.value)}
                   disabled={loading}
                 />
@@ -185,7 +222,7 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                 <input
                   type="time"
                   className="modal-input"
-                  value={horarioLimite}
+                  value={horarioLimite || ""}
                   onChange={(e) => setHorarioLimite(e.target.value)}
                   disabled={loading}
                 />
@@ -214,7 +251,7 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                 </p>
                 <div className="modal-preview-footer">
                   <span>
-                    📅 {dataLimite} · {horarioLimite}
+                    📅 {dataLimite || "Data"} · {horarioLimite || "Horário"}
                   </span>
                   <span style={{ color: "#a855f7", fontWeight: "bold" }}>
                     +50 XP ♦️
@@ -243,21 +280,44 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
           </div>
         </div>
 
-        <div className="modal-footer">
+        <div
+          className="modal-footer"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           <button
+            type="button"
             className="modal-btn-cancel"
-            onClick={handleFecharModal}
+            onClick={handleExcluirTarefa}
             disabled={loading}
+            style={{
+              backgroundColor: "rgba(239, 68, 68, 0.15)",
+              color: "#ef4444",
+              border: "1px solid #ef4444",
+            }}
           >
-            Cancelar
+            🗑️ Excluir
           </button>
-          <button
-            className="modal-btn-submit"
-            onClick={handleCriarTarefa}
-            disabled={loading}
-          >
-            {loading ? "Criando..." : "✓ Criar tarefa"}
-          </button>
+
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <button
+              className="modal-btn-cancel"
+              onClick={handleFecharModal}
+              disabled={loading}
+            >
+              Cancelar
+            </button>
+            <button
+              className="modal-btn-submit"
+              onClick={handleAtualizarTarefa}
+              disabled={loading}
+            >
+              {loading ? "Salvando..." : "✓ Salvar alterações"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

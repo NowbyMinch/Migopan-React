@@ -7,7 +7,7 @@ const logoImg = "/img/logo.png";
 const mascotHeaderImg = "/img/Migo.png";
 const decorBottomImg = "/img/MigoLogin.png";
 
-const API_URL = "http://localhost:8080/api/usuarios";
+const API_URL = "http://localhost:8080/api";
 
 export default function Cadastro() {
   const [nome, setNome] = useState("");
@@ -19,38 +19,51 @@ export default function Cadastro() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setErrorMsg("");
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
 
-  const cadastroPayload = {
-    nome: nome,
-    email: email,
-    senha: senha,
-  };
+    const cadastroPayload = {
+      nome: nome,
+      email: email,
+      senha: senha,
+    };
 
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // credentials: "include", <-- REMOVA ESTA LINHA
-      body: JSON.stringify(cadastroPayload),
-    });
+    try {
+      const res = await fetch(`${API_URL}/usuarios`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cadastroPayload),
+      });
 
-    if (!res.ok) {
-      const mensagem = await getErrorMessage(res);
-      throw new Error(mensagem);
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+        throw new Error(mensagem);
+      }
+
+      const resLogin = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {"Content-Type" : "application/json" },
+        body: JSON.stringify({email: cadastroPayload.email, senha: cadastroPayload.senha}),
+        credentials: "include"
+      })
+
+      if (!resLogin.ok) {
+        const mensagemLogin = await getErrorMessage(resLogin);
+        throw new Error(mensagemLogin || "Cadastro realizado, mas falha ao fazer login.");
+      } else {
+
+        window.location.href = "/home";
+      }
+
+    } catch (err) {
+      console.error("Erro na requisição:", err.message);
+      setErrorMsg(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    window.location.href = "/home";
-  } catch (err) {
-    console.error("Erro na requisição:", err.message);
-    setErrorMsg(err.message);
-  } finally {
-    setLoading(false);
-  }
   };
 
   return (
