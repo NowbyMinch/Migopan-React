@@ -46,35 +46,6 @@ export default function Home() {
 
   };
 
-  const deletarTarefa = async () => {
-    setLoading(true);
-
-    try {
-      const res = await fetch(url,{ 
-        method: "DELETE",
-        headers: {"Content-Type": "application/json"},
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        const mensagem = await getErrorMessage(res);
-
-        throw new Error(mensagem);
-      } 
-
-      const data = await res.json();
-      setTarefas(data);
-
-    } catch (err) {
-      console.error("Erro na requisição", err.message);
-    }
-    
-    finally {
-      setLoading(false);
-    }
-
-  };
-  
   useEffect(() => {
     carregarTarefas();
   }, [filtro])

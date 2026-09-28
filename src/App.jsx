@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Importação da página Home
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Grupos from "./pages/Grupos";
 import Cadastro from "./pages/Cadastro";
 
 export default function AppRouter() {
@@ -15,6 +16,7 @@ export default function AppRouter() {
 
         {/* Rotas das páginas */}
         <Route path="/home" element={<Home />} />
+        <Route path="/grupos" element={<Grupos />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Cadastro" element={<Cadastro />} />
       </Routes>
