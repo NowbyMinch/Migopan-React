@@ -257,15 +257,17 @@ button:active {
   display: flex;
   align-items: center;
   gap: 10px;
-  border-radius: 14px;
+  border-radius: 20px;
+  padding: 7px 10px;
+  font-size: 13px;
   background: linear-gradient(180deg, #0a0e25, #090e26);
-  border: 1px solid #0d152c;
-  font-size: 14px;
+  border: solid 1px #0d152c;
+  cursor: pointer;
 }
 
 .bi-filtro{ 
-  width: 34px;
-  height: 34px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   color: white;
 }
