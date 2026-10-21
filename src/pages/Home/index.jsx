@@ -84,7 +84,7 @@ export default function Home() {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="#8435FC"
-              className="bi bi-home-active"
+              className="bi-filtro bi bi-filtro bi-home-active"
               viewBox="0 0 16 16"
             >
               <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
@@ -134,7 +134,7 @@ export default function Home() {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-                className="bi-list"
+                className="bi-filtro bi-list"
                 viewBox="0 0 16 16"
               >
                 <path
@@ -149,7 +149,7 @@ export default function Home() {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-                className="bi-amp"
+                className="bi-filtro bi-amp"
                 viewBox="0 0 16 16"
               >
                 <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
@@ -162,7 +162,7 @@ export default function Home() {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-                className="bi-play"
+                className="bi-filtro bi-play"
                 viewBox="0 0 16 16"
               >
                 <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z" />
@@ -175,7 +175,7 @@ export default function Home() {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-                className="bi-check"
+                className="bi-filtro bi-check"
                 viewBox="0 0 16 16"
               >
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
@@ -208,7 +208,7 @@ export default function Home() {
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="#000"
-                        className="bi-check-tarefa"
+                        className="bi-filtro bi-check-tarefa"
                         viewBox="0 0 16 16"
                       >
                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
@@ -248,7 +248,7 @@ export default function Home() {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="bi-pen"
+                    className="bi-filtro bi-pen"
                     viewBox="0 0 16 16"
                     onClick={() => {
                       setIsEditModalOpen(true);
@@ -271,7 +271,7 @@ export default function Home() {
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="#000"
-                          className="bi-check-tarefa"
+                          className="bi-filtro bi-check-tarefa"
                           viewBox="0 0 16 16"
                         >
                           <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
