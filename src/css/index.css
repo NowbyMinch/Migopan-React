@@ -75,13 +75,12 @@ button:active {
   border-radius: 20px;
   padding: 25px;
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 310px;
   grid-template-rows: auto 1fr;
 
   grid-template-areas:
     "header header"
     "tasks-area user-status" !important;
-
   gap: 25px;
   overflow-y: auto;
   min-width: 0;
@@ -206,12 +205,12 @@ button:active {
 .Nova-tarefa-lateral {
   margin-top: 10px;
   height: 50px;
-  padding: 0 22px;
+  padding: 0 18px;
   border-radius: 20px;
   display: flex;
   align-items: center;
   gap: 14px;
-  font-size: 18px;
+  font-size: 14px;
   cursor: pointer;
   background: none;
   background-color: #a6121a;
@@ -289,8 +288,8 @@ button:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 16px;
+  min-height: 16px;
   border-radius: 50%;
   background-color: #272e55;
 }
@@ -497,7 +496,7 @@ button:active {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 15px;  
   background: linear-gradient(
     180deg,
     rgba(6, 12, 34, 0.95),
@@ -513,25 +512,25 @@ button:active {
 }
 
 .tarefas-lateral h1 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
 }
 
 .info-conteudo {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  gap: 15px;
+  justify-content: center;
+  gap: 20px;
 }
 
 .lateral-info-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
 }
 
 .XP {
-  font-size: 35px;
+  font-size: 30px;
 }
 
 .lateral-info-text {
@@ -540,7 +539,7 @@ button:active {
 }
 
 .lateral-info-text strong {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
 }
 
@@ -556,13 +555,13 @@ button:active {
 }
 
 .semanal-info-titulo h2 {
-  font-size: 15px;
+  font-size: 14px;
   color: #a7b0d3;
   font-weight: 600;
 }
 
 .semanal-info-titulo strong {
-  font-size: 15px;
+  font-size: 14px;
   color: #8b5cf6;
 }
 
@@ -571,6 +570,12 @@ button:active {
   flex-direction: row;
   align-items: end;
   gap: 8px;
+}
+
+.semanal-info-container{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .nivel-icone {
@@ -582,8 +587,12 @@ button:active {
 
 .nivel {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-55%,-40%);
   color: black;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 700;
   filter: drop-shadow(0 0 2px #fff);
 }
 
@@ -597,7 +606,8 @@ button:active {
 
 .xp-barra {
   width: 100%;
-  height: 12px;
+  height: 10px;
+  max-height: 10px;
   border-radius: 20px;
   background-color: rgba(19, 25, 51, 0.7);
   border: 1px solid #252835;
@@ -631,13 +641,13 @@ button:active {
 
 .criar-lateral h1 {
   filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 5px;
   text-align: center;
 }
 
 .criar-lateral h2 {
-  font-size: 16px;
+  font-size: 14px;
   color: #a7b0d3;
   text-align: center;
 }

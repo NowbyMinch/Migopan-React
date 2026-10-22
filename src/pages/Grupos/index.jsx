@@ -136,10 +136,10 @@ export default function Grupos() {
                 <h3>Nenhum grupo encontrado</h3>
                 <p>Crie um novo grupo ou ajuste a sua busca!</p>
                 <button
-                  className="btn-criar-grupo-header"
+                  className="Nova-tarefa-lateral"
                   onClick={() => setIsModalOpen(true)}
                 >
-                  Criar um grupo
+                  <span>+</span> Criar um grupo
                 </button>
               </div>
             ) : (

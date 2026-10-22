@@ -236,9 +236,9 @@ export default function Home() {
                   <div className="tarefa-info tarefa1">
                     <h1>{tarefa.titulo}</h1>
                     <p className={`text-truncated ${isExpanded ? "is-expanded": "" } `} >{tarefa.descricao}</p>
-                    <button onClick={() => setIsExpanded(!isExpanded)}>
+                    {/* <button onClick={() => setIsExpanded(!isExpanded)}>
                       <span>{isExpanded ? "Ver menos" : "Ver mais" }</span>
-                    </button>
+                    </button> */}
                     <span>📅 {tarefa.repeticao || "Única"}</span>
                     <span>
                       {tarefa.dataLimite} {tarefa.horarioLimite?.slice(0, 5)}
@@ -314,23 +314,25 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            <div className="semanal-info-titulo">
-              <h2>Progresso semanal</h2>
-              <strong>Level 12</strong>
-            </div>
-
-            <div className="semanal-info">
-              <div className="XP nivel-icone">
-                <span className="star">⭐</span>
-                <strong className="nivel">12</strong>
+            
+            <div className="semanal-info-container">
+              <div className="semanal-info-titulo">
+                <h2>Progresso semanal</h2>
+                <strong>Level 12</strong>
               </div>
 
-              <div className="barra">
-                <div className="xp-barra">
-                  <div className="xp-porcentagem"></div>
+              <div className="semanal-info">
+                <div className="XP nivel-icone">
+                  <span className="star">⭐</span>
+                  <strong className="nivel">12</strong>
                 </div>
-                <div className="xp-quantidade">1240 / 2000 XP</div>
+
+                <div className="barra">
+                  <div className="xp-barra">
+                    <div className="xp-porcentagem"></div>
+                  </div>
+                  <div className="xp-quantidade">1240 / 2000 XP</div>
+                </div>
               </div>
             </div>
           </div>

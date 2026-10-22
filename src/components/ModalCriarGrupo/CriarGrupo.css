@@ -9,7 +9,7 @@
   padding: 32px;
   color: #fff;
 }
-
+/* 
 .grupos-header {
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@
   font-size: 14px;
   color: #9ca3af;
   margin: 0;
-}
+} */
 
 .btn-criar-grupo-header {
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
