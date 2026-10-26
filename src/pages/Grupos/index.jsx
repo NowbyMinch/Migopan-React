@@ -355,7 +355,7 @@ export default function Grupos() {
                 </div>
               </>
             ) : (
-              <div style={{ padding: "20px", textAlign: "center", color: "#9ca3af" }}>
+              <div style={{ padding: "20px", fontSize: "14px", textAlign: "center", color: "#9ca3af" }}>
                 Selecione um grupo para ver os detalhes
               </div>
             )}

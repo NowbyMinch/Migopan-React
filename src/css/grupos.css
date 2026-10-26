@@ -71,7 +71,7 @@ body {
 }
 
 .index-header-left h1 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
 }
@@ -82,9 +82,10 @@ body {
 }
 
 .index-header-add {
-  padding: 8px 16px;
+  padding: 6px 16px;
   border-radius: 16px;
   display: flex;
+  text-wrap: nowrap;
   align-items: center;
   gap: 10px;
   color: white;
@@ -134,11 +135,11 @@ body {
   padding: 0px 15px;
   background-color: #09101d;
   border-radius: 20px;
-  font-size: 15px;
+  font-size: 13px;
   border: solid 1px #151b2d;
   color: white;
   outline: none;
-  height: 45px;
+  height: 35px;
 }
 
 .filtros-card {
@@ -180,7 +181,7 @@ body {
    ========================================================================== */
 
 .grupos-empty-card h3{
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .grupos-empty-card p{
@@ -191,9 +192,8 @@ body {
 
 .Nova-tarefa-lateral {
   margin-top: 10px;
-  height: 50px;
-  padding: 0 18px;
-  border-radius: 20px;
+  padding: 7px 10px ;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   gap: 14px;
