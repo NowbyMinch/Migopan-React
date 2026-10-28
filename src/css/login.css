@@ -20,9 +20,26 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: radial-gradient(circle at center, #131520 0%, #08090d 100%);
-  padding: 40px 20px;
+  overflow-y: auto;
+  margin: -10px;
+  box-sizing: border-box;
+  padding-block: 10px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  min-height: fit-content;
+  background-color: #11121c;
+  border: 1px solid #1c1e2e;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+  position: relative;
+  margin-block: auto;
+  margin-inline: auto;
 }
 
 /* PLACEHOLDERS DE IMAGEM */
@@ -34,7 +51,7 @@ body {
   border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   color: #8a8f9d;
-  font-size: 0.8rem;
+  font-size: 13px;
 }
 
 /* LOGO SUPERIOR */
@@ -56,29 +73,16 @@ body {
   height: 40px;
 }
 
-/* CARTÃO CENTRAL DE LOGIN */
-.login-card {
-  width: 100%;
-  max-width: 440px;
-  background-color: #11121c;
-  border: 1px solid #1c1e2e;
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
-  z-index: 5;
-  position: relative;
-  margin: auto;
-}
-
 .card-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 5px;
 }
 
 .mascot-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 5px;
+  margin-top: -10px;
 }
 
 .mascot-avatar {
@@ -94,18 +98,17 @@ body {
 }
 
 .card-header h1 {
-  font-size: 1.45rem;
+  font-size: 20px;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 6px;
 }
 
 .card-header p {
-  font-size: 0.825rem;
+  font-size: 14px;
   color: #8c90a6;
 }
 
-/* BANNER DE ERRO */
 .error-banner {
   background-color: rgba(239, 68, 68, 0.15);
   border: 1px solid #ef4444;
@@ -131,7 +134,7 @@ body {
 }
 
 .input-group label {
-  font-size: 0.825rem;
+  font-size: 13px;
   font-weight: 600;
   color: #e1e3ec;
 }
@@ -152,12 +155,12 @@ body {
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 42px 12px 42px;
+  padding: 8px 35px 8px 35px;
   background-color: #171825;
   border: 1px solid #232538;
   border-radius: 10px;
   color: #ffffff;
-  font-size: 0.875rem;
+  font-size: 14px;
   outline: none;
   transition: border-color 0.2s ease;
 }
@@ -214,13 +217,13 @@ body {
 .submit-btn {
   margin-top: 4px;
   width: 100%;
-  padding: 12px;
+  padding: 8px;
   background: linear-gradient(90deg, #6320ee 0%, #8011f0 100%);
   border: none;
   border-radius: 10px;
   color: #ffffff;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -277,7 +280,7 @@ body {
   border: 1px solid #232538;
   border-radius: 10px;
   color: #ffffff;
-  font-size: 0.775rem;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;

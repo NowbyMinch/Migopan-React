@@ -22,7 +22,6 @@ export default function Login() {
     setLoading(true);
     setErrorMsg("");
 
-    // 1. Corrigido: Declaração com const
     const loginPayload = {
       email: email,
       senha: senha,
@@ -45,7 +44,6 @@ export default function Login() {
 
       window.location.href = "/home";
     } catch (err) {
-      // 2. Corrigido: Captura de err e atualização do estado de erro
       console.error("Erro na requisição:", err.message);
       setErrorMsg(err.message);
     } finally {

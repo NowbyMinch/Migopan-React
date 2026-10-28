@@ -114,7 +114,7 @@ body {
   grid-area: group-area;
   display: grid;
   gap: 20px;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr 310px;
   grid-template-rows: auto 1fr;
   grid-template-areas:
     "group-header group-view"
@@ -244,9 +244,9 @@ body {
 
 .grupo-lateral-background {
   position: relative;
-  border-radius: 12px;
   overflow: hidden;
   height: 130px;
+
 }
 
 .grupo-lateral-background img {
@@ -340,7 +340,6 @@ hr {
   border: 1px solid #151b2d;
   border-radius: 20px;
   font-size: 16px;
-  padding: 20px;
   box-sizing: border-box;
   height: fit-content;
 }
@@ -355,13 +354,13 @@ hr {
   background: #09101d;
   border: 1px solid #151b2d;
   border-radius: 20px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   color: white;
   box-sizing: border-box;
   height: fit-content;
+  padding-bottom: 20px;
 }
 
 .grupo-lateral-background {
@@ -394,23 +393,25 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding: 0 20px 0 20px;
 }
 
 .lateral-info h1 {
-  font-size: 25px;
+  font-size: 18px;
   filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
 }
 
 .lateral-info h2 {
-  font-size: 16px;
+  font-size: 14px;
   color: #ff7a59;
   filter: drop-shadow(0 0 4px #a6121a);
   margin: 0;
 }
 
 .lateral-info p {
+  font-size: 14px;
   color: #a7b0d3;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .convidar-membro {
@@ -421,12 +422,13 @@ hr {
   color: white;
   background-color: transparent;
   border: 2px solid #2e3552;
-  padding: 12px 32px;
-  border-radius: 20px;
+  padding: 10px 32px;
+  border-radius: 16px;
+  font-size: 14px;
 }
 
 .convidar-membro svg {
-  width: 25px;
+  width: 18px;
 }
 
 hr {
