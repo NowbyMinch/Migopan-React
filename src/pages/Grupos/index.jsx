@@ -5,6 +5,7 @@ import Sidebar from "../../components/Sidebar";
 // Certifique-se de importar o seu componente do Pop-up/Modal no caminho correto:
 import { getErrorMessage } from "../../utils/errorHandler";
 import ModalCriarGrupo from "../../components/ModalCriarGrupo/ModalCriarGrupo";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:8080/api/grupos";
 
@@ -24,7 +25,13 @@ export default function Grupos() {
   const carregarGrupos = async () => {
     try {
       setLoading(true);
-      const res = await fetch(API_URL, { credentials: "include" });
+      const res = await fetch(API_URL, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!res.ok) {
         const msg = await getErrorMessage(res);
         throw new Error(msg);
@@ -77,7 +84,9 @@ export default function Grupos() {
             </svg>
             <div className="index-header-left">
               <h1>Grupos</h1>
-              <p>Junte-se a grupos, convide amigos e conquiste objetivos juntos!</p>
+              <p>
+                Junte-se a grupos, convide amigos e conquiste objetivos juntos!
+              </p>
             </div>
           </div>
 
@@ -126,119 +135,117 @@ export default function Grupos() {
             </button>
           </div>
 
-            {errorMsg && <div className="error-banner">⚠️ {errorMsg}</div>}
+          {errorMsg && <div className="error-banner">⚠️ {errorMsg}</div>}
 
-            {loading ? (
-              <div className="grupos-loading">Carregando grupos...</div>
-            ) : gruposFiltrados.length === 0 ? (
-              <div className="grupos-empty-card">
-                <div style={{ fontSize: "42px" }}>👥</div>
-                <h3>Nenhum grupo encontrado</h3>
-                <p>Crie um novo grupo ou ajuste a sua busca!</p>
-                <button
-                  className="Nova-tarefa-lateral"
-                  onClick={() => setIsModalOpen(true)}
+          {loading ? (
+            <div className="grupos-loading">Carregando grupos...</div>
+          ) : gruposFiltrados.length === 0 ? (
+            <div className="grupos-empty-card">
+              <div style={{ fontSize: "42px" }}>👥</div>
+              <h3>Nenhum grupo encontrado</h3>
+              <p>Crie um novo grupo ou ajuste a sua busca!</p>
+              <button
+                className="Nova-tarefa-lateral"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <span>+</span> Criar um grupo
+              </button>
+            </div>
+          ) : (
+            <div className="grupos">
+              {gruposFiltrados.map((grupo) => (
+                <Link
+                  key={grupo.id}
+                  to={`/grupos/${grupo.id}`}
+                  className={`grupo gradient-card ${grupoSelecionado?.id === grupo.id ? "selected" : ""}`}
+                  onClick={() => {
+                    setGrupoSelecionado(grupo);
+                  }}
+                  style={{ cursor: "pointer" }}
                 >
-                  <span>+</span> Criar um grupo
-                </button>
-              </div>
-            ) : (
-              <div className="grupos">
-                {gruposFiltrados.map((grupo) => (
-                  <div
-                    className={`grupo gradient-card ${grupoSelecionado?.id === grupo.id ? "selected" : ""}`}
-                    onClick={() => setGrupoSelecionado(grupo)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <div class="grupo-lateral-background">
-                      <div class="dark-effect"></div>
-                      <img
-                        src={grupo.imagemUrl || "../../../public/img/grupoEx1webp.webp"}
-                        alt={grupo.nome}
-                        className=""
-                      />
+                  <div className="grupo-lateral-background">
+                    <div className="dark-effect"></div>
+                    <img
+                      src={grupo.imagemUrl || "/img/grupoEx1webp.webp"}
+                      alt={grupo.nome}
+                      className=""
+                    />
+                  </div>
+
+                  <div className="grupo-info top-info">
+                    <h1>{grupo.nome}</h1>
+                    <h2>Grupo criado por você</h2>
+                    <p>{grupo.descricao || "..."}</p>
+                  </div>
+
+                  <hr />
+
+                  <div className="grupo-info middle-info">
+                    <div className="barra-details">
+                      <div className="xp-quantidade-grupo">
+                        <strong> Nível 12 </strong>
+                        <span> 1240 / 2000 XP </span>
+                      </div>
+                      <div className="xp-barra">
+                        <div className="grupo-porcentagem xp-porcentagem1"></div>
+                      </div>
                     </div>
 
-                    <div class="grupo-info top-info">
-                        <h1>{grupo.nome}</h1>
-                        <h2>Grupo criado por você</h2>
-                        <p>
-                            {grupo.descricao || "..."}
-                        </p>
+                    <div className="grupo-details">
+                      <div className="grupo-detail">
+                        <span>Membros</span>
+                        <div className="">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            className="bi bi-grupos-active"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+                          </svg>
+                          <span>{grupoSelecionado.quantidadeMembros || 1}</span>
+                        </div>
+                      </div>
+                      <div className="grupo-detail">
+                        <span>Tarefas</span>
+                        <div className="">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            className="bi bi-list-task"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"
+                            />
+                            <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z" />
+                            <path
+                              fillRule="evenodd"
+                              d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"
+                            />
+                          </svg>
+                          <span>...</span>
+                        </div>
+                      </div>
+                      <div className="grupo-detail">
+                        <span>Sequência</span>
+                        <div className="">
+                          <strong className="fire">🔥</strong>
+                          <span>{grupoSelecionado.sequenciaDias || 0}</span>
+                        </div>
+                      </div>
                     </div>
+                  </div>
 
-                    <hr />
-
-                          <div class="grupo-info middle-info">
-                              <div class="barra-details">
-                                  <div class="xp-quantidade-grupo">
-                                  <strong> Nível 12 </strong>
-                                  <span> 1240 / 2000 XP </span>
-                                  </div>
-                                  <div class="xp-barra">
-                                  <div class="grupo-porcentagem xp-porcentagem1"></div>
-                                  </div>
-                              </div>
-
-                              <div class="grupo-details">
-                                  <div class="grupo-detail">
-                                      <span>Membros</span>
-                                      <div class="">
-                                          <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="currentColor"
-                                          class="bi bi-grupos-active"
-                                          viewBox="0 0 16 16"
-                                          >
-                                          <path
-                                              d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
-                                          />
-                                          </svg>
-                                          <span>{grupoSelecionado.quantidadeMembros || 1}</span>
-                                      </div>
-                                  </div>
-                                  <div class="grupo-detail">
-                                      <span>Tarefas</span>
-                                      <div class="">
-                                          <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="currentColor"
-                                          class="bi bi-list-task"
-                                          viewBox="0 0 16 16"
-                                          >
-                                          <path
-                                              fill-rule="evenodd"
-                                              d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"
-                                          />
-                                          <path
-                                              d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"
-                                          />
-                                          <path
-                                              fill-rule="evenodd"
-                                              d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"
-                                          />
-                                          </svg>
-                                          <span>...</span>
-                                      </div>
-                                  </div>
-                                  <div class="grupo-detail">
-                                      <span>Sequência</span>
-                                      <div class="">
-                                          <strong class="fire">🔥</strong>
-                                          <span>{grupoSelecionado.sequenciaDias || 0}</span>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                    
-                    {/* <div className="grupo-item-info">
+                  {/* <div className="grupo-item-info">
                       <h4>{grupo.nome}</h4>
                       <p>{grupo.descricao || "Sem descrição."}</p>
                     </div> */}
-                  </div>
-                ))}
-              </div>
-            )}
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* PAINEL LATERAL DE DETALHES DO GRUPO SELECIONADO */}
           <aside className="group-view gradient-card">
@@ -254,8 +261,14 @@ export default function Grupos() {
 
                 <div className="lateral-info">
                   <h1>{grupoSelecionado.nome}</h1>
-                  <h2>{grupoSelecionado.souDono ? "Grupo criado por você" : "Grupo participante"}</h2>
-                  <p>{grupoSelecionado.descricao || "Sem descrição cadastrada."}</p>
+                  <h2>
+                    {grupoSelecionado.souDono
+                      ? "Grupo criado por você"
+                      : "Grupo participante"}
+                  </h2>
+                  <p>
+                    {grupoSelecionado.descricao || "Sem descrição cadastrada."}
+                  </p>
                   <button className="convidar-membro">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -311,11 +324,14 @@ export default function Grupos() {
                     <div className="xp-barra">
                       <div
                         className="grupo-porcentagem xp-porcentagem"
-                        style={{ width: `${grupoSelecionado.porcentagemXp || 0}%` }}
+                        style={{
+                          width: `${grupoSelecionado.porcentagemXp || 0}%`,
+                        }}
                       ></div>
                     </div>
                     <div className="xp-quantidade">
-                      {grupoSelecionado.xpAtual || 0} / {grupoSelecionado.xpMax || 1000} XP
+                      {grupoSelecionado.xpAtual || 0} /{" "}
+                      {grupoSelecionado.xpMax || 1000} XP
                     </div>
                   </div>
                 </div>
@@ -355,7 +371,14 @@ export default function Grupos() {
                 </div>
               </>
             ) : (
-              <div style={{ padding: "20px", fontSize: "14px", textAlign: "center", color: "#9ca3af" }}>
+              <div
+                style={{
+                  padding: "20px",
+                  fontSize: "14px",
+                  textAlign: "center",
+                  color: "#9ca3af",
+                }}
+              >
                 Selecione um grupo para ver os detalhes
               </div>
             )}

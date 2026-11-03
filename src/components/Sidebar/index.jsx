@@ -6,34 +6,32 @@ import { getErrorMessage } from "../../utils/errorHandler";
 const API_URL = "http://localhost:8080/api/auth/logout";
 
 export default function Sidebar() {
-
   const handleLogout = async () => {
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
 
       if (!res.ok) {
         const mensagem = await getErrorMessage(res);
-        throw new Error(mensagem || "Falha ao criar grupo.");
+        throw new Error(mensagem || "Falha ao realizar logout.");
       }
 
-      window.location.href = "/login"
+      window.location.href = "/login";
     } catch (err) {
       console.error("Erro na criação do grupo:", err.message);
-    } 
+    }
   };
 
   return (
     <aside className="sidebar">
       <div className="sidebar-conteudo">
         <div className="logo">
-          <img src="img/logo.png" alt="Logo" />
+          <img src="/img/logo.png" alt="Logo" />
         </div>
 
         <nav className="nav-links">
-          {/* Home */}
           <NavLink to="/home" className="nav-item nav-home">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -47,19 +45,16 @@ export default function Sidebar() {
             <span>Home</span>
           </NavLink>
 
-          {/* Migo */}
           <NavLink to="/migo" className="nav-item nav-migo">
-            <img className="bi" src="img/iconemigo.png" alt="Migo" />
+            <img className="bi" src="/img/iconemigo.png" alt="Migo" />
             <span>Migo</span>
           </NavLink>
 
-          {/* Social */}
           <NavLink to="/social" className="nav-item nav-social">
-            <img className="bi" src="img/iconesocial.png" alt="Social" />
+            <img className="bi" src="/img/iconesocial.png" alt="Social" />
             <span>Social</span>
           </NavLink>
 
-          {/* Grupos */}
           <NavLink to="/grupos" className="nav-item nav-grupos">
             <svg
               xmlns="http://www.w3.org/2000/svg"

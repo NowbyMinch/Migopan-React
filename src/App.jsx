@@ -10,6 +10,7 @@ import Cadastro from "./pages/Cadastro/index";
 // Páginas Privadas
 import Home from "./pages/Home/index";
 import Grupos from "./pages/Grupos/index";
+import Grupo from "./pages/Grupos/[id]";
 
 export default function AppRoutes() {
   return (
@@ -30,6 +31,7 @@ export default function AppRoutes() {
         </Route> */}
         <Route path="/home" element={<Home />} />
         <Route path="/grupos" element={<Grupos />} />
+        <Route path="/grupos/:id" element={<Grupo />} />
 
         {/* Rota genérica para URLs não encontradas */}
         <Route path="*" element={<Navigate to="/login" replace />} />
