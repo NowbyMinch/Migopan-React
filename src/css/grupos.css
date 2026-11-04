@@ -312,7 +312,7 @@ hr {
 .grupo-details {
   display: flex;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 13px;
   color: #a7b0d3;
   margin-top: 10px;
 }
@@ -436,22 +436,22 @@ hr {
 }
 
 .grupo-info h1{
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .grupo-info h2{
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .grupo-info p{
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .ultimo-grupo-info {
   display: flex;
   margin-bottom: 10px;
   align-items: end;
-  font-size: 16px;
+  font-size: 14px;
   gap: 10px;
 }
 
@@ -550,6 +550,7 @@ hr {
     inset 0 1px 0 rgba(19, 141, 46, 0.03),
     0 0 50px rgba(0, 0, 0, 0.25);
   border: solid 1px #0d152c;
+  font-size: 14px;
 }
 
 .mais-info svg:nth-child(1) {

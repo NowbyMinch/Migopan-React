@@ -84,14 +84,9 @@ export default function Grupo() {
               <p>{grupo.descricao}</p>
             </div>
           </div>
-
-          {/* <button
-            className="index-header-add"
-            onClick={() => setIsModalOpen(true)}
-          >
-            <span>+</span> Criar grupo
-          </button> */}
         </header>
+
+          
       </main>
     </>
   );
