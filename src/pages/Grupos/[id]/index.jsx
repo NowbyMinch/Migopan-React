@@ -63,31 +63,49 @@ export default function Grupo() {
   return (
     <>
       <Sidebar />
-      <main className="main-container-grupo">
-        <header className="index-header-grupo">
-          <div className="page-intro-grupo">
-            <Link to={"/grupos"}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                className="bi bi-arrow-left"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-                />
-              </svg>
-            </Link>
-            <div className="index-header-left">
-              <h1>{grupo.nome}</h1>
-              <p>{grupo.descricao}</p>
-            </div>
-          </div>
-        </header>
+      <div className="main-container-grupo">
+        <main>
+          <header className="index-header-grupo">
+            <div className="page-intro-grupo">
+              <Link to={"/grupos"} className="voltar gradient-card">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="bi bi-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                  />
+                </svg>
+                Voltar
+              </Link>
+              <div className="index-header-main">
+                <div className="imagem-grupo">
+                  <img src="/img/grupoEx1webp.webp" alt="" />
+                </div>
 
+                <div className="header-info">
+                  <div className="header-info-titulo">
+                    <h1>{grupo.nome}</h1>
+                  </div>
+                  <div className="header-info-descricao">
+                    <p>{grupo.descricao}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </header>
+
+
+        </main>        
           
-      </main>
+        <aside className="gradient-card grupo-info-aside">
+          teste 
+        </aside>
+        
+      </div>
     </>
   );
 }

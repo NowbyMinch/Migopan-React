@@ -42,7 +42,7 @@ body {
     "header header"
     "group-area group-area";
 
-  gap: 25px;
+  gap: 15px;
   overflow-y: auto;
   min-width: 0;
 }
@@ -79,6 +79,7 @@ body {
 .index-header-left p {
   color: #a7b0d3;
   font-size: 14px;
+  filter: drop-shadow(0 0 1px currentcolor);
 }
 
 .index-header-add {
@@ -232,6 +233,12 @@ body {
   border: 1px solid #151b2d;
   padding: 15px;
   box-sizing: border-box;
+}
+
+.grupo-info { 
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .grupo a {
@@ -445,6 +452,7 @@ hr {
 
 .grupo-info p{
   font-size: 14px;
+  line-clamp: 4;
 }
 
 .ultimo-grupo-info {

@@ -81,7 +81,7 @@ button:active {
   grid-template-areas:
     "header header"
     "tasks-area user-status" !important;
-  gap: 25px;
+  gap: 15px;
   overflow-y: auto;
   min-width: 0;
 }
@@ -117,6 +117,7 @@ button:active {
 .index-header-left p {
   color: #a7b0d3;
   font-size: 14px;
+  filter: drop-shadow(0 0 1px currentcolor);
 }
 
 .index-header-right {
