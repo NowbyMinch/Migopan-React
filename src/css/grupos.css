@@ -101,7 +101,6 @@ body {
   font-size: 24px;
 }
 
-
 .index-header-add:hover {
   transform: scale(1.02);
 }
@@ -175,24 +174,22 @@ body {
   background-color: #272e55;
 }
 
-
 /* ==========================================================================
    GRID DE CARDS (GRUPOS)
    ========================================================================== */
 
-.grupos-empty-card h3{
+.grupos-empty-card h3 {
   font-size: 16px;
 }
 
-.grupos-empty-card p{
+.grupos-empty-card p {
   font-size: 14px;
   color: rgb(156, 163, 175);
 }
 
-
 .Nova-tarefa-lateral {
   margin-top: 10px;
-  padding: 7px 10px ;
+  padding: 7px 10px;
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -246,7 +243,6 @@ body {
   position: relative;
   overflow: hidden;
   height: 130px;
-
 }
 
 .grupo-lateral-background img {
@@ -260,25 +256,6 @@ body {
   inset: 0;
   background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8));
   z-index: 1;
-}
-
-.top-info h1 {
-  font-weight: bold;
-  color: white;
-  margin-top: 10px;
-}
-
-.top-info h2 {
-  color: #ff7a59;
-}
-
-.top-info p {
-  color: #a7b0d3;
-}
-
-hr {
-  border-color: #151b2d;
-  opacity: 1;
 }
 
 .xp-quantidade-grupo {
@@ -432,19 +409,27 @@ hr {
 }
 
 hr {
-  border: 1px solid #4b4b4f;
+  border: 1px solid #151b2d;
+  opacity: 1;
 }
 
-.grupo-info h1{
+.grupo-
+
+.grupo-info h1 {
   font-size: 20px;
+  font-weight: bold;
+  color: white;
+  margin-top: 10px;
 }
 
-.grupo-info h2{
-  font-size: 16px;
+.grupo-info h2 {
+  font-size: 14px;
+  color: #ff7a59;
 }
 
-.grupo-info p{
-  font-size: 15px;
+.grupo-info p {
+  font-size: 14px;
+  color: #a7b0d3;
 }
 
 .ultimo-grupo-info {
