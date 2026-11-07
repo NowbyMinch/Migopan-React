@@ -67,10 +67,8 @@ export default function Grupos() {
 
   return (
     <>
-      {/* SIDEBAR */}
       <Sidebar />
 
-      {/* CONTAINER PRINCIPAL */}
       <div className="main-container">
         <header className="index-header">
           <div className="page-intro">
@@ -90,7 +88,6 @@ export default function Grupos() {
             </div>
           </div>
 
-          {/* O BOTÃO QUE ATIVA O POP-UP / MODAL */}
           <button
             className="index-header-add"
             onClick={() => setIsModalOpen(true)}
@@ -172,7 +169,7 @@ export default function Grupos() {
                     />
                   </div>
 
-                  <div className="grupo-info top-info">
+                  <div className="grupo-info">
                     <h1>{grupo.nome}</h1>
                     <h2>Grupo criado por você</h2>
                     <p>{grupo.descricao || "..."}</p>
@@ -225,7 +222,7 @@ export default function Grupos() {
                               d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"
                             />
                           </svg>
-                          <span>...</span>
+                          <span>{grupo.quantidadeAtividades}</span>
                         </div>
                       </div>
                       <div className="grupo-detail">
@@ -307,8 +304,8 @@ export default function Grupos() {
                     >
                       <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                     </svg>
-                    <span>Tarefas concluídas</span>
-                    <span>{grupoSelecionado.tarefasConcluidas || 0}</span>
+                    <span>Tarefas</span>
+                    <span>{grupoSelecionado.quantidadeAtividades || 0}</span>
                   </div>
                   <div className="ultimo-grupo-info">
                     <span className="fire">🔥</span>

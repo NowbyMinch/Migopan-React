@@ -32,7 +32,7 @@ button {
   border: none;
   background: none;
   font-family: inherit;
-  transition: all 0.25s ease;
+  transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 button:hover {
@@ -81,7 +81,7 @@ button:active {
   grid-template-areas:
     "header header"
     "tasks-area user-status" !important;
-  gap: 25px;
+  gap: 15px;
   overflow-y: auto;
   min-width: 0;
 }
@@ -117,6 +117,7 @@ button:active {
 .index-header-left p {
   color: #a7b0d3;
   font-size: 14px;
+  filter: drop-shadow(0 0 1px currentcolor);
 }
 
 .index-header-right {
@@ -171,8 +172,6 @@ button:active {
   font-size: 13px;
 }
 
-
-
 .index-stats-conteudo strong {
   color: #ffffff;
   font-size: 13px;
@@ -206,7 +205,7 @@ button:active {
 
 .Nova-tarefa-lateral {
   margin-top: 10px;
-  padding: 7px 10px ;
+  padding: 7px 10px;
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -220,7 +219,7 @@ button:active {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
     0 0 20px rgba(255, 90, 95, 0.35);
-  transition: all 0.25s ease;
+  transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .Nova-tarefa-lateral span {
@@ -228,7 +227,6 @@ button:active {
   font-weight: 500;
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
 }
-
 
 /* ==========================================================================
    ÁREA DE TAREFAS (CENTRO-ESQUERDA)
@@ -265,7 +263,7 @@ button:active {
   cursor: pointer;
 }
 
-.bi-filtro{ 
+.bi-filtro {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
@@ -335,7 +333,7 @@ button:active {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .bi-check-tarefa {
@@ -403,29 +401,10 @@ button:active {
 .tarefa-info p {
   color: #a7b0d3;
   font-size: 14px;
-  transition: all 0.25s ease;
+  transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.text-truncated { 
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-  line-height: 24px;
-  max-height: 96px; /* 4 linhas */
-}
-
-.text-truncated.is-expanded { 
-  display: -webkit-box;
-  /* Remove o limite de linhas nativo do webkit */
-  -webkit-line-clamp: unset; 
-  
-  /* Define o teto numérico para a animação correr */
-  max-height: 500px; 
-  opacity: 1;
-}
-
-.tarefa-info button{
+.tarefa-info button {
   width: fit-content;
   margin: auto;
   height: fit-content;
@@ -497,7 +476,7 @@ button:active {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;  
+  gap: 15px;
   background: linear-gradient(
     180deg,
     rgba(6, 12, 34, 0.95),
@@ -573,7 +552,7 @@ button:active {
   gap: 8px;
 }
 
-.semanal-info-container{
+.semanal-info-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -590,7 +569,7 @@ button:active {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-55%,-40%);
+  transform: translate(-55%, -40%);
   color: black;
   font-size: 14px;
   font-weight: 700;

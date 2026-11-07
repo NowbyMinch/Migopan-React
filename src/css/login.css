@@ -229,7 +229,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  transition: opacity 0.2s ease, transform 0.15s ease;
+  transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .submit-btn:hover {
@@ -252,7 +252,7 @@ body {
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   border-bottom: 1px solid #232538;
 }
