@@ -19,7 +19,6 @@ export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const carregarTarefas = async () => {
-
     try {
       let url = `${API_URL}/tarefas/pessoais`;
       if (filtro === "PENDENTES") url += "?concluida=false";
@@ -41,29 +40,26 @@ export default function Home() {
       setTarefas(data);
     } catch (err) {
       console.error("Erro na requisição", err.message);
-    } 
+    }
   };
 
   const carregarUsuario = async () => {
     try {
       const res = await fetch(`${API_URL}/usuarios`, {
         method: "GET",
-        headers: {"Content-Type" : "application/json"},
-        credentials: "include"
-      })
-  
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
       if (!res.ok) {
-        const mensagem = await getErrorMessage(res); 
+        const mensagem = await getErrorMessage(res);
         throw new Error(mensagem);
       }
 
       console.log(res);
-
-    } catch(err) {
+    } catch (err) {
       console.error("Erro na requisição", err.message);
     }
-
-
   };
 
   useEffect(() => {
@@ -92,7 +88,7 @@ export default function Home() {
             </svg>
             <div className="index-header-left">
               <h1>Tarefas</h1>
-              <p>Organize seu dia e conquiste objetivos!</p>
+              <h2>Organize seu dia e conquiste objetivos!</h2>
             </div>
           </div>
 
@@ -223,19 +219,16 @@ export default function Home() {
                     }}
                     className=" tarefa-icon-container"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M6 15h8v2H6zm0-4h12v2H6zm0-4h12v2H6z"></path>
-                      <path d="M4 21h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M4 5h16v14H4z"></path>
-                    </svg>
+                    📝
                   </div>
 
                   <div className="tarefa-info tarefa1">
                     <h1>{tarefa.titulo}</h1>
-                    <p className={`text-truncated ${isExpanded ? "is-expanded": "" } `} >{tarefa.descricao}</p>
+                    <p
+                      className={`text-truncated ${isExpanded ? "is-expanded" : ""} `}
+                    >
+                      {tarefa.descricao}
+                    </p>
                     {/* <button onClick={() => setIsExpanded(!isExpanded)}>
                       <span>{isExpanded ? "Ver menos" : "Ver mais" }</span>
                     </button> */}
@@ -261,7 +254,7 @@ export default function Home() {
                   <div className="tarefa-info-extra">
                     <div className="tag1">{tarefa.categoria}</div>
                     {/* <span>♦️</span> */}
-                     <label className="tarefa-check">
+                    <label className="tarefa-check">
                       <input
                         type="checkbox"
                         checked={tarefa.concluida || false}
@@ -314,7 +307,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
+
             <div className="semanal-info-container">
               <div className="semanal-info-titulo">
                 <h2>Progresso semanal</h2>

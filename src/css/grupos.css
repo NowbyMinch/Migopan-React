@@ -71,12 +71,13 @@ body {
 }
 
 .index-header-left h1 {
+  margin-bottom: 2px;
   font-size: 20px;
   font-weight: 800;
   filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
 }
 
-.index-header-left p {
+.index-header-left h2 {
   color: #a7b0d3;
   font-size: 14px;
   filter: drop-shadow(0 0 1px currentcolor);
@@ -103,9 +104,12 @@ body {
 }
 
 .index-header-add:hover {
-  transform: scale(1.02);
+  scale: 1.02;
 }
 
+.index-header-add:active {
+  scale: 0.98;
+}
 /* ÁREA DE CONTEÚDO E FILTROS (GRID INTERNO) */
 
 .group-area {

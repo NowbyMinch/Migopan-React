@@ -4,14 +4,19 @@ import { getErrorMessage } from "../../utils/errorHandler";
 
 const API_URL = "http://localhost:8080/api/tarefas";
 
-export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
+export default function ModalPopup({
+  isOpen,
+  onClose,
+  onTarefaCriada,
+  grupoId = null,
+}) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("Estudo");
   const [cor, setCor] = useState("#000718");
   const [repeticao, setRepeticao] = useState(null);
-  const [dataLimite, setDataLimite] = useState(null);
-  const [horarioLimite, setHorarioLimite] = useState(null);
+  const [dataLimite, setDataLimite] = useState("");
+  const [horarioLimite, setHorarioLimite] = useState("");
 
   const [prioridade, setPrioridade] = useState(false);
 
@@ -24,11 +29,11 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
   const handleFecharModal = () => {
     setTitulo("");
     setDescricao("");
-    setCategoria(null);
+    setCategoria("Estudo"); // era null
     setCor("#000718");
     setRepeticao(null);
-    setDataLimite(null);
-    setHorarioLimite(null);
+    setDataLimite(""); // era null
+    setHorarioLimite(""); // era null
     setPrioridade(false);
     setErrorMsg("");
     onClose();
@@ -52,9 +57,9 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
       cor,
       prioridade,
       repeticao,
-      dataLimite,
-      horarioLimite,
-      // inclua os outros campos conforme forem implementados no backend
+      dataLimite: dataLimite || null,
+      horarioLimite: horarioLimite || null,
+      grupoId,
     };
 
     console.log(criarPayload);
@@ -214,7 +219,8 @@ export default function ModalPopup({ isOpen, onClose, onTarefaCriada }) {
                 </p>
                 <div className="modal-preview-footer">
                   <span>
-                    📅 {dataLimite} · {horarioLimite}
+                    📅 {dataLimite || "Sem data"}
+                    {horarioLimite && ` · ${horarioLimite}`}
                   </span>
                   <span style={{ color: "#a855f7", fontWeight: "bold" }}>
                     +50 XP ♦️

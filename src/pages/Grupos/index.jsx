@@ -82,9 +82,9 @@ export default function Grupos() {
             </svg>
             <div className="index-header-left">
               <h1>Grupos</h1>
-              <p>
+              <h2>
                 Junte-se a grupos, convide amigos e conquiste objetivos juntos!
-              </p>
+              </h2>
             </div>
           </div>
 

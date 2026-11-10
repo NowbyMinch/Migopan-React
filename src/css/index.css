@@ -109,12 +109,13 @@ button:active {
 }
 
 .index-header-left h1 {
+  margin-bottom: 2px;
   font-size: 20px;
   font-weight: 800;
   filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
 }
 
-.index-header-left p {
+.index-header-left h2 {
   color: #a7b0d3;
   font-size: 14px;
   filter: drop-shadow(0 0 1px currentcolor);
@@ -360,6 +361,7 @@ button:active {
   height: 60px;
   border-radius: 16px;
   flex-shrink: 0;
+  font-size: 34px;
 }
 
 .icon-tarefa1 {
@@ -367,11 +369,6 @@ button:active {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 0 15px rgba(166, 18, 26, 0.5);
-}
-
-.tarefa-icon-container svg {
-  width: 30px;
-  height: 30px;
 }
 
 .tarefa-info {

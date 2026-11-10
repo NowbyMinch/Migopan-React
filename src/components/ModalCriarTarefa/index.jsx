@@ -33,7 +33,9 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
             <h2>Criar tarefa</h2>
             <p>Adicione os detalhes da sua nova tarefa</p>
           </div>
-          <button className="modal-close-btn" onClick={onClose}>✕</button>
+          <button className="modal-close-btn" onClick={onClose}>
+            ✕
+          </button>
         </div>
 
         <div className="modal-grid">
@@ -113,21 +115,38 @@ export default function ModalCriarTarefa({ isOpen, onClose }) {
               <label>Prévia da tarefa</label>
               <div className="modal-preview-box">
                 <div className="modal-preview-header">
-                  <h4 className="modal-preview-title">{titulo || "Título da tarefa"}</h4>
-                  <span className="modal-preview-badge" style={{ backgroundColor: corCategoria }}>{categoria}</span>
+                  <h4 className="modal-preview-title">
+                    {titulo || "Título da tarefa"}
+                  </h4>
+                  <span
+                    className="modal-preview-badge"
+                    style={{ backgroundColor: corCategoria }}
+                  >
+                    {categoria}
+                  </span>
                 </div>
-                <p className="modal-preview-desc">{descricao || "Descrição da tarefa..."}</p>
+                <p className="modal-preview-desc">
+                  {descricao || "Descrição da tarefa..."}
+                </p>
                 <div className="modal-preview-footer">
-                  <span>📅 {data} · {horario}</span>
-                  <span style={{ color: "#a855f7", fontWeight: "bold" }}>+50 XP ♦️</span>
+                  <span>
+                    📅 {data} · {horario}
+                  </span>
+                  <span style={{ color: "#a855f7", fontWeight: "bold" }}>
+                    +50 XP ♦️
+                  </span>
                 </div>
               </div>
             </div>
 
             <div className="modal-priority-box">
               <div>
-                <span className="modal-priority-title">⭐ Marcar como prioridade</span>
-                <span className="modal-priority-subtitle">Tarefas prioritárias aparecem no topo</span>
+                <span className="modal-priority-title">
+                  ⭐ Marcar como prioridade
+                </span>
+                <span className="modal-priority-subtitle">
+                  Tarefas prioritárias aparecem no topo
+                </span>
               </div>
               <input
                 type="checkbox"
