@@ -10,7 +10,7 @@ export default function TaskModal({ isOpen, onClose }) {
   const [horario, setHorario] = useState("13:20");
   const [prioridade, setPrioridade] = useState(false);
 
-  if (!isOpen) return null; // Se não estiver aberto, não renderiza nada!
+  if (!isOpen) return null;
 
   const handleCriarTarefa = (e) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export default function TaskModal({ isOpen, onClose }) {
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
-            <h2>Criar tarefa</h2>
+            <h1>Criar tarefa</h1>
             <p>Adicione os detalhes da sua nova tarefa</p>
           </div>
           <button className="modal-close-btn" onClick={onClose}>

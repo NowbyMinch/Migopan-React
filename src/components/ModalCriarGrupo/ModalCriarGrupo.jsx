@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getErrorMessage } from "../../utils/errorHandler";
-import "../ModalCriarGrupo/CriarGrupo.css"
+import "../ModalCriarGrupo/CriarGrupo.css";
 
 const API_URL = "http://localhost:8080/api/grupos";
 
@@ -39,8 +39,8 @@ export default function ModalCriarGrupo({ isOpen, onClose, onGrupoCriado }) {
     const criarPayload = {
       nome,
       descricao,
-    //   imagemUrl: imagemUrl.trim() || null,
-    //   privado,
+      //   imagemUrl: imagemUrl.trim() || null,
+      //   privado,
     };
 
     try {
@@ -73,7 +73,7 @@ export default function ModalCriarGrupo({ isOpen, onClose, onGrupoCriado }) {
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
-            <h2>Criar novo grupo</h2>
+            <h1>Criar novo grupo</h1>
             <p>Monte sua equipe para colaborar e conquistar objetivos juntos</p>
           </div>
           <button
@@ -188,9 +188,7 @@ export default function ModalCriarGrupo({ isOpen, onClose, onGrupoCriado }) {
 
             <div className="modal-priority-box">
               <div>
-                <span className="modal-priority-title">
-                  🔒 Grupo privado
-                </span>
+                <span className="modal-priority-title">🔒 Grupo privado</span>
                 <span className="modal-priority-subtitle">
                   Apenas convidados poderão se juntar
                 </span>

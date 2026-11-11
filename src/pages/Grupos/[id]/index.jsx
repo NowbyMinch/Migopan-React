@@ -15,56 +15,6 @@ import { getErrorMessage } from "../../../utils/errorHandler";
 
 const API_URL = "http://localhost:8080/api/grupos";
 
-// a coluna da direita muda conforme a aba
-// function AsideDaAba({ aba }) {
-//   switch (aba) {
-//     case "tarefas":
-//       return (
-//         <>
-//           <div className="gradient-card progresso-grupo">
-//             <h1>Progresso do grupo</h1>
-//           </div>
-//           <div className="gradient-card sequencia-grupo">
-//             <h1>Sequência do grupo</h1>
-//           </div>
-//           <div className="gradient-card membros-online-grupo">
-//             <h1>Membros online</h1>
-//           </div>
-//           <div className="gradient-card atividade-recente-grupo">
-//             <h1>Atividade recente</h1>
-//           </div>
-//         </>
-//       );
-//     case "chat":
-//       return (
-//         <>
-//           <div className="gradient-card membros-online-grupo">
-//             <h1>Membros online</h1>
-//           </div>
-//           <div className="gradient-card">
-//             <h1>Compartilhe com o grupo</h1>
-//           </div>
-//         </>
-//       );
-//     case "calendario":
-//       return (
-//         <>
-//           <div className="gradient-card">
-//             <h1>Mini calendário</h1>
-//           </div>
-//           <div className="gradient-card">
-//             <h1>Próximas tarefas</h1>
-//           </div>
-//           <div className="gradient-card">
-//             <h1>Resumo do mês</h1>
-//           </div>
-//         </>
-//       );
-//     default:
-//       return null; // ajustes não tem aside
-//   }
-// }
-
 function AsideDaAba({ aba }) {
   if (aba == "tarefas") {
     return (
@@ -117,7 +67,7 @@ export default function Grupo() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const abaAtual = pathname.split("/").filter(Boolean).pop(); // "tarefas", "chat"...
+  const abaAtual = pathname.split("/").filter(Boolean).pop();
 
   const [grupo, setGrupo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -199,7 +149,7 @@ export default function Grupo() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  class="bi bi-chat "
+                  className="bi bi-chat "
                   viewBox="0 0 16 16"
                 >
                   <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
@@ -212,11 +162,11 @@ export default function Grupo() {
                   width="16"
                   height="16"
                   fill="currentColor"
-                  class="bi bi-list-ul"
+                  className="bi bi-list-ul"
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
                   />
                 </svg>
@@ -228,7 +178,7 @@ export default function Grupo() {
                   width="16"
                   height="16"
                   fill="currentColor"
-                  class="bi bi-calendar-check-fill"
+                  className="bi bi-calendar-check-fill"
                   viewBox="0 0 16 16"
                 >
                   <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708" />
@@ -241,7 +191,7 @@ export default function Grupo() {
                   width="16"
                   height="16"
                   fill="currentColor"
-                  class="bi bi-gear-fill"
+                  className="bi bi-gear-fill"
                   viewBox="0 0 16 16"
                 >
                   <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />

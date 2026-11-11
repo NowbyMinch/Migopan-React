@@ -95,7 +95,7 @@ export default function ModalPopup({
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
-            <h2>Criar tarefa</h2>
+            <h1>Criar tarefa</h1>
             <p>Adicione os detalhes da sua nova tarefa</p>
           </div>
           <button

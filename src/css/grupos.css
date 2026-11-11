@@ -228,8 +228,6 @@ body {
   border-radius: 20px;
   transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
-  background: #09101d;
-  border: 1px solid #151b2d;
   padding: 15px;
   box-sizing: border-box;
   display: flex;
@@ -328,8 +326,6 @@ body {
 
 .group-view {
   grid-area: group-view;
-  background: #09101d;
-  border: 1px solid #151b2d;
   border-radius: 20px;
   font-size: 16px;
   box-sizing: border-box;
@@ -343,8 +339,6 @@ body {
 
 .group-view {
   grid-area: group-view;
-  background: #09101d;
-  border: 1px solid #151b2d;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
