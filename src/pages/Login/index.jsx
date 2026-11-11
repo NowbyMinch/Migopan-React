@@ -171,7 +171,7 @@ export default function Login() {
       </main>
 
       {/* 3. Ilustração de Fundo dos Mascotes */}
-      <footer className="login-footer-decor">
+      {/* <footer className="login-footer-decor">
         {decorBottomImg ? (
           <img src={decorBottomImg} alt="Ilustração Mascotes" className="bottom-mascots" />
         ) : (
@@ -179,7 +179,7 @@ export default function Login() {
             <span>Ilustração Inferior dos Mascotes</span>
           </div>
         )}
-      </footer>
+      </footer> */}
     </div>
   );
 }
