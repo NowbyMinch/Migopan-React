@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getErrorMessage } from "../../utils/errorHandler";
 import "../../css/all.css";
@@ -6,6 +6,7 @@ import "../../css/index.css";
 import ModalCriarTarefa from "../../components/ModalCriarTarefa/ModalCriarTarefa";
 import ModalEditarTarefa from "../../components/ModalEditarTarefa/ModalEditarTarefa";
 import Sidebar from "../../components/Sidebar";
+import VerTarefa from "../../components/VerTarefa/VerTarefa";
 
 const API_URL = "http://localhost:8080/api";
 
@@ -15,33 +16,59 @@ export default function Home() {
   const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
   const [tarefas, setTarefas] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [filtro, setFiltro] = useState("");
+  const [erro, setErro] = useState("");
+  const [filtro, setFiltro] = useState("TODAS");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [verTarefa, setVerTarefa] = useState(false);
 
-  const carregarTarefas = async () => {
+  const pendentes = tarefas.filter((t) => !t.concluida);
+  const concluidas = tarefas.filter((t) => t.concluida);
+
+  const filtros = [
+    { key: "TODAS", label: "Todas" },
+    { key: "PENDENTES", label: "Pendentes", total: pendentes.length },
+    { key: "CONCLUIDAS", label: "Concluídas", total: concluidas.length },
+  ];
+
+  const tarefasVisiveis =
+    filtro === "PENDENTES"
+      ? pendentes
+      : filtro === "CONCLUIDAS"
+        ? concluidas
+        : tarefas;
+
+  const mensagemVazia =
+    filtro === "PENDENTES"
+      ? "Nenhuma tarefa pendente"
+      : filtro === "CONCLUIDAS"
+        ? "Nenhuma tarefa concluída ainda"
+        : "Nenhuma tarefa encontrada";
+
+  const carregarTarefas = useCallback(async () => {
     try {
-      let url = `${API_URL}/tarefas/pessoais`;
-      if (filtro === "PENDENTES") url += "?concluida=false";
-      if (filtro === "CONCLUIDAS") url += "?concluida=true";
+      setLoading(true);
+      setErro("");
 
-      const res = await fetch(url, {
+      const res = await fetch(`${API_URL}/tarefas/pessoais`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
 
-      if (!res.ok) {
-        const mensagem = await getErrorMessage(res);
+      if (!res.ok) throw new Error(await getErrorMessage(res));
 
-        throw new Error(mensagem);
-      }
-
-      const data = await res.json();
-      setTarefas(data);
+      setTarefas(await res.json());
     } catch (err) {
-      console.error("Erro na requisição", err.message);
+      setErro(err.message);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    carregarTarefas();
+    carregarUsuario();
+  }, [carregarTarefas]);
 
   const carregarUsuario = async () => {
     try {
@@ -126,73 +153,71 @@ export default function Home() {
 
         <main className="tasks-area">
           <div className="tasks-header">
-            <button className="filtros-card filtros-card-active1" title="Todas">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                className="bi-filtro bi-list"
-                viewBox="0 0 16 16"
+            {filtros.map((f) => (
+              <button
+                key={f.key}
+                title={f.label}
+                className={`filtros-card ${filtro === f.key ? "filtros-card-active1" : ""}`}
+                onClick={() => setFiltro(f.key)}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
-                />
-              </svg>
-              <span className="status-filtro">Todas</span>
-            </button>
+                {f.key === "TODAS" ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    className="bi-filtro bi-list"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
+                    />
+                  </svg>
+                ) : f.key === "PENDENTES" ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    className="bi-filtro bi-amp"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    className="bi-filtro bi-check"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                  </svg>
+                )}
 
-            <button className="filtros-card" title="Pendentes">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                className="bi-filtro bi-amp"
-                viewBox="0 0 16 16"
-              >
-                <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
-              </svg>
-              <span className="status-filtro">Pendentes</span>
-              <span className="tarefas-notificacao">3</span>
-            </button>
-
-            <button className="filtros-card" title="Em andamento">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                className="bi-filtro bi-play"
-                viewBox="0 0 16 16"
-              >
-                <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z" />
-              </svg>
-              <span className="status-filtro">Em andamento</span>
-              <span className="tarefas-notificacao">3</span>
-            </button>
-
-            <button className="filtros-card" title="Concluídas">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                className="bi-filtro bi-check"
-                viewBox="0 0 16 16"
-              >
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-              </svg>
-              <span className="status-filtro">Concluídas</span>
-              <span className="tarefas-notificacao">3</span>
-            </button>
+                <span className="status-filtro">{f.label}</span>
+                {f.total !== undefined && (
+                  <span className="tarefas-notificacao">{f.total}</span>
+                )}
+              </button>
+            ))}
           </div>
 
           {/* Trecho dentro de Home.jsx no container das tarefas */}
           <div className="tasks">
             {loading ? (
               <p>Carregando tarefas...</p>
-            ) : tarefas.length === 0 ? (
-              <p>Nenhuma tarefa encontrada</p>
+            ) : erro ? (
+              <div className="error-banner">⚠️ {erro}</div>
+            ) : tarefasVisiveis.length === 0 ? (
+              <p>{mensagemVazia}</p>
             ) : (
-              tarefas.map((tarefa, index) => (
+              tarefasVisiveis.map((tarefa, index) => (
                 <div
                   key={tarefa.id || index}
                   className="tarefa gradient-card"
                   style={{ border: "none" }}
+                  onClick={() => {
+                    setTarefaSelecionada(tarefa);
+                    setVerTarefa(true);
+                  }}
                 >
                   {/* <label className="tarefa-check">
                     <input
@@ -225,7 +250,7 @@ export default function Home() {
                   <div className="tarefa-info tarefa1">
                     <h1>{tarefa.titulo}</h1>
                     <p
-                      className={`text-truncated ${isExpanded ? "is-expanded" : ""} `}
+                      className={`tarefa-descricao ${isExpanded ? "is-expanded" : ""} `}
                     >
                       {tarefa.descricao}
                     </p>
@@ -238,18 +263,21 @@ export default function Home() {
                     </span>
                   </div>
 
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="bi-filtro bi-pen"
-                    viewBox="0 0 16 16"
-                    onClick={() => {
-                      setIsEditModalOpen(true);
-                      setTarefaSelecionada(tarefa);
-                    }}
-                  >
-                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
-                  </svg>
+                  <button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      className="bi-filtro bi-pen"
+                      viewBox="0 0 16 16"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsEditModalOpen(true);
+                        setTarefaSelecionada(tarefa);
+                      }}
+                    >
+                      <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
+                    </svg>
+                  </button>
 
                   <div className="tarefa-info-extra">
                     <div className="tag1">{tarefa.categoria}</div>
@@ -359,6 +387,13 @@ export default function Home() {
         }}
         tarefa={tarefaSelecionada}
         onTarefaAtualizada={carregarTarefas}
+      />
+      <VerTarefa
+        isOpen={verTarefa}
+        tarefa={tarefaSelecionada}
+        onClose={() => {
+          setVerTarefa(false);
+        }}
       />
     </>
   );

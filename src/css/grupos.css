@@ -489,10 +489,9 @@ hr {
 }
 
 .bi-check {
-  background-color: white;
   border-radius: 100%;
-  color: #58cc02;
-  border-color: #58cc02;
+  color: #a7b0d3;
+  border-color: #a7b0d3;
   box-shadow: 0 0 15px rgba(88, 204, 2, 0.4);
 }
 

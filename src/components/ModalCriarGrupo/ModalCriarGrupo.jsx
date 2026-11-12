@@ -69,20 +69,27 @@ export default function ModalCriarGrupo({ isOpen, onClose, onGrupoCriado }) {
   };
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
             <h1>Criar novo grupo</h1>
             <p>Monte sua equipe para colaborar e conquistar objetivos juntos</p>
           </div>
-          <button
-            className="modal-close-btn"
-            onClick={handleFecharModal}
-            disabled={loading}
+          <section
+            className="vt"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="vt-titulo"
           >
-            ✕
-          </button>
+            <button
+              className="vt-fechar"
+              onClick={handleFecharModal}
+              disabled={loading}
+            >
+              ✕
+            </button>
+          </section>
         </div>
 
         {/* MENSAGEM DE ERRO VISUAL */}

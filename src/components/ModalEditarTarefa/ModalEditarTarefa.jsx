@@ -18,12 +18,12 @@ export default function ModalEditarTarefa({
   const [dataLimite, setDataLimite] = useState(null);
   const [horarioLimite, setHorarioLimite] = useState(null);
   const [prioridade, setPrioridade] = useState(false);
+  const [dataResolucao, setDataResolucao] = useState(null);
+  const [concluida, setConcluida] = useState(false);
 
-  // Estados de feedback visual
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Preenche o formulário sempre que a tarefa passada via prop mudar
   useEffect(() => {
     if (tarefa) {
       setTitulo(tarefa.titulo || "");
@@ -93,7 +93,6 @@ export default function ModalEditarTarefa({
     }
   };
 
-  // DELETE: Excluir Tarefa
   const handleExcluirTarefa = async () => {
     setLoading(true);
     setErrorMsg("");
@@ -122,24 +121,55 @@ export default function ModalEditarTarefa({
     }
   };
 
+  const alternarConclusao = async () => {
+    try {
+      const res = await fetch(`${API_URL}/${tarefa.id}/concluir`, {
+        method: "PATCH",
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        const mensagem = await getErrorMessage(res);
+        throw new Error(mensagem || "Falha ao excluir tarefa.");
+      }
+
+      if (onTarefaAtualizada) {
+        await onTarefaAtualizada();
+      }
+      handleFecharModal();
+    } catch (err) {
+      console.error("Erro ao excluir tarefa:", err.message);
+      setErrorMsg(err.message || "Ocorreu um erro ao excluir a tarefa.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
-            <h2>Editar tarefa</h2>
+            <h1>Editar tarefa</h1>
             <p>Altere os detalhes ou exclua sua tarefa</p>
           </div>
-          <button
-            className="modal-close-btn"
-            onClick={handleFecharModal}
-            disabled={loading}
+
+          <section
+            className="vt"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="vt-titulo"
           >
-            ✕
-          </button>
+            <button
+              className="vt-fechar"
+              onClick={handleFecharModal}
+              disabled={loading}
+            >
+              ✕
+            </button>
+          </section>
         </div>
 
-        {/* MENSAGEM DE ERRO VISUAL */}
         {errorMsg && (
           <div
             className="modal-error-message"
@@ -218,7 +248,7 @@ export default function ModalEditarTarefa({
                 />
               </div>
               <div className="modal-field-group">
-                <label>Horário</label>
+                <label>Horário limite</label>
                 <input
                   type="time"
                   className="modal-input"
@@ -230,7 +260,6 @@ export default function ModalEditarTarefa({
             </div>
           </div>
 
-          {/* Coluna Direita: Prévia e Prioridade */}
           <div className="modal-form-column">
             <div className="modal-field-group">
               <label>Prévia da tarefa</label>
@@ -251,7 +280,8 @@ export default function ModalEditarTarefa({
                 </p>
                 <div className="modal-preview-footer">
                   <span>
-                    📅 {dataLimite || "Data"} · {horarioLimite || "Horário"}
+                    📅 {dataLimite || "Data"} ·{" "}
+                    {horarioLimite || "Horário limite"}
                   </span>
                   <span style={{ color: "#a855f7", fontWeight: "bold" }}>
                     +50 XP ♦️
@@ -288,19 +318,51 @@ export default function ModalEditarTarefa({
             width: "100%",
           }}
         >
-          <button
-            type="button"
-            className="modal-btn-cancel"
-            onClick={handleExcluirTarefa}
-            disabled={loading}
+          <div
+            className=""
             style={{
-              backgroundColor: "rgba(239, 68, 68, 0.15)",
-              color: "#ef4444",
-              border: "1px solid #ef4444",
+              display: "flex",
+              gap: "0.75rem",
             }}
           >
-            🗑️ Excluir
-          </button>
+            <button
+              type="button"
+              className="modal-btn-cancel"
+              onClick={handleExcluirTarefa}
+              disabled={loading}
+              style={{
+                backgroundColor: "rgba(239, 68, 68, 0.15)",
+                color: "#ef4444",
+                border: "1px solid #ef4444",
+              }}
+            >
+              🗑️ Excluir
+            </button>
+            <button
+              type="button"
+              className="modal-btn-cancel"
+              onClick={alternarConclusao}
+              disabled={loading}
+              style={{
+                backgroundColor: "rgba(88, 204, 20, 0.15)",
+                color: "#58cc02",
+                border: "1px solid #58cc02",
+                display: "flex",
+                gap: "8px",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                className="bi-filtro bi-check"
+                style={{ color: "#58cc02" }}
+                viewBox="0 0 16 16"
+              >
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+              </svg>
+              Alterar Conclusão
+            </button>
+          </div>
 
           <div style={{ display: "flex", gap: "0.75rem" }}>
             <button

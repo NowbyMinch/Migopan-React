@@ -15,12 +15,11 @@ export default function Grupos() {
   const [errorMsg, setErrorMsg] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Estados de Filtro e Busca
   const [busca, setBusca] = useState("");
   const [filtroAtivo, setFiltroAtivo] = useState("Todas");
 
-  // Estado do grupo selecionado no painel lateral
   const [grupoSelecionado, setGrupoSelecionado] = useState(null);
+  // const meusGrupos = grupos.filter((g) => g.meuPapel === "ADMIN");
 
   const carregarGrupos = async () => {
     try {
@@ -54,14 +53,15 @@ export default function Grupos() {
     carregarGrupos();
   }, []);
 
-  // Lógica de Filtragem
   const gruposFiltrados = grupos.filter((grupo) => {
     const atendeBusca =
       grupo.nome?.toLowerCase().includes(busca.toLowerCase()) ||
       grupo.descricao?.toLowerCase().includes(busca.toLowerCase());
 
-    if (filtroAtivo === "Meus grupos") return atendeBusca && grupo.souDono;
-    if (filtroAtivo === "Participando") return atendeBusca && !grupo.souDono;
+    if (filtroAtivo === "Meus grupos")
+      return atendeBusca && grupo.meuPapel === "ADMIN";
+    if (filtroAtivo === "Participando")
+      return atendeBusca && !grupo.meuPapel === "ADMIN";
     return atendeBusca;
   });
 
@@ -123,13 +123,13 @@ export default function Grupos() {
             >
               <span>Participando</span>
             </button>
-            <button
+            {/* <button
               className={`filtros-card ${filtroAtivo === "Convites" ? "filtros-card-active1" : ""}`}
               onClick={() => setFiltroAtivo("Convites")}
             >
               <span>Convites</span>
               <span className="grupos-participando">2</span>
-            </button>
+            </button> */}
           </div>
 
           {errorMsg && <div className="error-banner">⚠️ {errorMsg}</div>}

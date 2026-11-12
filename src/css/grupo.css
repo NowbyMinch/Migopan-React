@@ -359,7 +359,7 @@ p {
 .tarefas-grupo {
   grid-area: tarefas-grupo;
   display: grid;
-  grid-template-rows: min-content min-content;
+  grid-template-rows: min-content min-content min-content min-content;
   align-items: start;
   justify-content: start;
   gap: 15px;
@@ -386,6 +386,22 @@ p {
   gap: 5px;
   filter: drop-shadow(0 0 4px currentcolor);
   color: #b22638;
+}
+
+.pendentes {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+
+.concluidas-titulo {
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  gap: 5px;
+  filter: drop-shadow(0 0 4px currentcolor);
+  color: #58cc02;
 }
 
 /* =========================================
@@ -423,6 +439,7 @@ p {
 
 .task-top {
   display: flex;
+  width: 100%;
   align-items: start;
   gap: 10px;
 }

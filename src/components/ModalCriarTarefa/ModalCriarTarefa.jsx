@@ -77,7 +77,6 @@ export default function ModalPopup({
         throw new Error(mensagem || "Falha ao criar tarefa.");
       }
 
-      // Se bem-sucedido, notifica a Home e fecha o modal
       if (onTarefaCriada) {
         await onTarefaCriada();
       }
@@ -91,23 +90,29 @@ export default function ModalPopup({
   };
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>
             <h1>Criar tarefa</h1>
             <p>Adicione os detalhes da sua nova tarefa</p>
           </div>
-          <button
-            className="modal-close-btn"
-            onClick={handleFecharModal}
-            disabled={loading}
+          <section
+            className="vt"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="vt-titulo"
           >
-            ✕
-          </button>
+            <button
+              className="vt-fechar"
+              onClick={handleFecharModal}
+              disabled={loading}
+            >
+              ✕
+            </button>
+          </section>
         </div>
 
-        {/* MENSAGEM DE ERRO VISUAL */}
         {errorMsg && (
           <div
             className="modal-error-message"
@@ -176,7 +181,7 @@ export default function ModalPopup({
 
             <div className="modal-row-2">
               <div className="modal-field-group">
-                <label>data limite</label>
+                <label>Data limite</label>
                 <input
                   type="date"
                   className="modal-input"
@@ -186,7 +191,7 @@ export default function ModalPopup({
                 />
               </div>
               <div className="modal-field-group">
-                <label>Horário</label>
+                <label>Horário limite</label>
                 <input
                   type="time"
                   className="modal-input"
@@ -198,7 +203,6 @@ export default function ModalPopup({
             </div>
           </div>
 
-          {/* Coluna Direita: Prévia e Prioridade */}
           <div className="modal-form-column">
             <div className="modal-field-group">
               <label>Prévia da tarefa</label>
