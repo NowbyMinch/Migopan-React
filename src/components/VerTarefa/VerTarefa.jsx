@@ -35,7 +35,7 @@ export default function VerTarefa({ isOpen, onClose, tarefa, onEditar }) {
   const concluida = Boolean(tarefa.concluida);
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay">
       <div
         className="modal-content-wrapper"
         onClick={(e) => e.stopPropagation()}

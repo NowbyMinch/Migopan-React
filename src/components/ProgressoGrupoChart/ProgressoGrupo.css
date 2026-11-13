@@ -1,0 +1,150 @@
+.pg {
+  /* Troque as cores aqui para casar com o seu tema */
+  --pg-pendentes: #e5384d;
+  --pg-concluidas: #3fd01f;
+  --pg-total: #4f6bff;
+  --pg-trilha: rgba(255, 255, 255, 0.08);
+  --pg-espessura: 10;
+  --pg-transicao: 900ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  color: #fff;
+}
+
+.pg-titulo {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.pg-corpo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.pg-anel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+}
+
+.pg-anel svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* começa no topo */
+}
+
+.pg-trilha,
+.pg-trecho {
+  fill: none;
+  stroke-width: var(--pg-espessura);
+}
+.pg-trilha {
+  stroke: var(--pg-trilha);
+}
+.pg-trecho {
+  /* anima quando os valores mudam */
+  transition:
+    stroke-dasharray var(--pg-transicao),
+    stroke-dashoffset var(--pg-transicao);
+}
+.pg-trecho--concluidas {
+  stroke: var(--pg-concluidas);
+}
+.pg-trecho--pendentes {
+  stroke: var(--pg-pendentes);
+}
+
+.pg-centro {
+  position: relative; /* fica acima do svg */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.pg-centro strong {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+.pg-centro span {
+  max-width: 6rem;
+  color: #9aa3c7;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+/* ---------- legenda ---------- */
+.pg-legenda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 11rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pg-legenda li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.pg-nome {
+  flex: 1;
+  color: #d7dcf5;
+}
+.pg-legenda strong {
+  font-variant-numeric: tabular-nums; /* números não "pulam" ao mudar */
+}
+
+.pg-ponto {
+  flex-shrink: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+}
+.pg-ponto--pendentes {
+  background: var(--pg-pendentes);
+  box-shadow: 0 0 8px var(--pg-pendentes);
+}
+.pg-ponto--concluidas {
+  background: var(--pg-concluidas);
+  box-shadow: 0 0 8px var(--pg-concluidas);
+}
+.pg-ponto--total {
+  background: var(--pg-total);
+  box-shadow: 0 0 8px var(--pg-total);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-trecho {
+    transition: none;
+  }
+}
+
+/* ---------- versão com Recharts ---------- */
+.pg--compacto {
+  padding: 0; /* quando o card de fora já tem padding */
+}
+
+.pg-grafico {
+  position: relative;
+  flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+}
+.pg-grafico .pg-centro {
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  pointer-events: none; /* o mouse "atravessa" o texto e o tooltip continua funcionando */
+}

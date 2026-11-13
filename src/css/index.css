@@ -271,6 +271,12 @@ button:active {
   color: white;
 }
 
+.bi-star {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
 .status-filtro {
   min-width: fit-content;
 }

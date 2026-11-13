@@ -90,7 +90,7 @@ export default function ModalPopup({
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay">
       <div className="modal-content-wrapper">
         <div className="modal-header">
           <div>

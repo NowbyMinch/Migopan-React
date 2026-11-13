@@ -293,10 +293,7 @@ body {
 }
 
 .xp-porcentagem1 {
-  width: 62%;
-}
-.xp-porcentagem2 {
-  width: 42%;
+  width: 0%;
 }
 
 .grupo-details {
@@ -492,7 +489,6 @@ hr {
   border-radius: 100%;
   color: #a7b0d3;
   border-color: #a7b0d3;
-  box-shadow: 0 0 15px rgba(88, 204, 2, 0.4);
 }
 
 .fire {

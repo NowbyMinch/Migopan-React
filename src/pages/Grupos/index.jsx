@@ -37,7 +37,6 @@ export default function Grupos() {
       }
 
       const data = await res.json();
-      console.log(data);
       setGrupos(data);
       if (data && data.length > 0) {
         setGrupoSelecionado(data[0]);
@@ -180,8 +179,8 @@ export default function Grupos() {
                   <div className="grupo-info middle-info">
                     <div className="barra-details">
                       <div className="xp-quantidade-grupo">
-                        <strong> Nível 12 </strong>
-                        <span> 1240 / 2000 XP </span>
+                        <strong> Nível {grupo.nivel} </strong>
+                        <span> 0 / 0 XP </span>
                       </div>
                       <div className="xp-barra">
                         <div className="grupo-porcentagem xp-porcentagem1"></div>

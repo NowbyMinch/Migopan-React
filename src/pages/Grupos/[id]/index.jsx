@@ -11,16 +11,25 @@ import { useEffect, useState } from "react";
 import "../../../css/all.css";
 import "../../../css/grupo.css";
 import Sidebar from "../../../components/Sidebar";
+import { useTarefasGrupo } from "../../../hooks/useTarefasGrupo";
 import { getErrorMessage } from "../../../utils/errorHandler";
+import ProgressoGrupoChart from "../../../components/ProgressoGrupoChart/ProgressoGrupoChart";
 
 const API_URL = "http://localhost:8080/api/grupos";
 
-function AsideDaAba({ aba }) {
-  if (aba == "tarefas") {
+function AsideDaAba({ aba, pendentes, concluidas }) {
+  if (aba === "tarefas") {
     return (
       <>
         <div className="gradient-card progresso-grupo">
           <h1>Progresso do grupo</h1>
+          <div className="Progresso-grupo-info">
+            <ProgressoGrupoChart
+              className="pg--compacto"
+              pendentes={pendentes}
+              concluidas={concluidas}
+            />
+          </div>
         </div>
         <div className="gradient-card sequencia-grupo">
           <h1>Sequência do grupo</h1>
@@ -33,7 +42,9 @@ function AsideDaAba({ aba }) {
         </div>
       </>
     );
-  } else if (aba == "chat") {
+  }
+
+  if (aba === "chat") {
     return (
       <>
         <div className="gradient-card membros-online-grupo">
@@ -44,7 +55,9 @@ function AsideDaAba({ aba }) {
         </div>
       </>
     );
-  } else if (aba == "calendario") {
+  }
+
+  if (aba === "calendario") {
     return (
       <>
         <div className="gradient-card">
@@ -58,9 +71,9 @@ function AsideDaAba({ aba }) {
         </div>
       </>
     );
-  } else {
-    return null;
   }
+
+  return null;
 }
 
 export default function Grupo() {
@@ -72,6 +85,15 @@ export default function Grupo() {
   const [grupo, setGrupo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Tarefas do grupo: carregadas aqui UMA vez e repassadas para a aba Tarefas
+  // (via Outlet context) e para o gráfico da lateral. Hooks sempre antes dos returns.
+  const {
+    tarefas,
+    loading: carregandoTarefas,
+    erro: erroTarefas,
+    recarregar: recarregarTarefas,
+  } = useTarefasGrupo(id);
 
   useEffect(() => {
     const carregarGrupo = async () => {
@@ -85,11 +107,11 @@ export default function Grupo() {
           headers: { "Content-Type": "application/json" },
         });
 
-        if (!response.ok) throw new Error("Não foi possível carregar o grupo.");
+        if (!response.ok) throw new Error(await getErrorMessage(response));
 
         setGrupo(await response.json());
       } catch (error) {
-        setErrorMsg(getErrorMessage(error));
+        setErrorMsg(error.message);
       } finally {
         setLoading(false);
       }
@@ -101,6 +123,9 @@ export default function Grupo() {
   if (loading) return <div>Carregando grupo...</div>;
   if (errorMsg) return <div className="error-banner">⚠️ {errorMsg}</div>;
   if (!grupo) return <div>Grupo não encontrado.</div>;
+
+  const pendentes = tarefas.filter((t) => !t.concluida).length;
+  const concluidas = tarefas.filter((t) => t.concluida).length;
 
   const tabClass = ({ isActive }) =>
     `tab-item ${isActive ? "tab-item--ativa" : ""}`;
@@ -202,11 +227,23 @@ export default function Grupo() {
           </header>
 
           {/* aqui aparece Chat, Tarefas, Calendario ou Ajustes */}
-          <Outlet context={{ grupo }} />
+          <Outlet
+            context={{
+              grupo,
+              tarefas,
+              carregandoTarefas,
+              erroTarefas,
+              recarregarTarefas,
+            }}
+          />
         </main>
 
         <aside className="grupo-info-aside">
-          <AsideDaAba aba={abaAtual} />
+          <AsideDaAba
+            aba={abaAtual}
+            pendentes={pendentes}
+            concluidas={concluidas}
+          />
         </aside>
       </div>
     </>
