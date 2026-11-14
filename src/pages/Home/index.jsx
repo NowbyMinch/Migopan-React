@@ -14,6 +14,7 @@ export default function Home() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [verTarefa, setVerTarefa] = useState(false);
   const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
+  const [busca, setBusca] = useState("");
 
   const [tarefas, setTarefas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +39,15 @@ export default function Home() {
     CONCLUIDAS: concluidas,
     PRIORIDADES: prioritarias,
   };
-  const tarefasVisiveis = listas[filtro];
+  const tarefasFiltradas = listas[filtro];
+
+  const tarefasVisiveis = tarefasFiltradas.filter((tarefa) => {
+    const atendeBusca =
+      tarefa.titulo?.toLowerCase().includes(busca.toLowerCase()) ||
+      tarefa.descricao?.toLowerCase().includes(busca.toLowerCase());
+
+    return atendeBusca;
+  });
 
   const mensagensVazias = {
     TODAS: "Nenhuma tarefa encontrada",
@@ -69,29 +78,29 @@ export default function Home() {
     }
   }, []);
 
-  const carregarUsuario = useCallback(async () => {
-    try {
-      const res = await fetch(`${API_URL}/usuarios`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
+  // const carregarUsuario = useCallback(async () => {
+  //   try {
+  //     const res = await fetch(`${API_URL}/usuarios`, {
+  //       method: "GET",
+  //       headers: { "Content-Type": "application/json" },
+  //       credentials: "include",
+  //     });
 
-      if (!res.ok) {
-        const mensagem = await getErrorMessage(res);
-        throw new Error(mensagem);
-      }
+  //     if (!res.ok) {
+  //       const mensagem = await getErrorMessage(res);
+  //       throw new Error(mensagem);
+  //     }
 
-      console.log(res);
-    } catch (err) {
-      console.error("Erro na requisição", err.message);
-    }
-  }, []);
+  //   } catch (err) {
+  //     console.error("Erro na requisição", err.message);
+  //   }
+  // }, []);
 
   useEffect(() => {
     carregarTarefas();
-    carregarUsuario();
-  }, [carregarTarefas, carregarUsuario]);
+    // carregarUsuario();
+  }, [carregarTarefas]);
+  // }, [carregarTarefas, carregarUsuario]);
 
   return (
     <>
@@ -149,6 +158,13 @@ export default function Home() {
 
         <main className="tasks-area">
           <div className="tasks-header">
+            <input
+              type="search"
+              className="search"
+              placeholder="Buscar tarefas"
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+            />
             {filtros.map((f) => (
               <button
                 key={f.key}
@@ -190,7 +206,7 @@ export default function Home() {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="bi bi-star"
+                    className=" bi-star"
                     viewBox="0 0 16 16"
                   >
                     <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />

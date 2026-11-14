@@ -21,8 +21,9 @@ export function useTarefasGrupo(grupoId) {
       });
 
       if (!res.ok) throw new Error(await getErrorMessage(res));
-
-      setTarefas(await res.json());
+      const data = await res.json();
+      setTarefas(data);
+      console.log(data);
     } catch (err) {
       setErro(err.message);
     } finally {

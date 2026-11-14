@@ -83,7 +83,6 @@
   line-height: 1.2;
 }
 
-/* ---------- legenda ---------- */
 .pg-legenda {
   display: flex;
   flex-direction: column;
@@ -103,7 +102,7 @@
   color: #d7dcf5;
 }
 .pg-legenda strong {
-  font-variant-numeric: tabular-nums; /* números não "pulam" ao mudar */
+  font-variant-numeric: tabular-nums; 
 }
 
 .pg-ponto {
@@ -131,9 +130,8 @@
   }
 }
 
-/* ---------- versão com Recharts ---------- */
 .pg--compacto {
-  padding: 0; /* quando o card de fora já tem padding */
+  padding: 0; 
 }
 
 .pg-grafico {
@@ -146,5 +144,5 @@
   position: absolute;
   inset: 0;
   justify-content: center;
-  pointer-events: none; /* o mouse "atravessa" o texto e o tooltip continua funcionando */
+  pointer-events: none; 
 }

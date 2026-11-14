@@ -192,22 +192,6 @@ export default function ModalCriarGrupo({ isOpen, onClose, onGrupoCriado }) {
                 </div>
               </div>
             </div>
-
-            <div className="modal-priority-box">
-              <div>
-                <span className="modal-priority-title">🔒 Grupo privado</span>
-                <span className="modal-priority-subtitle">
-                  Apenas convidados poderão se juntar
-                </span>
-              </div>
-              <input
-                type="checkbox"
-                className="modal-checkbox"
-                checked={privado}
-                onChange={(e) => setPrivado(e.target.checked)}
-                disabled={loading}
-              />
-            </div>
           </div>
         </div>
 

@@ -45,19 +45,22 @@ export default function Cadastro() {
 
       const resLogin = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
-        headers: {"Content-Type" : "application/json" },
-        body: JSON.stringify({email: cadastroPayload.email, senha: cadastroPayload.senha}),
-        credentials: "include"
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: cadastroPayload.email,
+          senha: cadastroPayload.senha,
+        }),
+        credentials: "include",
+      });
 
       if (!resLogin.ok) {
         const mensagemLogin = await getErrorMessage(resLogin);
-        throw new Error(mensagemLogin || "Cadastro realizado, mas falha ao fazer login.");
+        throw new Error(
+          mensagemLogin || "Cadastro realizado, mas falha ao fazer login.",
+        );
       } else {
-
         window.location.href = "/home";
       }
-
     } catch (err) {
       console.error("Erro na requisição:", err.message);
       setErrorMsg(err.message);
@@ -84,7 +87,11 @@ export default function Cadastro() {
         <div className="card-header">
           <div className="mascot-wrapper">
             {mascotHeaderImg ? (
-              <img src={mascotHeaderImg} alt="Mascote Migo" className="mascot-avatar" />
+              <img
+                src={mascotHeaderImg}
+                alt="Mascote Migo"
+                className="mascot-avatar"
+              />
             ) : (
               <div className="img-placeholder mascot-placeholder">
                 <span>Mascote Migo</span>
@@ -92,7 +99,7 @@ export default function Cadastro() {
             )}
           </div>
           <h1>Criar sua conta</h1>
-          <p>Vamos começar sua jornada 🎉</p>
+          <p>Vamos começar sua jornada</p>
         </div>
 
         {/* Banner de Mensagem de Erro */}
@@ -103,8 +110,18 @@ export default function Cadastro() {
           <div className="input-group">
             <label htmlFor="nome">Nome</label>
             <div className="input-wrapper">
-              <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <svg
+                className="input-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
               </svg>
               <input
                 id="nome"
@@ -121,8 +138,18 @@ export default function Cadastro() {
           <div className="input-group">
             <label htmlFor="email">E-mail</label>
             <div className="input-wrapper">
-              <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <svg
+                className="input-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
               </svg>
               <input
                 id="email"
@@ -139,9 +166,26 @@ export default function Cadastro() {
           <div className="input-group">
             <label htmlFor="senha">Senha</label>
             <div className="input-wrapper">
-              <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" strokeWidth="2" />
-                <path d="M7 11V7a5 5 0 0110 0v4" strokeWidth="2" strokeLinecap="round" />
+              <svg
+                className="input-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <rect
+                  x="3"
+                  y="11"
+                  width="18"
+                  height="11"
+                  rx="2"
+                  ry="2"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M7 11V7a5 5 0 0110 0v4"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
               <input
                 id="senha"
@@ -156,9 +200,25 @@ export default function Cadastro() {
                 className="toggle-password"
                 onClick={() => setMostrarSenha(!mostrarSenha)}
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="18" height="18">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  width="18"
+                  height="18"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
                 </svg>
               </button>
             </div>
@@ -179,8 +239,18 @@ export default function Cadastro() {
           <button type="submit" className="submit-btn" disabled={loading}>
             <span>{loading ? "Cadastrando..." : "Cadastrar-se"}</span>
             {!loading && (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="btn-arrow">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                className="btn-arrow"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
               </svg>
             )}
           </button>
@@ -202,14 +272,20 @@ export default function Cadastro() {
         </div>
 
         <div className="card-footer">
-          <p>Já tem uma conta? <a href="/login">Faça login</a></p>
+          <p>
+            Já tem uma conta? <a href="/login">Faça login</a>
+          </p>
         </div>
       </main>
 
       {/* 3. Ilustração de Fundo dos Mascotes */}
       <footer className="login-footer-decor">
         {decorBottomImg ? (
-          <img src={decorBottomImg} alt="Ilustração Mascotes" className="bottom-mascots" />
+          <img
+            src={decorBottomImg}
+            alt="Ilustração Mascotes"
+            className="bottom-mascots"
+          />
         ) : (
           <div className="img-placeholder bottom-placeholder">
             <span>Ilustração Inferior dos Mascotes</span>

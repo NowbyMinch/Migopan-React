@@ -66,6 +66,17 @@ p {
   margin: 0;
 }
 
+/* Tamanhos: 20, 18, 14, 13 */
+
+.title-generic {
+  filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
+}
+
+.subtitle-generic {
+  color: #a7b0d3;
+  filter: drop-shadow(0 0 1px currentcolor);
+}
+
 /* =========================================================
    CARD GLOBAL
    ========================================================= */

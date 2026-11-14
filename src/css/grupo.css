@@ -59,11 +59,6 @@ body {
   font-size: 18px;
 }
 
-.grupo-info-aside span,
-p {
-  font-size: 14px;
-}
-
 /* min-height: fit-content;
   flex-direction: column;
   justify-content: center;
@@ -81,6 +76,10 @@ p {
   gap: 15px;
 }
 
+.progresso-grupo span {
+  font-size: 14px;
+}
+
 .sequencia-grupo {
   border-radius: 20px;
   padding: 20px;
@@ -89,12 +88,49 @@ p {
   gap: 15px;
 }
 
-.membros-online-grupo {
+.sequencia-grupo strong {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sequencia-dias-grupo {
+  display: flex;
+  gap: 7px;
+}
+
+.sequencia-dias {
+  color: #ffad32;
+  filter: drop-shadow(0 0 2px #ff8c00)
+    drop-shadow(0 0 2px rgba(255, 100, 0, 0.5));
+}
+
+.sequencia-dias-icones {
+  margin-left: 4px;
+  display: flex;
+  font-size: 20px;
+}
+
+.membros-grupo {
   border-radius: 20px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.membro-imagem {
+  width: 40px;
+  height: 40px;
+  background-color: rgb(158, 57, 57);
+  border-radius: 100%;
+}
+
+.membro-grupo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .atividade-recente-grupo {
@@ -474,6 +510,46 @@ p {
   line-height: 1;
 }
 
+/* Lateral */
+
+.task-icon-lateral {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.task-icon span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.task-lateral {
+  padding: 5px;
+  border-radius: 10px;
+  display: flex;
+  width: 100%;
+  align-items: start;
+  gap: 10px;
+  cursor: pointer;
+  transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.task-lateral:hover {
+  scale: 1.01;
+  background-color: #000513;
+}
+
+.task-lateral:active {
+  scale: 0.99;
+}
+
 /* =========================================
    CONTEÚDO
 ========================================= */
@@ -627,9 +703,4 @@ p {
 .tab-item--ativa {
   background: linear-gradient(180deg, rgba(239, 45, 68, 0.322), transparent);
   box-shadow: 0 0 20px -8px #ef2d45;
-}
-
-
-.Progresso-grupo-info {
-  
 }

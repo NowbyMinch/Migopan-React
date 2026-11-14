@@ -63,7 +63,6 @@ export default function ProgressoGrupoChart({
             )}
           </PieChart>
 
-          {/* O Recharts não desenha texto no centro: ele fica por cima do gráfico */}
           <div className="pg-centro">
             <strong>{pct}%</strong>
             <span>Tarefas concluídas</span>

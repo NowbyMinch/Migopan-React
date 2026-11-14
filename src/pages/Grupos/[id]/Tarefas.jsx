@@ -1,23 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import "../../../css/grupo.css";
-import { getErrorMessage } from "../../../utils/errorHandler";
 import ModalCriarTarefa from "../../../components/ModalCriarTarefa/ModalCriarTarefa";
 import ModalEditarTarefa from "../../../components/ModalEditarTarefa/ModalEditarTarefa";
 import VerTarefa from "../../../components/VerTarefa/VerTarefa";
 
-const API_URL = "http://localhost:8080/api";
-
 function formatarPrazo(tarefa) {
-  const {
-    grupo,
-    tarefas,
-    carregandoTarefas: loading,
-    erroTarefas: erro,
-    recarregarTarefas: carregarTarefas,
-  } = useOutletContext();
-
   if (!tarefa.dataLimite) return "Sem prazo";
 
   const hoje = new Date().toLocaleDateString("sv-SE");
@@ -31,48 +20,21 @@ function formatarPrazo(tarefa) {
 }
 
 export default function Tarefas() {
-  const { grupo } = useOutletContext();
-  const [verTarefa, setVerTarefa] = useState(false);
+  const {
+    grupo,
+    tarefas,
+    carregandoTarefas: loading,
+    erroTarefas: erro,
+    recarregarTarefas: carregarTarefas,
+  } = useOutletContext();
 
-  const [tarefas, setTarefas] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [erro, setErro] = useState("");
   const [filtro, setFiltro] = useState("TODAS");
 
+  const [verTarefa, setVerTarefa] = useState(false);
+  const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
-
-  const carregarTarefas = useCallback(async () => {
-    try {
-      setLoading(true);
-      setErro("");
-
-      const res = await fetch(`${API_URL}/tarefas/grupo/${grupo.id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-
-      if (!res.ok) throw new Error(await getErrorMessage(res));
-      const data = await res.json();
-      setTarefas(data);
-      console.log(data);
-    } catch (err) {
-      setErro(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [grupo.id]);
-
-  useEffect(() => {
-    carregarTarefas();
-  }, [carregarTarefas]);
-
-  const abrirEdicao = (tarefa) => {
-    setTarefaSelecionada(tarefa);
-    setIsEditModalOpen(true);
-  };
+  const [busca, setBusca] = useState("");
 
   const pendentes = tarefas.filter((t) => !t.concluida);
   const concluidas = tarefas.filter((t) => t.concluida);
@@ -102,7 +64,16 @@ export default function Tarefas() {
   };
   const mensagemVazia = mensagensVazias[filtro];
 
-  const base = filtro === "PRIORIDADES" ? prioritarias : tarefas;
+  const base = (filtro === "PRIORIDADES" ? prioritarias : tarefas).filter(
+    (tarefa) => {
+      const atendeBusca =
+        tarefa.titulo?.toLowerCase().includes(busca) ||
+        tarefa.descricao?.toLowerCase().includes(busca);
+
+      return atendeBusca;
+    },
+  );
+
   const pendentesVisiveis = base.filter((t) => !t.concluida);
   const concluidasVisiveis = base.filter((t) => t.concluida);
 
@@ -121,7 +92,6 @@ export default function Tarefas() {
       <div className="task-top">
         <div
           className="task-icon"
-          // style={tarefa.cor ? { backgroundColor: tarefa.cor } : undefined}
           style={{
             backgroundColor: tarefa.cor,
             boxShadow: `0 0 12px ${tarefa.cor}`,
@@ -135,24 +105,20 @@ export default function Tarefas() {
           <p>{tarefa.descricao}</p>
         </div>
 
-        {/* <button
+        <button
           type="button"
-          className={`task-check ${tarefa.concluida ? "task-check--feito" : ""}`}
-          title={tarefa.concluida ? "Reabrir tarefa" : "Concluir tarefa"}
-          onClick={() => alternarConclusao(tarefa)}
-        /> */}
-        <button>
+          aria-label="Editar tarefa"
+          onClick={(e) => {
+            e.stopPropagation();
+            setTarefaSelecionada(tarefa);
+            setIsEditModalOpen(true);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
             className="bi-filtro bi-pen editar-tarefa-grupo"
             viewBox="0 0 16 16"
-            onClick={(e) => {
-              e.stopPropagation();
-
-              setIsEditModalOpen(true);
-              setTarefaSelecionada(tarefa);
-            }}
           >
             <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
           </svg>
@@ -160,9 +126,7 @@ export default function Tarefas() {
       </div>
 
       <div className="task-bottom">
-        <span className="task-ver-mais" onClick={() => abrirEdicao(tarefa)}>
-          Ver mais...
-        </span>
+        <span className="task-ver-mais">Ver mais...</span>
 
         <div className="task-time">
           <span className="calendar-icon">▣</span>
@@ -175,10 +139,20 @@ export default function Tarefas() {
   return (
     <div className="tarefas-grupo-container">
       <div className="tarefas-grupo-titulo">
-        <h1>Tarefas do grupo</h1>
+        <h1>Tarefas do grupo</h1>onClick={() => {
+        setTarefaSelecionada(tarefa);
+        setVerTarefa(true);
+      }}
         <h2>Organizem-se e concluam juntos!</h2>
       </div>
       <div className="tarefas-grupo-filtros">
+        <input
+          type="search"
+          className="search"
+          placeholder="Buscar tarefas"
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+        />
         {filtros.map((f) => (
           <button
             key={f.key}
@@ -241,15 +215,13 @@ export default function Tarefas() {
         </button>
       </div>
 
-      {erro && <div className="error-banner">⚠️ {erro}</div>}
-
       <div className="tarefas-grupo">
         {loading ? (
           <p>Carregando tarefas...</p>
         ) : erro ? (
           <div className="error-banner">⚠️ {erro}</div>
         ) : tarefasVisiveis.length === 0 ? (
-          <p>{mensagemVazia}</p>
+          <p>{mensagemVazia} </p>
         ) : (
           <>
             {mostrarPendentes && (
@@ -267,7 +239,7 @@ export default function Tarefas() {
                 </div>
                 <div className="pendentes">
                   {pendentesVisiveis.length === 0 ? (
-                    <p>Nenhuma tarefa pendente 🎉</p>
+                    <p>Nenhuma tarefa pendente</p>
                   ) : (
                     pendentesVisiveis.map(renderCard)
                   )}
@@ -275,7 +247,7 @@ export default function Tarefas() {
               </>
             )}
 
-            {mostrarConcluidas && concluidas.length > 0 && (
+            {mostrarConcluidas && concluidasVisiveis.length > 0 && (
               <>
                 <div className="concluidas-titulo">
                   <svg

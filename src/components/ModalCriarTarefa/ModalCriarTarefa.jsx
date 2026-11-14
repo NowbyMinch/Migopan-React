@@ -62,7 +62,7 @@ export default function ModalPopup({
       grupoId,
     };
 
-    console.log(criarPayload);
+    // console.log(criarPayload);
 
     try {
       const res = await fetch(API_URL, {

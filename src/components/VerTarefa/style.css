@@ -272,7 +272,6 @@
   }
 }
 
-/* ---------- topo ---------- */
 .vt-topo {
   display: flex;
   align-items: flex-start;
@@ -351,7 +350,6 @@
   transform: rotate(90deg);
 }
 
-/* ---------- descrição (a única parte que rola) ---------- */
 .vt-corpo {
   display: flex;
   flex-direction: column;
@@ -379,7 +377,7 @@
   background: rgba(255, 255, 255, 0.03);
   color: #d7dcf5;
   line-height: 1.65;
-  white-space: pre-wrap; /* respeita as quebras de linha digitadas */
+  white-space: pre-wrap; 
   overflow-wrap: anywhere;
 }
 .vt-descricao--vazia {
@@ -387,7 +385,6 @@
   font-style: italic;
 }
 
-/* ---------- informações ---------- */
 .vt-meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -409,7 +406,6 @@
   font-weight: 600;
 }
 
-/* ---------- rodapé ---------- */
 .vt-rodape {
   display: flex;
   justify-content: flex-end;

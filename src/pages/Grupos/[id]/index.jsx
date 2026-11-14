@@ -14,31 +14,108 @@ import Sidebar from "../../../components/Sidebar";
 import { useTarefasGrupo } from "../../../hooks/useTarefasGrupo";
 import { getErrorMessage } from "../../../utils/errorHandler";
 import ProgressoGrupoChart from "../../../components/ProgressoGrupoChart/ProgressoGrupoChart";
+import { useMembrosGrupo } from "../../../hooks/useMembrosGrupo";
+import VerTarefa from "../../../components/VerTarefa/VerTarefa";
 
 const API_URL = "http://localhost:8080/api/grupos";
 
-function AsideDaAba({ aba, pendentes, concluidas }) {
+function AsideDaAba({
+  aba,
+  dias,
+  pendentes,
+  concluidas,
+  tarefas,
+  verTarefa,
+  tarefaSelecionada,
+}) {
+  const { id } = useParams();
+
+  const {
+    membros,
+    loading: carregandoMembros,
+    erro: erroMembros,
+    recarregar: recarregarMembros,
+  } = useMembrosGrupo(id);
+
   if (aba === "tarefas") {
     return (
       <>
         <div className="gradient-card progresso-grupo">
-          <h1>Progresso do grupo</h1>
-          <div className="Progresso-grupo-info">
-            <ProgressoGrupoChart
-              className="pg--compacto"
-              pendentes={pendentes}
-              concluidas={concluidas}
-            />
+          <h1 className="title-generic">Progresso do grupo</h1>
+          <ProgressoGrupoChart
+            className="pg--compacto"
+            pendentes={pendentes}
+            concluidas={concluidas}
+          />
+        </div>
+
+        <div className="gradient-card sequencia-grupo">
+          <h1 className="title-generic">Sequência do grupo</h1>
+          <div className="sequencia-dias-grupo">
+            <strong className="sequencia-dias">{dias}</strong>
+            <strong className="title-generic">dias</strong>
+
+            <div className="sequencia-dias-icones">
+              {Array.from({ length: 7 }, (_, index) => (
+                <span
+                  key={index}
+                  style={
+                    index > dias - 1
+                      ? { filter: "saturate(0%)" }
+                      : {
+                          filter:
+                            "drop-shadow(0 0 2px #ff8c00) drop-shadow(0 0 4px rgba(255, 100, 0, 0.5)",
+                        }
+                  }
+                >
+                  🔥
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="gradient-card sequencia-grupo">
-          <h1>Sequência do grupo</h1>
+
+        <div className="gradient-card membros-grupo">
+          <h1 className="title-generic">Membros</h1>
+
+          {membros.slice(0, 4).map((membro, index) => (
+            <div key={index} className="membro-grupo">
+              <div className="membro-imagem"></div>
+              <span className="title-generic">{membro.nomeUsuario}</span>
+            </div>
+          ))}
+          {membros.length > 4 ? <button>Ver mais</button> : ""}
         </div>
-        <div className="gradient-card membros-online-grupo">
-          <h1>Membros </h1>
-        </div>
+
         <div className="gradient-card atividade-recente-grupo">
-          <h1>Atividade recente</h1>
+          <h1 className="title-generic">Atividades recentes</h1>
+
+          {tarefas.slice(0, 4).map((tarefa) => (
+            <div
+              key={tarefa.id}
+              onClick={() => {
+                verTarefa(true);
+                tarefaSelecionada(tarefa);
+              }}
+              className="task-lateral"
+            >
+              <div
+                className="task-icon-lateral"
+                style={{
+                  backgroundColor: tarefa.cor || "rgb(0, 7, 24)",
+                  boxShadow: `0 0 12px ${tarefa.cor || "rgb(0, 7, 24)"}`,
+                }}
+              >
+                <span>📝</span>
+              </div>
+
+              <div className="task-content">
+                <h3>{tarefa.titulo}</h3>
+                <p>{tarefa.descricao}</p>
+              </div>
+            </div>
+          ))}
+          {tarefas.length > 4 ? <button>Ver mais</button> : ""}
         </div>
       </>
     );
@@ -86,8 +163,9 @@ export default function Grupo() {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Tarefas do grupo: carregadas aqui UMA vez e repassadas para a aba Tarefas
-  // (via Outlet context) e para o gráfico da lateral. Hooks sempre antes dos returns.
+  const [verTarefa, setVerTarefa] = useState(false);
+  const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
+
   const {
     tarefas,
     loading: carregandoTarefas,
@@ -159,8 +237,6 @@ export default function Grupo() {
                 <div className="header-info">
                   <div className="header-info-titulo">
                     <h1>{grupo.nome}</h1>
-                    {/* seu svg bi-pen, trocando o onClick por: */}
-                    {/* onClick={() => navigate("ajustes")} */}
                   </div>
                   <div className="header-info-descricao">
                     <p>{grupo.descricao}</p>
@@ -226,7 +302,6 @@ export default function Grupo() {
             </nav>
           </header>
 
-          {/* aqui aparece Chat, Tarefas, Calendario ou Ajustes */}
           <Outlet
             context={{
               grupo,
@@ -241,10 +316,21 @@ export default function Grupo() {
         <aside className="grupo-info-aside">
           <AsideDaAba
             aba={abaAtual}
+            dias={grupo.sequenciaDias}
             pendentes={pendentes}
             concluidas={concluidas}
+            tarefas={tarefas}
+            verTarefa={setVerTarefa}
+            tarefaSelecionada={setTarefaSelecionada}
           />
         </aside>
+        <VerTarefa
+          isOpen={verTarefa}
+          tarefa={tarefaSelecionada}
+          onClose={() => {
+            setVerTarefa(false);
+          }}
+        />
       </div>
     </>
   );

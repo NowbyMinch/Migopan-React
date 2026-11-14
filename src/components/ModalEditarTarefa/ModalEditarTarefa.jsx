@@ -67,7 +67,7 @@ export default function ModalEditarTarefa({
       horarioLimite: horarioLimite ? horarioLimite.slice(0, 5) : null,
     };
 
-    console.log(atualizarPayload);
+    // console.log(atualizarPayload);
     try {
       const res = await fetch(`${API_URL}/${tarefa.id}`, {
         method: "PATCH",
