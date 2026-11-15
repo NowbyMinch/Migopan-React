@@ -16,6 +16,7 @@ import { getErrorMessage } from "../../../utils/errorHandler";
 import ProgressoGrupoChart from "../../../components/ProgressoGrupoChart/ProgressoGrupoChart";
 import { useMembrosGrupo } from "../../../hooks/useMembrosGrupo";
 import VerTarefa from "../../../components/VerTarefa/VerTarefa";
+import VerMais from "../../../components/VerMais/VerMais";
 
 const API_URL = "http://localhost:8080/api/grupos";
 
@@ -25,6 +26,8 @@ function AsideDaAba({
   pendentes,
   concluidas,
   tarefas,
+  membrosGrupo,
+  verMaisMembros,
   verTarefa,
   tarefaSelecionada,
 }) {
@@ -80,16 +83,28 @@ function AsideDaAba({
 
           {membros.slice(0, 4).map((membro, index) => (
             <div key={index} className="membro-grupo">
-              <div className="membro-imagem"></div>
+              <div className="membro-imagem">
+                <img src="/img/iconemigo.png" alt="" />
+              </div>
               <span className="title-generic">{membro.nomeUsuario}</span>
             </div>
           ))}
-          {membros.length > 4 ? <button>Ver mais</button> : ""}
+          {membros.length > 4 ? (
+            <button
+              onClick={() => {
+                verMaisMembros(true);
+                membrosGrupo(membros);
+              }}
+            >
+              Ver mais
+            </button>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="gradient-card atividade-recente-grupo">
-          <h1 className="title-generic">Atividades recentes</h1>
-
+          <h1 className="title-generic">Tarefas recentes</h1>
           {tarefas.slice(0, 4).map((tarefa) => (
             <div
               key={tarefa.id}
@@ -115,7 +130,6 @@ function AsideDaAba({
               </div>
             </div>
           ))}
-          {tarefas.length > 4 ? <button>Ver mais</button> : ""}
         </div>
       </>
     );
@@ -163,6 +177,8 @@ export default function Grupo() {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const [membros, setMembros] = useState(null);
+  const [verMaisMembros, setVerMaisMembros] = useState(false);
   const [verTarefa, setVerTarefa] = useState(false);
   const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
 
@@ -319,6 +335,8 @@ export default function Grupo() {
             dias={grupo.sequenciaDias}
             pendentes={pendentes}
             concluidas={concluidas}
+            membrosGrupo={setMembros}
+            verMaisMembros={setVerMaisMembros}
             tarefas={tarefas}
             verTarefa={setVerTarefa}
             tarefaSelecionada={setTarefaSelecionada}
@@ -329,6 +347,13 @@ export default function Grupo() {
           tarefa={tarefaSelecionada}
           onClose={() => {
             setVerTarefa(false);
+          }}
+        />
+        <VerMais
+          isOpen={verMaisMembros}
+          lista={membros}
+          onClose={() => {
+            setVerMaisMembros(false);
           }}
         />
       </div>

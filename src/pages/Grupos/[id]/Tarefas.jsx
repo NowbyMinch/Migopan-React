@@ -139,10 +139,7 @@ export default function Tarefas() {
   return (
     <div className="tarefas-grupo-container">
       <div className="tarefas-grupo-titulo">
-        <h1>Tarefas do grupo</h1>onClick={() => {
-        setTarefaSelecionada(tarefa);
-        setVerTarefa(true);
-      }}
+        <h1>Tarefas do grupo</h1>
         <h2>Organizem-se e concluam juntos!</h2>
       </div>
       <div className="tarefas-grupo-filtros">

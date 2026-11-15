@@ -302,6 +302,10 @@ body {
   width: 22px;
 }
 
+.bi-list-task {
+  filter: drop-shadow(0 0 4px #1cb0f6);
+}
+
 .group-view {
   grid-area: group-view;
   border-radius: 20px;
