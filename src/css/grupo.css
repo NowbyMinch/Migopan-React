@@ -17,12 +17,13 @@ body {
 }
 
 .grupo-main {
-  display: grid;
-  grid-template-areas:
+  display: flex;
+  flex-direction: column;
+  /* grid-template-areas:
     "header"
     "tarefas-grupo-container" !important;
+  grid-template-rows: auto 1fr; */
   gap: 15px;
-  grid-template-rows: auto 1fr;
   min-width: 0;
 }
 
@@ -112,12 +113,70 @@ body {
   font-size: 20px;
 }
 
-.membros-grupo {
+.lateral-grupo {
   border-radius: 20px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.lateral-grupo p {
+  font-size: 14px;
+}
+
+.compartilhar-opcoes {
+  display: flex;
+  justify-content: space-between;
+  transition: 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  gap: 2px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.compartilhar-opcoes p {
+  font-size: 13px;
+}
+
+.compartilhar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.compartilhar-opcoes div {
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.compartilhar-opcoes div:hover {
+  scale: 1.02;
+}
+
+.compartilhar-opcoes div:active {
+  scale: 0.98;
+}
+
+.compartilhar-opcoes svg {
+  width: 26px;
+  height: 26px;
+}
+
+.bi-file-earmark {
+  color: #e72fd8;
+}
+
+.bi-image {
+  color: #63e72f;
+}
+
+.bi-question {
+  color: #eea41b;
 }
 
 .membro-imagem {
@@ -141,7 +200,7 @@ body {
 }
 
 .membro-grupo span {
-  font-size: 18px;
+  font-size: 16px;
   max-width: 100%;
   overflow: hidden;
   word-break: break-all;
@@ -317,24 +376,18 @@ body {
   cursor: pointer;
 }
 
-.ta-item svg {
+.tab-item svg {
   width: 20px;
   height: 20px;
 }
 
 .tab-item:hover {
-  scale: 1.02;
-  background-color: rgba(255, 0, 0, 0.164);
+  scale: 1.03;
 }
 
 .tab-item:active {
-  scale: 0.98;
+  scale: 0.97;
   background-color: rgba(255, 0, 0, 0.164);
-}
-
-.tab-item svg {
-  width: 14px;
-  height: 14px;
 }
 
 /* TAREFAS  */
@@ -381,7 +434,7 @@ body {
   grid-area: tarefas-grupo-filtros;
   justify-content: end;
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -574,7 +627,7 @@ body {
 
 .task-content h3 {
   color: #f5eef2;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 22px;
   font-weight: 750;
   word-break: break-all;
@@ -719,6 +772,9 @@ body {
 }
 
 .tab-item--ativa {
-  background: linear-gradient(180deg, rgba(239, 45, 68, 0.322), transparent);
-  box-shadow: 0 0 20px -8px #ef2d45;
+  background: #a6121a;
+  color: white;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0px 0px 15px #a6121998;
 }

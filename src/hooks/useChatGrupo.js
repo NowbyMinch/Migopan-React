@@ -3,12 +3,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getErrorMessage } from "../utils/errorHandler";
 
 const API_URL = "http://localhost:8080/api";
-// Em produção use wss:// (HTTPS). Com Vite: import.meta.env.VITE_WS_URL
+// Em produção -> wss:// (HTTPS). Com Vite: import.meta.env.VITE_WS_URL
 const WS_URL = "ws://localhost:8080/api/ws";
 const TAMANHO_PAGINA = 30;
 
-// Junta listas sem duplicar (pelo id) e em ordem cronológica.
-// Necessário porque a mesma mensagem pode chegar pelo histórico REST e pelo WebSocket.
 function mesclar(atuais, novas) {
   const porId = new Map();
   [...atuais, ...novas].forEach((m) => porId.set(m.id, m));

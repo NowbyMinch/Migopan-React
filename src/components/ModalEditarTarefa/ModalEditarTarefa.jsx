@@ -67,7 +67,6 @@ export default function ModalEditarTarefa({
       horarioLimite: horarioLimite ? horarioLimite.slice(0, 5) : null,
     };
 
-    // console.log(atualizarPayload);
     try {
       const res = await fetch(`${API_URL}/${tarefa.id}`, {
         method: "PATCH",
@@ -122,6 +121,9 @@ export default function ModalEditarTarefa({
   };
 
   const alternarConclusao = async () => {
+    setLoading(true);
+    setErrorMsg("");
+
     try {
       const res = await fetch(`${API_URL}/${tarefa.id}/concluir`, {
         method: "PATCH",
@@ -130,7 +132,7 @@ export default function ModalEditarTarefa({
 
       if (!res.ok) {
         const mensagem = await getErrorMessage(res);
-        throw new Error(mensagem || "Falha ao excluir tarefa.");
+        throw new Error(mensagem || "Falha ao alterar a conclusão da tarefa.");
       }
 
       if (onTarefaAtualizada) {
@@ -138,8 +140,8 @@ export default function ModalEditarTarefa({
       }
       handleFecharModal();
     } catch (err) {
-      console.error("Erro ao excluir tarefa:", err.message);
-      setErrorMsg(err.message || "Ocorreu um erro ao excluir a tarefa.");
+      console.error("Erro ao alterar a conclusão:", err.message);
+      setErrorMsg(err.message || "Ocorreu um erro ao alterar a conclusão.");
     } finally {
       setLoading(false);
     }
@@ -360,7 +362,7 @@ export default function ModalEditarTarefa({
               >
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
               </svg>
-              Alterar Conclusão
+              {tarefa.concluida ? "Reabrir tarefa" : "Concluir tarefa"}
             </button>
           </div>
 

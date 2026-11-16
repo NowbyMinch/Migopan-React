@@ -136,6 +136,7 @@ body {
 
 .filtros-card {
   color: #a7b0d3;
+  height: 36px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -509,7 +510,7 @@ hr {
 }
 
 .xp-porcentagem {
-  width: 55%;
+  width: 0%;
 }
 
 .xp-quantidade {

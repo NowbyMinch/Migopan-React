@@ -14,7 +14,7 @@ import GrupoLayout from "./pages/Grupos/[id]";
 import Chat from "./pages/Grupos/[id]/Chat";
 import Tarefas from "./pages/Grupos/[id]/Tarefas";
 import Calendario from "./pages/Grupos/[id]/Calendario";
-import Ajustes from "./pages/Grupos/[id]/Ajustes";
+import Gerenciar from "./pages/Grupos/[id]/Gerenciar";
 
 export default function AppRoutes() {
   return (
@@ -33,7 +33,7 @@ export default function AppRoutes() {
             <Route path="chat" element={<Chat />} />
             <Route path="tarefas" element={<Tarefas />} />
             <Route path="calendario" element={<Calendario />} />
-            <Route path="ajustes" element={<Ajustes />} />
+            <Route path="gerenciar" element={<Gerenciar />} />
           </Route>
         </Route>
 

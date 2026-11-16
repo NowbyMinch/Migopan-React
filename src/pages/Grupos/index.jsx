@@ -19,7 +19,6 @@ export default function Grupos() {
   const [filtroAtivo, setFiltroAtivo] = useState("Todas");
 
   const [grupoSelecionado, setGrupoSelecionado] = useState(null);
-  // const meusGrupos = grupos.filter((g) => g.meuPapel === "ADMIN");
 
   const carregarGrupos = async () => {
     try {

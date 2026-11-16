@@ -6,7 +6,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import "../../../css/all.css";
 import "../../../css/grupo.css";
@@ -17,20 +17,11 @@ import ProgressoGrupoChart from "../../../components/ProgressoGrupoChart/Progres
 import { useMembrosGrupo } from "../../../hooks/useMembrosGrupo";
 import VerTarefa from "../../../components/VerTarefa/VerTarefa";
 import VerMais from "../../../components/VerMais/VerMais";
+import { useUsuarioLogado } from "../../../hooks/useUsuarioLogado";
 
-const API_URL = "http://localhost:8080/api/grupos";
+const API_URL = "http://localhost:8080/api";
 
-function AsideDaAba({
-  aba,
-  dias,
-  pendentes,
-  concluidas,
-  tarefas,
-  membrosGrupo,
-  verMaisMembros,
-  verTarefa,
-  tarefaSelecionada,
-}) {
+export default function Grupo() {
   const { id } = useParams();
 
   const {
@@ -40,136 +31,206 @@ function AsideDaAba({
     recarregar: recarregarMembros,
   } = useMembrosGrupo(id);
 
-  if (aba === "tarefas") {
-    return (
-      <>
-        <div className="gradient-card progresso-grupo">
-          <h1 className="title-generic">Progresso do grupo</h1>
-          <ProgressoGrupoChart
-            className="pg--compacto"
-            pendentes={pendentes}
-            concluidas={concluidas}
-          />
-        </div>
+  const usuario = useUsuarioLogado();
 
-        <div className="gradient-card sequencia-grupo">
-          <h1 className="title-generic">Sequência do grupo</h1>
-          <div className="sequencia-dias-grupo">
-            <strong className="sequencia-dias">{dias}</strong>
-            <strong className="title-generic">dias</strong>
+  function AsideDaAba({
+    aba,
+    dias,
+    pendentes,
+    concluidas,
+    tarefas,
+    membrosGrupo,
+    verMaisMembros,
+    verTarefa,
+    tarefaSelecionada,
+  }) {
+    if (aba === "tarefas" || "gerenciar") {
+      return (
+        <>
+          <div className="gradient-card progresso-grupo">
+            <h1 className="title-generic">Progresso do grupo</h1>
+            <ProgressoGrupoChart
+              className="pg--compacto"
+              pendentes={pendentes}
+              concluidas={concluidas}
+            />
+          </div>
 
-            <div className="sequencia-dias-icones">
-              {Array.from({ length: 7 }, (_, index) => (
-                <span
-                  key={index}
-                  style={
-                    index > dias - 1
-                      ? { filter: "saturate(0%)" }
-                      : {
-                          filter:
-                            "drop-shadow(0 0 2px #ff8c00) drop-shadow(0 0 4px rgba(255, 100, 0, 0.5)",
-                        }
-                  }
-                >
-                  🔥
-                </span>
-              ))}
+          <div className="gradient-card sequencia-grupo">
+            <h1 className="title-generic">Sequência do grupo</h1>
+            <div className="sequencia-dias-grupo">
+              <strong className="sequencia-dias">{dias}</strong>
+              <strong className="title-generic">dias</strong>
+
+              <div className="sequencia-dias-icones">
+                {Array.from({ length: 7 }, (_, index) => (
+                  <span
+                    key={index}
+                    style={
+                      index > dias - 1
+                        ? { filter: "saturate(0%)" }
+                        : {
+                            filter:
+                              "drop-shadow(0 0 2px #ff8c00) drop-shadow(0 0 4px rgba(255, 100, 0, 0.5)",
+                          }
+                    }
+                  >
+                    🔥
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="gradient-card membros-grupo">
-          <h1 className="title-generic">Membros</h1>
+          <div className="gradient-card lateral-grupo">
+            <h1 className="title-generic">Membros</h1>
 
-          {membros.slice(0, 4).map((membro, index) => (
-            <div key={index} className="membro-grupo">
-              <div className="membro-imagem">
-                <img src="/img/iconemigo.png" alt="" />
+            {membros.slice(0, 4).map((membro, index) => (
+              <div key={index} className="membro-grupo">
+                <div className="membro-imagem">
+                  <img src="/img/iconemigo.png" alt="" />
+                </div>
+                <span className="title-generic">{membro.nomeUsuario}</span>
               </div>
-              <span className="title-generic">{membro.nomeUsuario}</span>
-            </div>
-          ))}
-          {membros.length > 4 ? (
-            <button
-              onClick={() => {
-                verMaisMembros(true);
-                membrosGrupo(membros);
-              }}
-            >
-              Ver mais
-            </button>
-          ) : (
-            ""
-          )}
-        </div>
-
-        <div className="gradient-card atividade-recente-grupo">
-          <h1 className="title-generic">Tarefas recentes</h1>
-          {tarefas.slice(0, 4).map((tarefa) => (
-            <div
-              key={tarefa.id}
-              onClick={() => {
-                verTarefa(true);
-                tarefaSelecionada(tarefa);
-              }}
-              className="task-lateral"
-            >
-              <div
-                className="task-icon-lateral"
-                style={{
-                  backgroundColor: tarefa.cor || "rgb(0, 7, 24)",
-                  boxShadow: `0 0 12px ${tarefa.cor || "rgb(0, 7, 24)"}`,
+            ))}
+            {membros.length > 4 ? (
+              <button
+                onClick={() => {
+                  verMaisMembros(true);
+                  membrosGrupo(membros);
                 }}
               >
-                <span>📝</span>
-              </div>
+                Ver mais
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
 
-              <div className="task-content">
-                <h3>{tarefa.titulo}</h3>
-                <p>{tarefa.descricao}</p>
+          <div className="gradient-card atividade-recente-grupo">
+            <h1 className="title-generic">Tarefas recentes</h1>
+            {tarefas.slice(0, 4).map((tarefa) => (
+              <div
+                key={tarefa.id}
+                onClick={() => {
+                  verTarefa(true);
+                  tarefaSelecionada(tarefa);
+                }}
+                className="task-lateral"
+              >
+                <div
+                  className="task-icon-lateral"
+                  style={{
+                    backgroundColor: tarefa.cor || "rgb(0, 7, 24)",
+                    boxShadow: `0 0 12px ${tarefa.cor || "rgb(0, 7, 24)"}`,
+                  }}
+                >
+                  <span>📝</span>
+                </div>
+
+                <div className="task-content">
+                  <h3>{tarefa.titulo}</h3>
+                  <p>{tarefa.descricao}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      );
+    }
+
+    if (aba === "chat") {
+      return (
+        <>
+          <div className="gradient-card lateral-grupo">
+            <h1 className="title-generic">Membros</h1>
+            {membros.slice(0, 4).map((membro, index) => (
+              <div key={index} className="membro-grupo">
+                <div className="membro-imagem">
+                  <img src="/img/iconemigo.png" alt="" />
+                </div>
+                <span className="title-generic">{membro.nomeUsuario}</span>
+              </div>
+            ))}
+            {membros.length > 4 ? (
+              <button
+                onClick={() => {
+                  verMaisMembros(true);
+                  membrosGrupo(membros);
+                }}
+              >
+                Ver mais
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="gradient-card lateral-grupo">
+            <div className="compartilhar-title">
+              <h1 className="title-generic">Compartilhe com o grupo</h1>
+              <p className="subtitle-generic">
+                Envie arquivos, links e imagens para todos.
+              </p>
+            </div>
+            <div className="compartilhar-opcoes">
+              <div className="gradient-card">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="bi bi-file-earmark"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2z" />
+                </svg>
+                <p className="subtitle-generic">Arquivo</p>
+              </div>
+              <div className="gradient-card">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="bi bi-image"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M4 0h8a2 2 0 0 1 2 2v8.293l-2.73-2.73a1 1 0 0 0-1.52.127l-1.889 2.644-1.769-1.062a1 1 0 0 0-1.222.15L2 12.292V2a2 2 0 0 1 2-2m4.002 5.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0" />
+                  <path d="M10.564 8.27 14 11.708V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-.293l3.578-3.577 2.56 1.536 2.426-3.395z" />
+                </svg>
+                <p className="subtitle-generic">Imagem</p>
+              </div>
+              <div className="gradient-card">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="bi bi-question"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                </svg>
+                <p className="subtitle-generic">Enquente</p>
               </div>
             </div>
-          ))}
-        </div>
-      </>
-    );
+          </div>
+        </>
+      );
+    }
+
+    if (aba === "calendario") {
+      return (
+        <>
+          <div className="gradient-card">
+            <h1>Mini calendário</h1>
+          </div>
+          <div className="gradient-card">
+            <h1>Próximas tarefas</h1>
+          </div>
+          <div className="gradient-card">
+            <h1>Resumo do mês</h1>
+          </div>
+        </>
+      );
+    }
+
+    return null;
   }
-
-  if (aba === "chat") {
-    return (
-      <>
-        <div className="gradient-card membros-online-grupo">
-          <h1>Membros</h1>
-        </div>
-        <div className="gradient-card">
-          <h1>Compartilhe com o grupo</h1>
-        </div>
-      </>
-    );
-  }
-
-  if (aba === "calendario") {
-    return (
-      <>
-        <div className="gradient-card">
-          <h1>Mini calendário</h1>
-        </div>
-        <div className="gradient-card">
-          <h1>Próximas tarefas</h1>
-        </div>
-        <div className="gradient-card">
-          <h1>Resumo do mês</h1>
-        </div>
-      </>
-    );
-  }
-
-  return null;
-}
-
-export default function Grupo() {
-  const { id } = useParams();
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const abaAtual = pathname.split("/").filter(Boolean).pop();
 
@@ -177,7 +238,6 @@ export default function Grupo() {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const [membros, setMembros] = useState(null);
   const [verMaisMembros, setVerMaisMembros] = useState(false);
   const [verTarefa, setVerTarefa] = useState(false);
   const [tarefaSelecionada, setTarefaSelecionada] = useState(null);
@@ -189,18 +249,17 @@ export default function Grupo() {
     recarregar: recarregarTarefas,
   } = useTarefasGrupo(id);
 
-  useEffect(() => {
-    const carregarGrupo = async () => {
+  const carregarGrupo = useCallback(
+    async ({ silencioso = false } = {}) => {
       try {
-        setLoading(true);
+        if (!silencioso) setLoading(true);
         setErrorMsg("");
 
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(`${API_URL}/grupos/${id}`, {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
         });
-
         if (!response.ok) throw new Error(await getErrorMessage(response));
 
         setGrupo(await response.json());
@@ -209,8 +268,11 @@ export default function Grupo() {
       } finally {
         setLoading(false);
       }
-    };
+    },
+    [id],
+  );
 
+  useEffect(() => {
     if (id) carregarGrupo();
   }, [id]);
 
@@ -279,7 +341,7 @@ export default function Grupo() {
                   width="16"
                   height="16"
                   fill="currentColor"
-                  className="bi bi-list-ul"
+                  className=" bi-tarefas"
                   viewBox="0 0 16 16"
                 >
                   <path
@@ -302,19 +364,23 @@ export default function Grupo() {
                 </svg>
                 <span>Calendário</span>
               </NavLink>
-              <NavLink to="ajustes" className={tabClass}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-gear-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
-                </svg>
-                <span>Ajustes</span>
-              </NavLink>
+              {grupo?.meuPapel == "ADMIN" ? (
+                <NavLink to="gerenciar" className={tabClass}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-gear-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                  </svg>
+                  <span>Gerenciar</span>
+                </NavLink>
+              ) : (
+                ""
+              )}
             </nav>
           </header>
 
@@ -322,9 +388,15 @@ export default function Grupo() {
             context={{
               grupo,
               tarefas,
+              membros,
               carregandoTarefas,
               erroTarefas,
               recarregarTarefas,
+              carregandoMembros,
+              erroMembros,
+              recarregarMembros,
+              recarregarGrupo: carregarGrupo,
+              usuario,
             }}
           />
         </main>
@@ -335,7 +407,7 @@ export default function Grupo() {
             dias={grupo.sequenciaDias}
             pendentes={pendentes}
             concluidas={concluidas}
-            membrosGrupo={setMembros}
+            membrosGrupo={membros}
             verMaisMembros={setVerMaisMembros}
             tarefas={tarefas}
             verTarefa={setVerTarefa}

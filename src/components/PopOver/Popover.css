@@ -1,0 +1,198 @@
+/* ===== Popover / Gaveta — Migopan ===== */
+
+.mp-trigger {
+  display: inline-flex;
+}
+
+.mp-popover {
+  --mp-bg-top: #151838;
+  --mp-bg-bottom: #0d1029;
+  --mp-border: rgba(255, 255, 255, 0.09);
+  --mp-text: #e9eaf7;
+  --mp-muted: #9a9dc0;
+  --mp-accent: #8b3dff;
+  --mp-danger: #ff4d63;
+
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  padding: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color: var(--mp-text);
+  font-size: 0.875rem;
+  background: linear-gradient(180deg, var(--mp-bg-top) 0%, var(--mp-bg-bottom) 100%);
+  border: 1px solid var(--mp-border);
+  border-radius: 14px;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(139, 61, 255, 0.14);
+  outline: none;
+  animation: mp-pop-in 0.14s ease-out;
+  transform-origin: top right;
+}
+
+.mp-popover[data-side="top"] {
+  transform-origin: bottom right;
+}
+.mp-popover[data-align="start"] {
+  transform-origin: top left;
+}
+.mp-popover[data-align="start"][data-side="top"] {
+  transform-origin: bottom left;
+}
+
+@keyframes mp-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Scrollbar discreta */
+.mp-popover {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+.mp-popover::-webkit-scrollbar {
+  width: 6px;
+}
+.mp-popover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+}
+
+/* ----- Botão de 3 pontinhos (gatilho padrão) ----- */
+.mp-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  color: var(--mp-text, #e9eaf7);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.mp-icon-btn:hover,
+.mp-icon-btn[aria-expanded="true"] {
+  background: rgba(139, 61, 255, 0.16);
+  border-color: rgba(139, 61, 255, 0.5);
+  box-shadow: 0 0 14px rgba(139, 61, 255, 0.3);
+}
+.mp-icon-btn:focus-visible,
+.mp-item:focus-visible {
+  outline: 2px solid #8b3dff;
+  outline-offset: 2px;
+}
+
+/* ----- Itens ----- */
+.mp-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  color: var(--mp-text);
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.mp-item:hover,
+.mp-item:focus-visible {
+  background: rgba(139, 61, 255, 0.16);
+}
+.mp-item:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.mp-item__icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--mp-muted);
+}
+.mp-item:hover .mp-item__icon {
+  color: var(--mp-text);
+}
+
+.mp-item--danger,
+.mp-item--danger .mp-item__icon {
+  color: var(--mp-danger);
+}
+.mp-item--danger:hover,
+.mp-item--danger:focus-visible {
+  background: rgba(255, 77, 99, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(255, 77, 99, 0.35), 0 0 14px rgba(255, 77, 99, 0.2);
+}
+.mp-item--danger:hover .mp-item__icon {
+  color: var(--mp-danger);
+}
+
+/* ----- Divisor e cabeçalho ----- */
+.mp-divider {
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--mp-border);
+}
+
+.mp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px 10px;
+  border-bottom: 1px solid var(--mp-border);
+  margin-bottom: 4px;
+}
+.mp-header__title {
+  font-size: 0.95rem;
+}
+
+/* ----- Exemplo: lista de notificações ----- */
+.mp-notification {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  white-space: normal;
+}
+.mp-notification:hover {
+  background: rgba(139, 61, 255, 0.1);
+}
+.mp-notification__title {
+  display: block;
+  font-weight: 600;
+}
+.mp-notification__text {
+  display: block;
+  margin-top: 2px;
+  color: var(--mp-muted);
+  font-size: 0.8rem;
+}
+.mp-notification__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  background: var(--mp-danger);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--mp-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-popover {
+    animation: none;
+  }
+}

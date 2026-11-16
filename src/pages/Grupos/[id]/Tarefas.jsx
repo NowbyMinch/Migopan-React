@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import "../../../css/grupo.css";
@@ -26,7 +26,14 @@ export default function Tarefas() {
     carregandoTarefas: loading,
     erroTarefas: erro,
     recarregarTarefas: carregarTarefas,
+    recarregarGrupo,
   } = useOutletContext();
+
+  const aoAtualizarTarefa = useCallback(
+    () =>
+      Promise.all([carregarTarefas(), recarregarGrupo({ silencioso: true })]),
+    [carregarTarefas, recarregarGrupo],
+  );
 
   const [filtro, setFiltro] = useState("TODAS");
 
@@ -66,17 +73,16 @@ export default function Tarefas() {
 
   const base = (filtro === "PRIORIDADES" ? prioritarias : tarefas).filter(
     (tarefa) => {
+      const termo = busca.toLowerCase();
       const atendeBusca =
-        tarefa.titulo?.toLowerCase().includes(busca) ||
-        tarefa.descricao?.toLowerCase().includes(busca);
+        tarefa.titulo?.toLowerCase().includes(termo) ||
+        tarefa.descricao?.toLowerCase().includes(termo);
 
       return atendeBusca;
     },
   );
-
   const pendentesVisiveis = base.filter((t) => !t.concluida);
   const concluidasVisiveis = base.filter((t) => t.concluida);
-
   const mostrarPendentes = filtro !== "CONCLUIDAS";
   const mostrarConcluidas = filtro !== "PENDENTES";
 
@@ -191,7 +197,7 @@ export default function Tarefas() {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-                className="bi bi-star"
+                className="bi-star"
                 viewBox="0 0 16 16"
               >
                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
@@ -280,7 +286,7 @@ export default function Tarefas() {
           setTarefaSelecionada(null);
         }}
         tarefa={tarefaSelecionada}
-        onTarefaAtualizada={carregarTarefas}
+        onTarefaAtualizada={aoAtualizarTarefa}
       />
       <VerTarefa
         isOpen={verTarefa}

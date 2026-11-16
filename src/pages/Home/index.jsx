@@ -9,6 +9,19 @@ import VerTarefa from "../../components/VerTarefa/VerTarefa";
 
 const API_URL = "http://localhost:8080/api";
 
+function formatarPrazo(tarefa) {
+  if (!tarefa.dataLimite) return "Sem prazo";
+
+  const hoje = new Date().toLocaleDateString("sv-SE");
+  const data =
+    tarefa.dataLimite === hoje
+      ? "Hoje"
+      : tarefa.dataLimite.split("-").reverse().join("/");
+  const hora = tarefa.horarioLimite?.slice(0, 5);
+
+  return hora ? `${data} · ${hora}` : data;
+}
+
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -39,16 +52,22 @@ export default function Home() {
     CONCLUIDAS: concluidas,
     PRIORIDADES: prioritarias,
   };
-  const tarefasFiltradas = listas[filtro];
 
-  const tarefasVisiveis = tarefasFiltradas.filter((tarefa) => {
-    const atendeBusca =
-      tarefa.titulo?.toLowerCase().includes(busca.toLowerCase()) ||
-      tarefa.descricao?.toLowerCase().includes(busca.toLowerCase());
+  const tarefasDaAba = listas[filtro] || tarefas;
 
-    return atendeBusca;
+  const tarefasVisiveis = tarefasDaAba.filter((tarefa) => {
+    const termo = busca.toLowerCase();
+    return (
+      tarefa.titulo?.toLowerCase().includes(termo) ||
+      tarefa.descricao?.toLowerCase().includes(termo)
+    );
   });
 
+  const pendentesVisiveis = tarefasVisiveis.filter((t) => !t.concluida);
+  const concluidasVisiveis = tarefasVisiveis.filter((t) => t.concluida);
+
+  const mostrarPendentes = filtro !== "CONCLUIDAS";
+  const mostrarConcluidas = filtro !== "PENDENTES";
   const mensagensVazias = {
     TODAS: "Nenhuma tarefa encontrada",
     PENDENTES: "Nenhuma tarefa pendente",
@@ -59,7 +78,6 @@ export default function Home() {
 
   const carregarTarefas = useCallback(async () => {
     try {
-      setLoading(true);
       setErro("");
 
       const res = await fetch(`${API_URL}/tarefas/pessoais`, {
@@ -78,29 +96,96 @@ export default function Home() {
     }
   }, []);
 
-  // const carregarUsuario = useCallback(async () => {
-  //   try {
-  //     const res = await fetch(`${API_URL}/usuarios`, {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //       credentials: "include",
-  //     });
+  const base = (filtro === "PRIORIDADES" ? prioritarias : tarefas).filter(
+    (tarefa) => {
+      const termo = busca.toLowerCase();
+      const atendeBusca =
+        tarefa.titulo?.toLowerCase().includes(termo) ||
+        tarefa.descricao?.toLowerCase().includes(termo);
 
-  //     if (!res.ok) {
-  //       const mensagem = await getErrorMessage(res);
-  //       throw new Error(mensagem);
-  //     }
+      return atendeBusca;
+    },
+  );
 
-  //   } catch (err) {
-  //     console.error("Erro na requisição", err.message);
-  //   }
-  // }, []);
+  const renderCard = (tarefa) => (
+    <div
+      key={tarefa.id}
+      className={`task-card ${tarefa.concluida ? "task-card--concluida" : ""}`}
+      onClick={() => {
+        setTarefaSelecionada(tarefa);
+        setVerTarefa(true);
+      }}
+    >
+      <div className="task-top">
+        <div
+          className="task-icon"
+          style={{
+            backgroundColor: tarefa.cor,
+            boxShadow: `0 0 12px ${tarefa.cor}`,
+          }}
+        >
+          <span>📝</span>
+        </div>
+
+        <div className="task-content">
+          <h3>{tarefa.titulo}</h3>
+          <p>{tarefa.descricao}</p>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Editar tarefa"
+          onClick={(e) => {
+            e.stopPropagation();
+            setTarefaSelecionada(tarefa);
+            setIsEditModalOpen(true);
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            className="bi-filtro bi-pen editar-tarefa-grupo"
+            viewBox="0 0 16 16"
+          >
+            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="task-bottom">
+        <span className="task-ver-mais">Ver mais...</span>
+
+        <div className="task-time">
+          <span className="calendar-icon">▣</span>
+          <span>{formatarPrazo(tarefa)}</span>
+        </div>
+      </div>
+    </div>
+  );
+
+  const [perfil, setPerfil] = useState(null);
+
+  const carregarPerfil = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/usuarios/perfil`, {
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error(await getErrorMessage(res));
+      setPerfil(await res.json());
+    } catch (err) {
+      console.error("Erro ao carregar perfil", err.message);
+    }
+  }, []);
 
   useEffect(() => {
     carregarTarefas();
-    // carregarUsuario();
-  }, [carregarTarefas]);
-  // }, [carregarTarefas, carregarUsuario]);
+    carregarPerfil();
+  }, [carregarTarefas, carregarPerfil]);
+
+  const aoAtualizarTarefa = useCallback(
+    () => Promise.all([carregarTarefas(), carregarPerfil()]),
+    [carregarTarefas, carregarPerfil],
+  );
 
   return (
     <>
@@ -130,7 +215,7 @@ export default function Home() {
                 <div className="index-stats-icon fire">🔥</div>
                 <div className="index-stats-conteudo">
                   <span>Sequência</span>
-                  <strong>17 dias</strong>
+                  <strong>{perfil?.sequenciaDias ?? 0} dias</strong>
                 </div>
               </div>
 
@@ -140,7 +225,7 @@ export default function Home() {
                 <div className="index-stats-icon star">⭐</div>
                 <div className="index-stats-conteudo">
                   <span>Concluídas</span>
-                  <strong>23</strong>
+                  <strong>{concluidas.length}</strong>
                 </div>
               </div>
             </div>
@@ -220,84 +305,58 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="tasks">
+          <div className="tarefas-grupo">
             {loading ? (
               <p>Carregando tarefas...</p>
             ) : erro ? (
               <div className="error-banner">⚠️ {erro}</div>
             ) : tarefasVisiveis.length === 0 ? (
-              <p>{mensagemVazia}</p>
+              <p>{mensagemVazia} </p>
             ) : (
-              tarefasVisiveis.map((tarefa, index) => (
-                <div
-                  key={tarefa.id || index}
-                  className="tarefa gradient-card"
-                  style={{ border: "none" }}
-                  onClick={() => {
-                    setTarefaSelecionada(tarefa);
-                    setVerTarefa(true);
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: tarefa.cor,
-                      boxShadow: `0 0 12px ${tarefa.cor}`,
-                    }}
-                    className=" tarefa-icon-container"
-                  >
-                    📝
-                  </div>
+              <>
+                {mostrarPendentes && (
+                  <>
+                    <div className="pendentes-titulo">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        className="bi-filtro bi-pendentes"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
+                      </svg>
+                      <span>Pendentes ({pendentesVisiveis.length})</span>
+                    </div>
+                    <div className="pendentes">
+                      {pendentesVisiveis.length === 0 ? (
+                        <p>Nenhuma tarefa pendente</p>
+                      ) : (
+                        pendentesVisiveis.map(renderCard)
+                      )}
+                    </div>
+                  </>
+                )}
 
-                  <div className="tarefa-info tarefa1">
-                    <h1>
-                      {tarefa.titulo}{" "}
-                      {tarefa.prioridade && <span title="Prioridade">⭐</span>}
-                    </h1>
-                    <p
-                      className={`tarefa-descricao ${isExpanded ? "is-expanded" : ""} `}
-                    >
-                      {tarefa.descricao}
-                    </p>
-                    <span>📅 {tarefa.repeticao || "Única"}</span>
-                    <span>
-                      {tarefa.dataLimite} {tarefa.horarioLimite?.slice(0, 5)}
-                    </span>
-                  </div>
-
-                  <button
-                    type="button"
-                    aria-label="Editar tarefa"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsEditModalOpen(true);
-                      setTarefaSelecionada(tarefa);
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      className="bi-filtro bi-pen"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
-                    </svg>
-                  </button>
-
-                  <div className="tarefa-info-extra">
-                    <div className="tag1">{tarefa.categoria}</div>
-                    <label
-                      className="tarefa-check"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={tarefa.concluida || false}
-                        readOnly
-                      />
-                    </label>
-                  </div>
-                </div>
-              ))
+                {mostrarConcluidas && concluidasVisiveis.length > 0 && (
+                  <>
+                    <div className="concluidas-titulo">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        className="bi-filtro bi-check"
+                        style={{ color: "#58cc02" }}
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                      </svg>
+                      <span>Concluídas ({concluidasVisiveis.length})</span>
+                    </div>
+                    <div className="grupo-pendentes">
+                      {concluidasVisiveis.map(renderCard)}
+                    </div>
+                  </>
+                )}
+              </>
             )}
           </div>
         </main>
@@ -335,26 +394,25 @@ export default function Home() {
             <div className="semanal-info-container">
               <div className="semanal-info-titulo">
                 <h2>Progresso semanal</h2>
-                <strong>Level 12</strong>
+                <strong>Level 1</strong>
               </div>
 
               <div className="semanal-info">
                 <div className="XP nivel-icone">
                   <span className="star">⭐</span>
-                  <strong className="nivel">12</strong>
+                  <strong className="nivel">1</strong>
                 </div>
 
                 <div className="barra">
                   <div className="xp-barra">
                     <div className="xp-porcentagem"></div>
                   </div>
-                  <div className="xp-quantidade">1240 / 2000 XP</div>
+                  <div className="xp-quantidade">0 / 100 XP</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Card 2: Banner para criar nova tarefa */}
           <div className="gradient-card criar-lateral">
             <h1>Nenhuma tarefa concluída ainda?</h1>
             <h2>Cada tarefa te deixa mais perto de concluir seus objetivos!</h2>
@@ -381,9 +439,10 @@ export default function Home() {
         onClose={() => {
           setIsEditModalOpen(false);
           setTarefaSelecionada(null);
+          carregarPerfil();
         }}
         tarefa={tarefaSelecionada}
-        onTarefaAtualizada={carregarTarefas}
+        onTarefaAtualizada={aoAtualizarTarefa}
       />
       <VerTarefa
         isOpen={verTarefa}
