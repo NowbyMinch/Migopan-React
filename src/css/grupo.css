@@ -17,20 +17,11 @@ body {
 }
 
 .grupo-main {
+  max-height: 100%;
   display: flex;
   flex-direction: column;
-  /* grid-template-areas:
-    "header"
-    "tarefas-grupo-container" !important;
-  grid-template-rows: auto 1fr; */
   gap: 15px;
   min-width: 0;
-}
-
-.sidebar {
-  grid-area: navbar;
-  background-color: #000718;
-  border-right: 1px solid #151b2d;
 }
 
 .main-container-grupo {
@@ -38,16 +29,40 @@ body {
   flex: 1;
   height: calc(100vh - 30px);
   border-radius: 20px;
-  /* background-color: #000718;
-  border: 1px solid #0d152c; */
-  /* box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.03),
-    0 0 50px rgba(0, 0, 0, 0.25); */
   display: grid;
   grid-template-columns: 1fr 310px;
   gap: 15px;
   overflow-y: auto;
   min-width: 0;
+}
+
+/* Chat */
+
+.grupo-main-chat {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.main-container-grupo-chat {
+  width: 100%;
+  flex: 1;
+  height: calc(100vh - 30px);
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 15px;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.sidebar {
+  grid-area: navbar;
+  background-color: #000718;
+  border-right: 1px solid #151b2d;
 }
 
 .grupo-info-aside {

@@ -31,6 +31,24 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
+.modal-content-wrapper-verMais-deletar {
+  background-color: #000718;
+  border: 1px solid #0d152c;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0 50px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  color: #fff;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -199,7 +217,7 @@
 
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 12px;
   margin-top: 24px;
   border-top: 1px solid #2d3348;
@@ -228,6 +246,17 @@
 
 .modal-btn-submit:hover {
   background-color: #7225e0;
+}
+
+.modal-btn-deletar {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: rgb(228, 38, 70);
+  filter: drop-shadow(0 0 2px rgba(228, 38, 70, 0.781));
 }
 
 @keyframes fadeIn {
@@ -279,8 +308,23 @@
   gap: 1rem;
 }
 
+.vt-topo-verMais-deletar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .vt-topo-verMais h1 {
   font-size: 20px;
+}
+
+.vt-topo-verMais-deletar h1 {
+  font-size: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .vt-icone {
@@ -335,8 +379,12 @@
   margin: 0;
   font-size: 20px;
   filter: drop-shadow(0 0 4px rgba(111, 0, 255, 0.45));
-
   overflow-wrap: anywhere; /* quebra títulos longos sem espaço */
+}
+
+.deletar-title {
+  color: rgb(228, 38, 70);
+  filter: drop-shadow(0 0 2px rgba(228, 38, 70, 0.842)) !important;
 }
 
 .vt-fechar {
@@ -361,6 +409,11 @@
   gap: 0.5rem;
   flex: 1;
   min-height: 0;
+}
+
+.vt-corpo-deletar p {
+  width: 100%;
+  text-align: center;
 }
 
 .vt-rotulo,

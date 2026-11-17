@@ -177,7 +177,7 @@ export default function Grupo() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  class="bi bi-file-earmark"
+                  className="bi bi-file-earmark"
                   viewBox="0 0 16 16"
                 >
                   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2z" />
@@ -188,7 +188,7 @@ export default function Grupo() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  class="bi bi-image"
+                  className="bi bi-image"
                   viewBox="0 0 16 16"
                 >
                   <path d="M4 0h8a2 2 0 0 1 2 2v8.293l-2.73-2.73a1 1 0 0 0-1.52.127l-1.889 2.644-1.769-1.062a1 1 0 0 0-1.222.15L2 12.292V2a2 2 0 0 1 2-2m4.002 5.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0" />
@@ -200,7 +200,7 @@ export default function Grupo() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  class="bi bi-question"
+                  className="bi bi-question"
                   viewBox="0 0 16 16"
                 >
                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
@@ -289,8 +289,16 @@ export default function Grupo() {
   return (
     <>
       <Sidebar />
-      <div className="main-container-grupo">
-        <main className="grupo-main">
+      <div
+        className={
+          abaAtual === "chat"
+            ? "main-container-grupo-chat"
+            : "main-container-grupo"
+        }
+      >
+        <main
+          className={abaAtual === "chat" ? "grupo-main-chat" : "grupo-main"}
+        >
           <header className="index-header-grupo">
             <div className="grupo-header">
               <Link to={"/grupos"} className="voltar ">
@@ -364,7 +372,7 @@ export default function Grupo() {
                 </svg>
                 <span>Calendário</span>
               </NavLink>
-              {grupo?.meuPapel == "ADMIN" ? (
+              {grupo?.meuPapel == "ADMIN" && (
                 <NavLink to="gerenciar" className={tabClass}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -378,8 +386,6 @@ export default function Grupo() {
                   </svg>
                   <span>Gerenciar</span>
                 </NavLink>
-              ) : (
-                ""
               )}
             </nav>
           </header>
@@ -424,6 +430,7 @@ export default function Grupo() {
         <VerMais
           isOpen={verMaisMembros}
           lista={membros}
+          conteudo={"membros"}
           onClose={() => {
             setVerMaisMembros(false);
           }}
